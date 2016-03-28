@@ -38,7 +38,8 @@ export class Home {
   showBig: boolean = false
   leftArrowActive: boolean = true
   rightArrowActive: boolean = true
-  images: any[] = [20]
+  images: any[]
+  gallery: any[] = []
 
   // TypeScript public modifiers
   constructor(private _ngZone: NgZone, private http: Http) {
@@ -52,37 +53,57 @@ export class Home {
       })
     }.bind(this)
 
+    this.fetchDataAndRender()
+  }
+
+  fetchDataAndRender() {
     this.http.get(this.galleryBasePath + 'data.json')
       .map((res: Response) => res.json())
       .subscribe(
       data => {
         this.images = data
+
+        let tempRow = []
+        let rowIndex = 0
+        var that = this
+        var standardAmount = 5
+
+        for (var i = 0; i < data.length; i++) {
+          tempRow[i % standardAmount] = data[i]
+
+          if (tempRow.length % standardAmount == 0) {
+            that.gallery[rowIndex++] = tempRow
+            tempRow = []
+          }
+          else if (i + 1 == data.length) {
+            that.gallery[rowIndex] = tempRow
+          }
+        }
+
         this.calc()
       },
       err => console.error(err),
       () => console.log('done'))
-
-    this.currentIdx = 0
-    this.currentImg = this.images[this.currentIdx].url
-    this.updateArrowActivation()
   }
 
   calc() {
-    this.images.forEach((img) => {
-      let individualRatio = 1 / img.height
-      img.width = img.width * individualRatio
-      img.height = 1
-    })
-    let xsum = 0
-    this.images.forEach((img) => {
-      xsum += img.width
-    })
-    let ratio = window.outerWidth / xsum
-    // check if ratio is too high
-    this.images.forEach((img) => {
-      img.width = img.width * ratio
-      img.height = img.height * ratio
-      console.log(img.width + ' ' + img.height)
+    this.gallery.forEach((imgRow) => {
+      let xsum = 0
+      imgRow.forEach((img) => {
+        let individualRatio = 1 / img.height
+        img.width = img.width * individualRatio
+        img.height = 1
+        xsum += img.width
+      })
+
+      // TODO: handle scrollbar behaviour
+      let ratio = (window.outerWidth - 15) / xsum
+      // TODO: normalize height
+      imgRow.forEach((img) => {
+        img.width = img.width * ratio
+        img.height = img.height * ratio
+        console.log(img.width + ' ' + img.height)
+      })
     })
   }
 
@@ -90,7 +111,8 @@ export class Home {
     return index == this.currentIdx
   }
 
-  private _keydown(event: KeyboardEvent) {
+  _keydown(event: KeyboardEvent) {
+    // TODO: add Esc for quitting viewer
     let prevent = [37, 39]
       .find(no => no === event.keyCode);
     if (prevent) event.preventDefault();
@@ -141,18 +163,17 @@ export class Home {
     }
   }
 
-  openImageViewer(index) {
-    console.log(index)
-    this.currentIdx = index
+  openImageViewer(img) {
+    this.currentIdx = this.images.indexOf(img)
     this.updateArrowActivation()
     this.showBig = true
   }
 
   gnarf(event) {
-  /*  debugger
-    var clickedElementClass = event.target.className
-    if (clickedElementClass.indexOf('thumbnail') < 0 && clickedElementClass.indexOf('image') < 0 && clickedElementClass.indexOf('image') < 0 || clickedElementClass.indexOf('arrow') < 0 && this.showBig == true) {
-      this.showBig = false
-    }*/
+    /*  debugger
+      var clickedElementClass = event.target.className
+      if (clickedElementClass.indexOf('thumbnail') < 0 && clickedElementClass.indexOf('image') < 0 && clickedElementClass.indexOf('image') < 0 || clickedElementClass.indexOf('arrow') < 0 && this.showBig == true) {
+        this.showBig = false
+      }*/
   }
 }
