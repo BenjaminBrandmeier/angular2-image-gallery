@@ -33,8 +33,7 @@ export class Home {
   localState = { value: '' }
   currentImg: string
   currentIdx: number
-  arrows: string[] = ['left.svg', 'right.svg']
-  basepath: string = 'assets/img/'
+  arrows: string[] = ['assets/img/left.svg', 'assets/img/right.svg']
   galleryBasePath: string = 'assets/img/gallery/'
   showBig: boolean = false
   leftArrowActive: boolean = true
@@ -114,7 +113,8 @@ export class Home {
       this.currentIdx++
       this.updateArrowActivation()
     }
-    this.currentImg = this.basepath + this.images[this.currentIdx - 1]
+    this.currentImg = this.images[this.currentIdx].url
+
   }
 
   navigateLeft() {
@@ -122,7 +122,7 @@ export class Home {
       this.currentIdx--
       this.updateArrowActivation()
     }
-    this.currentImg = this.basepath + this.images[this.currentIdx]
+    this.currentImg = this.images[this.currentIdx].url
   }
 
   updateArrowActivation() {
@@ -141,7 +141,18 @@ export class Home {
     }
   }
 
-  openImageViewer() {
-    this.showBig = !this.showBig
+  openImageViewer(index) {
+    console.log(index)
+    this.currentIdx = index
+    this.updateArrowActivation()
+    this.showBig = true
+  }
+
+  gnarf(event) {
+  /*  debugger
+    var clickedElementClass = event.target.className
+    if (clickedElementClass.indexOf('thumbnail') < 0 && clickedElementClass.indexOf('image') < 0 && clickedElementClass.indexOf('image') < 0 || clickedElementClass.indexOf('arrow') < 0 && this.showBig == true) {
+      this.showBig = false
+    }*/
   }
 }

@@ -6,25 +6,7 @@
   left: 50px;
   right: 50px;
 }
-.galleryContainer img {
-    float:left;
-    border-radius: 3px;
-}
-.galleryContainer img:hover {
-    transform: scale(1.1);
-    transition: all ease-out 0.3s;
-    cursor: pointer;
-}
-.galleryContainer img:hover.ng-enter {
-    transform: scale(1.0);
-}
-.galleryContainer img:hover.ng-enter-active {
-    transform: scale(1.1);
-}
-::-webkit-scrollbar {
-    display: none;
-}
-.active.image {
+.imageContainer img {
   position: absolute;
   left: 50px;
   right: 50px;
@@ -35,21 +17,23 @@
   transform: translate(0px, 0px);
   transition: all ease-out 1.0s;
 }
-.active.image.ng-enter {
-  transform: translate(100%, 0px);
-  opacity: 0.0;
+.galleryContainer img {
+  float: left;
+  border-radius: 3px;
 }
-.active.image.ng-enter-active {
-  transform: translate(0px, 0px);
-  opacity: 1.0;
+.galleryContainer img:hover {
+  transform: scale(1.1);
+  transition: all ease-out 0.3s;
+  cursor: pointer;
 }
-.active.image.ng-leave {
-  transform: translate(0px, 0px);
-  opacity: 0.0;
+.galleryContainer img:hover.ng-enter {
+  transform: scale(1.0);
 }
-.active.image.ng-leave-active {
-  transform: translate(-100%, 0px);
-  opacity: 1.0;
+.galleryContainer img:hover.ng-enter-active {
+  transform: scale(1.1);
+}
+::-webkit-scrollbar {
+  display: none;
 }
 .arrow {
   height: 50px;
