@@ -1,0 +1,113 @@
+.imageContainer {
+  position: absolute;
+  float: none;
+  top: 50px;
+  bottom: 50px;
+  left: 50px;
+  right: 50px;
+}
+.galleryContainer img {
+    float:left;
+    border-radius: 3px;
+}
+.galleryContainer img:hover {
+    transform: scale(1.1);
+    transition: all ease-out 0.3s;
+    cursor: pointer;
+}
+.galleryContainer img:hover.ng-enter {
+    transform: scale(1.0);
+}
+.galleryContainer img:hover.ng-enter-active {
+    transform: scale(1.1);
+}
+::-webkit-scrollbar {
+    display: none;
+}
+.active.image {
+  position: absolute;
+  left: 50px;
+  right: 50px;
+  height: 100%;
+  opacity: 1.0;
+  margin: 0 auto;
+  display: block;
+  transform: translate(0px, 0px);
+  transition: all ease-out 1.0s;
+}
+.active.image.ng-enter {
+  transform: translate(100%, 0px);
+  opacity: 0.0;
+}
+.active.image.ng-enter-active {
+  transform: translate(0px, 0px);
+  opacity: 1.0;
+}
+.active.image.ng-leave {
+  transform: translate(0px, 0px);
+  opacity: 0.0;
+}
+.active.image.ng-leave-active {
+  transform: translate(-100%, 0px);
+  opacity: 1.0;
+}
+.arrow {
+  height: 50px;
+  position: absolute;
+  /* use sass variables here once they are ready */
+  top: calc(50% - 50px/2);
+  bottom: 50%;
+  z-index: 1;
+}
+.arrow.left {
+  left: 50px;
+}
+.arrow.right {
+  right: 50px;
+}
+.outerContainer {
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.9);
+  transition: all ease-out 1.0s;
+}
+.outerContainer.ng-enter {
+  background-color: rgba(0, 0, 0, 0.0);
+}
+.outerContainer.ng-enter-active {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+.activeArrow {
+  opacity: 1.0;
+  transition: all ease-out 0.5s;
+}
+.activeArrow.ng-enter {
+  opacity: 0.4;
+}
+.activeArrow.ng-enter-active {
+  opacity: 1.0;
+}
+:not(.activeArrow).arrow {
+  opacity: 0.4;
+  transition: all ease-out 0.5s;
+}
+:not(.activeArrow).arrow.ng-enter {
+  opacity: 1.0;
+}
+:not(.activeArrow).arrow.ng-enter-active {
+  opacity: 0.4;
+}
+.activeArrow:hover {
+  opacity: 0.8;
+  cursor: pointer;
+  transition: all ease-out 0.5s;
+}
+.activeArrow.ng-enter:hover {
+  opacity: 1.0;
+}
+.activeArrow.ng-enter-active:hover {
+  opacity: 0.8;
+}

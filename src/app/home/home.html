@@ -1,0 +1,34 @@
+<div>
+  <!--<button (click)="openImageViewer()">Show images</button>-->
+  <button (click)="calc()">Show images</button>
+
+  <div>
+
+  <div class="galleryContainer">
+      <img *ngFor='#img of images' style="width:{{img.width}}px;height:{{img.height}}px" [src]="img.thumbnail" />
+
+<!--  <img style="width:166px;height:375px" [src]="basepath + images[0]" />
+      <img style="width:281px;height:375px" [src]="basepath + images[2]" />
+      <img style="width:281px;height:375px" [src]="basepath + images[2]" />
+      <img style="width:500px;height:375px" [src]="basepath + images[1]" />
+      <img style="width:500px;height:375px" [src]="basepath + images[1]" />
+      <img style="width:177px;height:375px" [src]="basepath + images[0]" />
+
+      <img style="width:281px;height:375px" [src]="basepath + images[2]" />
+      <img style="width:500px;height:375px" [src]="basepath + images[1]" />
+      <img style="width:281px;height:375px" [src]="basepath + images[2]" />
+      <img style="width:166px;height:375px" [src]="basepath + images[0]" />
+      <img style="width:500px;height:375px" [src]="basepath + images[1]" />
+      <img style="width:177px;height:375px" [src]="basepath + images[0]" /> -->
+  </div>
+
+
+  <!--  <div class="outerContainer ng-animate" *ngIf="showBig">
+      <img [ngClass]="{'activeArrow': leftArrowActive}" class="arrow left ng-animate" [src]="basepath + arrows[0]" (click)="navigateLeft()" />
+      <img [ngClass]="{'activeArrow': rightArrowActive}" class="arrow right ng-animate" [src]="basepath + arrows[1]" (click)="navigateRight()" />
+      <div class="imageContainer">
+        <img *ngFor='#img of images; #i = index' class="image ng-animate" [src]="basepath + img" [ngClass]="{'active': isActive(i)}" [hidden]="!isActive(i)" />
+      </div>
+    </div>-->
+
+  </div>
