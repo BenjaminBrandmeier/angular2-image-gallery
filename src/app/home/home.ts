@@ -63,20 +63,18 @@ export class Home {
       data => {
         this.images = data
 
+        var standardAmount = 8
         let tempRow = []
         let rowIndex = 0
-        var that = this
-        var standardAmount = 5
-
         for (var i = 0; i < data.length; i++) {
           tempRow[i % standardAmount] = data[i]
 
           if (tempRow.length % standardAmount == 0) {
-            that.gallery[rowIndex++] = tempRow
+            this.gallery[rowIndex++] = tempRow
             tempRow = []
           }
           else if (i + 1 == data.length) {
-            that.gallery[rowIndex] = tempRow
+            this.gallery[rowIndex] = tempRow
           }
         }
 
@@ -96,8 +94,7 @@ export class Home {
         xsum += img.width
       })
 
-      // TODO: handle scrollbar behaviour
-      let ratio = (window.outerWidth - 15) / xsum
+      let ratio = (window.outerWidth) / xsum
       // TODO: normalize height
       imgRow.forEach((img) => {
         img.width = img.width * ratio

@@ -95,3 +95,15 @@
 .activeArrow.ng-enter-active:hover {
   opacity: 0.8;
 }
+.galleryContainer {
+  height: 100%;
+  width: 100%;
+}
+.innerGalleryContainer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -17px;
+  overflow-y: scroll;
+}
