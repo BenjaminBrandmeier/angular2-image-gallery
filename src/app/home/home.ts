@@ -40,6 +40,7 @@ export class Home {
   rightArrowActive: boolean = true
   images: any[]
   gallery: any[] = []
+  heightCoefficient = 8
 
   // TypeScript public modifiers
   constructor(private _ngZone: NgZone, private http: Http) {
@@ -63,7 +64,7 @@ export class Home {
       data => {
         this.images = data
 
-        var standardAmount = 8
+        var standardAmount = 7
         let tempRow = []
         let rowIndex = 0
         for (var i = 0; i < data.length; i++) {
@@ -74,6 +75,7 @@ export class Home {
             tempRow = []
           }
           else if (i + 1 == data.length) {
+            // don't fill last row until complete width
             this.gallery[rowIndex] = tempRow
           }
         }
@@ -85,22 +87,28 @@ export class Home {
   }
 
   calc() {
+    let idealHeight = window.outerWidth / this.heightCoefficient
+
     this.gallery.forEach((imgRow) => {
       let xsum = 0
       imgRow.forEach((img) => {
-        let individualRatio = 1 / img.height
+        let individualRatio = idealHeight / img.height
         img.width = img.width * individualRatio
-        img.height = 1
+        img.height = idealHeight
         xsum += img.width
       })
 
-      let ratio = (window.outerWidth) / xsum
-      // TODO: normalize height
-      imgRow.forEach((img) => {
-        img.width = img.width * ratio
-        img.height = img.height * ratio
-        console.log(img.width + ' ' + img.height)
-      })
+      if (imgRow != this.gallery[this.gallery.length-1]) {
+        let ratio = (window.outerWidth) / xsum
+        // TODO: normalize height
+        imgRow.forEach((img) => {
+          img.width = img.width * ratio
+          img.height = img.height * ratio
+          console.log(img.width + ' ' + img.height)
+        })
+      }
+
+
     })
   }
 
