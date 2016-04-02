@@ -32,13 +32,13 @@ export class Home {
   // Set our default values
   localState = { value: '' }
   currentImg: string
-  currentIdx: number
+  currentIdx: number = 0
   arrows: string[] = ['assets/img/left.svg', 'assets/img/right.svg']
   galleryBasePath: string = 'assets/img/gallery/'
   showBig: boolean = false
   leftArrowActive: boolean = true
   rightArrowActive: boolean = true
-  images: any[]
+  images: any[] = [ {url: 'dummy'} ]
   gallery: any[] = []
   heightCoefficient = 8
 
@@ -98,7 +98,7 @@ export class Home {
         xsum += img.width
       })
 
-      if (imgRow != this.gallery[this.gallery.length-1]) {
+      if (imgRow != this.gallery[this.gallery.length - 1]) {
         let ratio = (window.outerWidth) / xsum
         // TODO: normalize height
         imgRow.forEach((img) => {
@@ -107,8 +107,6 @@ export class Home {
           console.log(img.width + ' ' + img.height)
         })
       }
-
-
     })
   }
 
@@ -117,21 +115,25 @@ export class Home {
   }
 
   _keydown(event: KeyboardEvent) {
-    // TODO: add Esc for quitting viewer
-    let prevent = [37, 39]
+    let prevent = [37, 39, 27]
       .find(no => no === event.keyCode);
     if (prevent) event.preventDefault();
 
-    if (prevent == 37) {
-      // left
-      this.navigateLeft();
-    }
-    else if (prevent == 39) {
-      // right
-      this.navigateRight();
-    }
-    else {
-      console.error('unexpected key pushed')
+    switch (prevent) {
+      case 37:
+        // left arrow
+        this.navigateLeft();
+        break;
+      case 39:
+        // right arrow
+        this.navigateRight();
+        break;
+      case 27:
+        // esc
+        this.showBig = false
+        break;
+      default:
+        console.error('unexpected key pushed')
     }
   }
 
