@@ -4,6 +4,14 @@ import {Http, Response} from 'angular2/http';
 
 import {XLarge} from './directives/x-large';
 
+interface IImage {
+  url: string
+  thumbnail: string
+  date: string
+  width: number
+  height: number
+}
+
 @Component({
   // The selector is what angular internally uses
   // for `document.querySelectorAll(selector)` in our index.html
@@ -38,7 +46,7 @@ export class Home {
   showBig: boolean = false
   leftArrowActive: boolean = true
   rightArrowActive: boolean = true
-  images: any[] = [ {url: 'dummy'} ]
+  images: any[] = [{ url: 'dummy' }]
   gallery: any[] = []
   heightCoefficient = 8
 
@@ -50,7 +58,7 @@ export class Home {
   ngOnInit() {
     window.onresize = function(event) {
       this._ngZone.run(() => {
-        this.calc()
+        this.scaleGallery()
       })
     }.bind(this)
 
@@ -64,50 +72,76 @@ export class Home {
       data => {
         this.images = data
 
-        var standardAmount = 7
-        let tempRow = []
+        let tempRow = [data[0]]
         let rowIndex = 0
-        for (var i = 0; i < data.length; i++) {
-          tempRow[i % standardAmount] = data[i]
 
-          if (tempRow.length % standardAmount == 0) {
-            this.gallery[rowIndex++] = tempRow
-            tempRow = []
+        for (var i = 0; i < data.length; i++) {
+          while (data[i + 1] != undefined && this.shouldAddCandidate(tempRow, data[i + 1])) {
+            i++
           }
-          else if (i + 1 == data.length) {
-            // don't fill last row until complete width
-            this.gallery[rowIndex] = tempRow
+          if (data[i + 1] != undefined) {
+            tempRow.pop()
           }
+          this.gallery[rowIndex++] = tempRow
+
+          tempRow = [data[i + 1]]
         }
 
-        this.calc()
+        this.scaleGallery()
       },
       err => console.error(err),
       () => console.log('done'))
   }
 
-  calc() {
-    let idealHeight = window.outerWidth / this.heightCoefficient
+  shouldAddCandidate(imgRow: IImage[], candidate: IImage): boolean {
+    let oldDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
+    imgRow.push(candidate)
+    let newDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
 
+    return Math.abs(oldDifference) > Math.abs(newDifference)
+  }
+
+  calcRowHeight(imgRow: IImage[]) {
+    let xsum = this.normalizeHeight(imgRow)
+
+    let ratio = window.outerWidth / xsum
+    let rowHeight = imgRow[0].height * ratio
+
+    return rowHeight
+  }
+
+  scaleGallery() {
     this.gallery.forEach((imgRow) => {
-      let xsum = 0
-      imgRow.forEach((img) => {
-        let individualRatio = idealHeight / img.height
-        img.width = img.width * individualRatio
-        img.height = idealHeight
-        xsum += img.width
-      })
+      let xsum = this.normalizeHeight(imgRow)
 
       if (imgRow != this.gallery[this.gallery.length - 1]) {
         let ratio = (window.outerWidth) / xsum
-        // TODO: normalize height
+
         imgRow.forEach((img) => {
           img.width = img.width * ratio
           img.height = img.height * ratio
-          console.log(img.width + ' ' + img.height)
         })
       }
     })
+  }
+
+  normalizeHeight(imgRow: IImage[]) {
+    let xsum = 0
+    imgRow.forEach((img) => {
+      let individualRatio = this.calcIdealHeight() / img.height
+      img.width = img.width * individualRatio
+      img.height = this.calcIdealHeight()
+      xsum += img.width
+    })
+
+    return xsum
+  }
+
+  calcIdealHeight() {
+    // let idealHeight = Math.log(window.outerWidth * 100000) * this.heightCoefficient
+    let idealHeight = window.outerWidth / this.heightCoefficient
+    console.log(idealHeight)
+    return idealHeight
   }
 
   isActive(index) {
