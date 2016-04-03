@@ -22,42 +22,48 @@ function convert() {
 
     var processCount = 0;
 
+    console.log('Converting images...');
     files.forEach(function(file, index) {
+      if (file != '.gitignore') {
+        var filePath = path.join(basePath, file);
+        if (fs.lstatSync(filePath).isFile()) {
+          gm(filePath)
+            .identify(function(err, features) {
+              if (err) {
+                console.log(filePath)
+                console.log(err)
+                throw err;
+              }
 
-      var filePath = path.join(basePath, file);
-      if (fs.lstatSync(filePath).isFile()) {
-        gm(filePath)
-          .identify(function(err, features) {
-            if (err) {
-              console.log(filePath)
-              console.log(err)
-              throw err;
-            }
+              var fileMetadata = {
+                url: rawBasePath + file,
+                thumbnail: thumbnailBasePath + file,
+                date: features['Profile-EXIF']['Date Time Original'],
+                width: features.size.width,
+                height: features.size.height
+              };
 
-            var fileMetadata = {
-              url: rawBasePath + file,
-              thumbnail: thumbnailBasePath + file,
-              date: features['Profile-EXIF']['Date Time Original'],
-              width: features.size.width,
-              height: features.size.height
-            };
+              imageMetadataArray[index] = fileMetadata;
 
-            imageMetadataArray[index] = fileMetadata;
+              // copy raw images to assets folder
+              fs.createReadStream(filePath).pipe(fs.createWriteStream(assetBasePath + 'raw/' + file));
 
-            // copy raw images to assets folder
-            fs.createReadStream(filePath).pipe(fs.createWriteStream(assetBasePath + 'raw/' + file));
+              // create thumbnails and save them
+              createThumbnail(file, filePath);
 
-            // create thumbnails and save them
-            createThumbnail(file, filePath);
+              if (++processCount == files.length) {
+                console.log('...done (conversion)');
 
-            if (++processCount == files.length) {
-              // after image processing sort image metadata as requested
-              sortFunction();
+                // after image processing sort image metadata as requested
+                sortFunction();
 
-              // save meta data file
-              saveMetadataFile();
-            }
-          });
+                // save meta data file
+                saveMetadataFile();
+              }
+            });
+        } else {
+          ++processCount;
+        }
       } else {
         ++processCount;
       }
