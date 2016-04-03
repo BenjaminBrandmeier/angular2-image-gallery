@@ -1,5 +1,5 @@
 # Images
-/tools/images_to_convert/*
+tools/images_to_convert/**/
 /src/assets/img/gallery/*
 
 # original from @AngularClass
