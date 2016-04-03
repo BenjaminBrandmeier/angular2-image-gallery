@@ -1,8 +1,8 @@
-var im = require('imagemagick');
 var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
 var process = require("process");
+var gm = require('gm');
 
 var projectRoot = getProjectRootPath();
 var basePath = projectRoot + "/tools/images_to_convert";
@@ -21,40 +21,43 @@ function convert() {
     var sortFunction = sortByCreationDate;
 
     var processCount = 0;
+
     files.forEach(function(file, index) {
 
       var filePath = path.join(basePath, file);
       if (fs.lstatSync(filePath).isFile()) {
-        im.identify(filePath, function(err, features) {
-          if (err) {
-            console.log(filePath)
-            throw err;
-          }
+        gm(filePath)
+          .identify(function(err, features) {
+            if (err) {
+              console.log(filePath)
+              console.log(err)
+              throw err;
+            }
 
-          var fileMetadata = {
-            url: rawBasePath + file,
-            thumbnail: thumbnailBasePath + file,
-            date: features.properties['exif:datetimeoriginal'],
-            width: features.width,
-            height: features.height
-          };
+            var fileMetadata = {
+              url: rawBasePath + file,
+              thumbnail: thumbnailBasePath + file,
+              date: features['Profile-EXIF']['Date Time Original'],
+              width: features.size.width,
+              height: features.size.height
+            };
 
-          imageMetadataArray[index] = fileMetadata;
+            imageMetadataArray[index] = fileMetadata;
 
-          // copy raw images to assets folder
-          fs.createReadStream(filePath).pipe(fs.createWriteStream(assetBasePath + 'raw/' + file));
+            // copy raw images to assets folder
+            fs.createReadStream(filePath).pipe(fs.createWriteStream(assetBasePath + 'raw/' + file));
 
-          // create thumbnails and save them
-          createThumbnails(file, filePath);
+            // create thumbnails and save them
+            createThumbnail(file, filePath);
 
-          if (++processCount == files.length) {
-            // after image processing sort image metadata as requested
-            sortFunction();
+            if (++processCount == files.length) {
+              // after image processing sort image metadata as requested
+              sortFunction();
 
-            // save meta data file
-            saveMetadataFile();
-          }
-        });
+              // save meta data file
+              saveMetadataFile();
+            }
+          });
       } else {
         ++processCount;
       }
@@ -63,28 +66,26 @@ function convert() {
 }
 
 function createFolderStructure() {
-  console.log('Creating folder structure ...');
+  console.log('Creating folder structure...');
   mkdirp.sync(assetBasePath + 'raw', function(err) {
     if (err) throw err;
   });
   mkdirp.sync(assetBasePath + 'thumbnail', function(err) {
     if (err) throw err;
   });
-  console.log('done.');
+  console.log('...done (folder structure)');
 }
 
-function createThumbnails(file, filePath) {
-  im.resize({
-    srcPath: filePath,
-    dstPath: assetBasePath + 'thumbnail/' + file,
-    height: 200
-  }, function(err, stdout, stderr) {
-    if (err) throw err;
-  });
+function createThumbnail(file, filePath) {
+  gm(filePath)
+    .resize(250)
+    .write(assetBasePath + 'thumbnail/' + file, function(err) {
+      if (err) throw err;
+    });
 }
 
 function sortByCreationDate() {
-  console.log('Sorting images by actual creation time ...');
+  console.log('Sorting images by actual creation time...');
 
   imageMetadataArray.sort(function(a, b) {
     if (a.date > b.date) {
@@ -95,25 +96,24 @@ function sortByCreationDate() {
       return -1;
     }
   });
-  console.log('done.');
+  console.log('...done (sorting)');
 }
 
 function saveMetadataFile() {
   var metadataAsJSON = JSON.stringify(imageMetadataArray, null, 4);
-  console.log('Saving metadata file ...');
+  console.log('Saving metadata file...');
 
   fs.writeFile(assetBasePath + 'data.json', metadataAsJSON, function(err) {
     if (err) throw err;
-    console.log('done.');
+    console.log('...done (metadata)');
   });
 }
 
-function getProjectRootPath()
-{
-    var toolsPath = path.dirname(require.main.filename);
-    var pathElements = toolsPath.split('/');
-    pathElements.pop();
-    return pathElements.join('/');
+function getProjectRootPath() {
+  var toolsPath = path.dirname(require.main.filename);
+  var pathElements = toolsPath.split('/');
+  pathElements.pop();
+  return pathElements.join('/');
 }
 
 convert();

@@ -1,32 +1,13 @@
 # ng2imggallery
-An experimental image gallery built with Angular 2, node.js and imagemagick.
+An experimental image gallery built with Angular 2, node.js and graphicsmagick.
 
 This project is pretty much work in progress. Hoping to release a first alpha soon.
 ## Pre-requirements
 
 The following dependency are installed locally by the setup.sh file:
 
-NodeJS
-```bash
-curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
-sudo apt-get install --yes nodejs
-```
-
-imagemagick
-```bash
-echo "yes" | sudo apt-get install imagemagick imagemagick-doc
-npm install imagemagick
-```
-
-imagemagick setup
-```bash
-export MAGICK_THREAD_LIMIT=1
-```
-
-mkdirp
-```bash
-npm install mkdirp
-```
+- NodeJS 5.x
+- graphicsmagick
 
 ## Usage
 Run the following commands to get going.

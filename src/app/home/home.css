@@ -18,7 +18,7 @@
   transition: all ease-out 1.0s;
 }
 .galleryContainer img {
-  border-radius: 3px;
+  border-radius: 0px;
 }
 .galleryContainer img:hover {
   transform: scale(1.1);
@@ -107,5 +107,5 @@
   overflow-y: scroll;
 }
 .imagerow {
-    margin: 0px 0px 0.01vw 0px;
+  margin: 0px 0px 0.01vw 0px;
 }
