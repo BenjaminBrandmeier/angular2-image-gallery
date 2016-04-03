@@ -8,6 +8,7 @@ The following dependency are installed locally by the setup.sh file:
 
 - NodeJS 5.x
 - graphicsmagick
+- curl
 
 ## Usage
 Run the following commands to get going.

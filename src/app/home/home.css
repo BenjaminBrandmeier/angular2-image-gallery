@@ -17,6 +17,10 @@
   transform: translate(0px, 0px);
   transition: all ease-out 1.0s;
 }
+.galleryContainer {
+  height: 100%;
+  width: 100%;
+}
 .galleryContainer img {
   border-radius: 0px;
 }
@@ -33,6 +37,14 @@
 }
 ::-webkit-scrollbar {
   display: none;
+}
+.innerGalleryContainer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -17px;
+  overflow-y: scroll;
 }
 .arrow {
   height: 50px;
@@ -93,18 +105,6 @@
 }
 .activeArrow.ng-enter-active:hover {
   opacity: 0.8;
-}
-.galleryContainer {
-  height: 100%;
-  width: 100%;
-}
-.innerGalleryContainer {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: -17px;
-  overflow-y: scroll;
 }
 .imagerow {
   margin: 0px 0px 0.01vw 0px;

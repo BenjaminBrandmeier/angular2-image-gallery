@@ -140,7 +140,6 @@ export class Home {
   calcIdealHeight() {
     // let idealHeight = Math.log(window.outerWidth * 100000) * this.heightCoefficient
     let idealHeight = window.outerWidth / this.heightCoefficient
-    console.log(idealHeight)
     return idealHeight
   }
 
@@ -166,8 +165,6 @@ export class Home {
         // esc
         this.showBig = false
         break;
-      default:
-        console.error('unexpected key pushed')
     }
   }
 
