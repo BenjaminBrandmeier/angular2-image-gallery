@@ -104,7 +104,7 @@ export class Home {
   calcRowHeight(imgRow: IImage[]) {
     let xsum = this.normalizeHeight(imgRow)
 
-    let ratio = window.outerWidth / xsum
+    let ratio = (window.outerWidth - imgRow.length * 2) / xsum
     let rowHeight = imgRow[0].height * ratio
 
     return rowHeight
@@ -115,7 +115,7 @@ export class Home {
       let xsum = this.normalizeHeight(imgRow)
 
       if (imgRow != this.gallery[this.gallery.length - 1]) {
-        let ratio = (window.outerWidth) / xsum
+        let ratio = (window.outerWidth - imgRow.length * 2) / xsum
 
         imgRow.forEach((img) => {
           img.width = img.width * ratio
