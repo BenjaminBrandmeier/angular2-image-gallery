@@ -21,12 +21,14 @@ function convert() {
     var sortFunction = sortByCreationDate;
 
     var processCount = 0;
+    var imagesToProcess = 0;
 
-    console.log('Converting images...');
+    console.log('\nIdentifying images...')
     files.forEach(function(file, index) {
       if (file != '.gitignore') {
         var filePath = path.join(basePath, file);
         if (fs.lstatSync(filePath).isFile()) {
+          process.stdout.write('Identified '+(++imagesToProcess)+' images.\r');
           gm(filePath)
             .identify(function(err, features) {
               if (err) {
@@ -43,7 +45,7 @@ function convert() {
                 height: features.size.height
               };
 
-              imageMetadataArray[index] = fileMetadata;
+              imageMetadataArray[processCount] = fileMetadata;
 
               // copy raw images to assets folder
               fs.createReadStream(filePath).pipe(fs.createWriteStream(assetBasePath + 'raw/' + file));
@@ -51,8 +53,8 @@ function convert() {
               // create thumbnails and save them
               createThumbnail(file, filePath);
 
-              if (++processCount == files.length) {
-                console.log('...done (conversion)');
+              process.stdout.write('Converted '+(++processCount)+' images.\r');
+              if (processCount == imagesToProcess) {
 
                 // after image processing sort image metadata as requested
                 sortFunction();
@@ -61,18 +63,16 @@ function convert() {
                 saveMetadataFile();
               }
             });
-        } else {
-          ++processCount;
         }
-      } else {
-        ++processCount;
       }
     });
+    console.log('\n\nConverting images...');
+    process.stdout.write('Converted 0 images.\r');
   });
 }
 
 function createFolderStructure() {
-  console.log('Creating folder structure...');
+  console.log('\nCreating folder structure...');
   mkdirp.sync(assetBasePath + 'raw', function(err) {
     if (err) throw err;
   });
@@ -91,7 +91,7 @@ function createThumbnail(file, filePath) {
 }
 
 function sortByCreationDate() {
-  console.log('Sorting images by actual creation time...');
+  console.log('\n\nSorting images by actual creation time...');
 
   imageMetadataArray.sort(function(a, b) {
     if (a.date > b.date) {
@@ -107,7 +107,7 @@ function sortByCreationDate() {
 
 function saveMetadataFile() {
   var metadataAsJSON = JSON.stringify(imageMetadataArray, null, 4);
-  console.log('Saving metadata file...');
+  console.log('\nSaving metadata file...');
 
   fs.writeFile(assetBasePath + 'data.json', metadataAsJSON, function(err) {
     if (err) throw err;
