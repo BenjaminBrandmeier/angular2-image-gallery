@@ -9,10 +9,12 @@
 <div class="outerContainer ng-animate" [hidden]="!showBig" (click)="gnarf($event)">
   <img [ngClass]="{'activeArrow': leftArrowActive}" class="arrow left ng-animate" [src]="arrows[0]" (click)="navigateLeft()" />
   <img [ngClass]="{'activeArrow': rightArrowActive}" class="arrow right ng-animate" [src]="arrows[1]" (click)="navigateRight()" />
+  <div class="buttonContainer">
+    <button class="closeButton" (click)="showBig = !showBig">Close</button>
+  </div>
   <div class="imageContainer">
     <img class="image ng-animate" [src]="images[currentIdx].url" />
   </div>
 </div>
-
 
 <router-outlet></router-outlet>

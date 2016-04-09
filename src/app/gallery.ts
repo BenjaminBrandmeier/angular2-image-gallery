@@ -96,7 +96,7 @@ export class GalleryApp {
 
   calcRowHeight(imgRow: IImage[]) {
     let xsum = this.normalizeHeight(imgRow)
-
+    
     let ratio = (window.outerWidth - imgRow.length * 2) / xsum
     let rowHeight = imgRow[0].height * ratio
 

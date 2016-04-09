@@ -8,12 +8,15 @@
 }
 .imageContainer img {
   position: absolute;
-  left: 50px;
-  right: 50px;
-  height: 100%;
-  opacity: 1.0;
-  margin: 0 auto;
   display: block;
+  margin: auto auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  max-height: 100%;
+  max-width: 100%;
+  opacity: 1.0;
   transform: translate(0px, 0px);
   transition: all ease-out 1.0s;
 }
@@ -22,7 +25,6 @@
   width: 100%;
 }
 .galleryContainer img {
-  border-radius: 0px;
   padding-right: 2px;
 }
 .galleryContainer img:hover {
@@ -69,14 +71,14 @@
   height: 100%;
   width: 100%;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.95);
   transition: all ease-out 1.0s;
 }
 .outerContainer.ng-enter {
   background-color: rgba(0, 0, 0, 0.0);
 }
 .outerContainer.ng-enter-active {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.95);
 }
 .activeArrow {
   opacity: 1.0;
@@ -112,4 +114,40 @@
 .imagerow {
   padding: 0px 0px 2px 0px;
   display: flex;
+}
+.buttonContainer .closeButton {
+  position: relative;
+  margin-top: 28px;
+  z-index: 200;
+  background-color: #AAAAAA;
+  border-radius: 21px;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 17px;
+  padding: 11px 29px;
+  border: 0;
+}
+.buttonContainer .closeButton:focus {
+  outline: 0;
+}
+.buttonContainer .closeButton:hover {
+  background-color: #A0A0A0;
+  transition: all ease-out 0.3s;
+}
+.buttonContainer .closeButton:hover.ng-enter {
+  background-color: #AAAAAA;
+}
+.buttonContainer .closeButton:hover.ng-enter-active {
+  background-color: #A0A0A0;
+}
+.buttonContainer {
+  text-align: center;
+  opacity: 1.0;
+  transition: all ease-out 0.5s;
+}
+.buttonContainer.ng-enter {
+  opacity: 0.4;
+}
+.buttonContainer.ng-enter-active {
+  opacity: 1.0;
 }
