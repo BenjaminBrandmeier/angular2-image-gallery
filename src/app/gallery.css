@@ -24,29 +24,20 @@
   height: 100%;
   width: 100%;
 }
-.galleryContainer img {
+.galleryContainer img:not(:last-child) {
   padding-right: 2px;
 }
 .galleryContainer img:hover {
-  transform: scale(1.04);
-  transition: all ease-out 0.3s;
+  -webkit-filter: brightness(50%);
+  filter: brightness(50%);
+  transition: all ease-out 0.2s;
   cursor: pointer;
-}
-.galleryContainer img:hover.ng-enter {
-  transform: scale(1.0);
-}
-.galleryContainer img:hover.ng-enter-active {
-  transform: scale(1.04);
 }
 ::-webkit-scrollbar {
   display: none;
 }
 .innerGalleryContainer {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: -17px;
+  position: relative;
   overflow-y: scroll;
 }
 .arrow {

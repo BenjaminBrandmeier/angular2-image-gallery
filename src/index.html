@@ -1,11 +1,12 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <title>Angular 2 Image Gallery</title>
   {{content-for 'head'}}
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
   <!-- Service worker support is disabled by default.
        Install the worker script and uncomment to enable.
@@ -19,8 +20,15 @@
   </script>
   -->
 </head>
-<body>
-  <gallery>Loading...</gallery>
+
+<body style="margin:0">
+
+  <div style="margin-left: 40px; margin-right: 40px;">
+    <div style="margin: 50px 0px 30px 0px">
+      <span style="font-weight:700">ng2imggallery</span>
+    </div>
+    <gallery>Loading...</gallery>
+  </div>
 
   <script src="vendor/es6-shim/es6-shim.js"></script>
   <script src="vendor/systemjs/dist/system-polyfills.js"></script>
@@ -44,4 +52,5 @@
     System.import('app.js').then(null, console.error.bind(console));
   </script>
 </body>
+
 </html>

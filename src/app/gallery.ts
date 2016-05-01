@@ -1,6 +1,6 @@
 import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 import {CliRouteConfig} from './route-config';
-import {Component, NgZone} from 'angular2/core';
+import {Component, NgZone, ViewChild, ElementRef} from 'angular2/core';
 import {Http, Response, HTTP_PROVIDERS} from 'angular2/http';
 import 'rxjs/Rx';
 
@@ -27,6 +27,7 @@ interface IImage {
 
 ].concat(CliRouteConfig))
 export class GalleryApp {
+  @ViewChild('galleryContainer') galleryContainer: ElementRef;
   // Set our default values
   localState = { value: '' }
   currentImg: string
@@ -46,6 +47,7 @@ export class GalleryApp {
   }
 
   ngOnInit() {
+
     window.onresize = function(event) {
       this._ngZone.run(() => {
         this.scaleGallery()
@@ -69,10 +71,10 @@ export class GalleryApp {
         let rowIndex = 0
 
         for (var i = 0; i < data.length; i++) {
-          while (data[i + 1] != undefined && this.shouldAddCandidate(tempRow, data[i + 1])) {
+          while (data[i + 1] && this.shouldAddCandidate(tempRow, data[i + 1])) {
             i++
           }
-          if (data[i + 1] != undefined) {
+          if (data[i + 1]) {
             tempRow.pop()
           }
           this.gallery[rowIndex++] = tempRow
@@ -96,8 +98,8 @@ export class GalleryApp {
 
   calcRowHeight(imgRow: IImage[]) {
     let xsum = this.normalizeHeight(imgRow)
-    
-    let ratio = (window.outerWidth - imgRow.length * 2) / xsum
+
+    let ratio = (this.getGalleryWidth() - imgRow.length * 2) / xsum
     let rowHeight = imgRow[0].height * ratio
 
     return rowHeight
@@ -108,7 +110,7 @@ export class GalleryApp {
       let xsum = this.normalizeHeight(imgRow)
 
       if (imgRow != this.gallery[this.gallery.length - 1]) {
-        let ratio = (window.outerWidth - imgRow.length * 2) / xsum
+        let ratio = (this.getGalleryWidth() - imgRow.length * 2) / xsum
 
         imgRow.forEach((img) => {
           img.width = img.width * ratio
@@ -124,15 +126,15 @@ export class GalleryApp {
       let individualRatio = this.calcIdealHeight() / img.height
       img.width = img.width * individualRatio
       img.height = this.calcIdealHeight()
-      xsum += img.width
+      xsum += img.width + 2
     })
 
     return xsum
   }
 
   calcIdealHeight() {
-    // let idealHeight = Math.log(window.outerWidth * 100000) * this.heightCoefficient
-    let idealHeight = window.outerWidth / this.heightCoefficient
+    // let idealHeight = Math.log(this.getGalleryWidth() * 100000) * this.heightCoefficient
+    let idealHeight = this.getGalleryWidth() / this.heightCoefficient
     return idealHeight
   }
 
@@ -200,11 +202,7 @@ export class GalleryApp {
     this.showBig = true
   }
 
-  gnarf(event) {
-    /*  debugger
-      var clickedElementClass = event.target.className
-      if (clickedElementClass.indexOf('thumbnail') < 0 && clickedElementClass.indexOf('image') < 0 && clickedElementClass.indexOf('image') < 0 || clickedElementClass.indexOf('arrow') < 0 && this.showBig == true) {
-        this.showBig = false
-      }*/
+  private getGalleryWidth() {
+    return this.galleryContainer.nativeElement.clientWidth -2
   }
 }

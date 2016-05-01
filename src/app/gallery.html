@@ -1,4 +1,4 @@
-<div class="galleryContainer">
+<div class="galleryContainer" #galleryContainer>
   <div class="innerGalleryContainer">
     <div *ngFor='#imgrow of gallery; #i = index' class="imagerow">
       <img *ngFor='#img of imgrow; #j = index' class="thumbnail" [style.width]="img.width + 'px'" [style.height]="img.height + 'px'" (click)="openImageViewer(img)" [src]="img.thumbnail" />
@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<div class="outerContainer ng-animate" [hidden]="!showBig" (click)="gnarf($event)">
+<div class="outerContainer ng-animate" [hidden]="!showBig">
   <img [ngClass]="{'activeArrow': leftArrowActive}" class="arrow left ng-animate" [src]="arrows[0]" (click)="navigateLeft()" />
   <img [ngClass]="{'activeArrow': rightArrowActive}" class="arrow right ng-animate" [src]="arrows[1]" (click)="navigateRight()" />
   <div class="buttonContainer">
