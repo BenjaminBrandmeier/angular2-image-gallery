@@ -2,11 +2,11 @@
 
 .innerGalleryContainer {
   position: relative;
-  overflow-y: scroll;
 }
 .galleryContainer {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 .galleryContainer img:not(:last-child) {
   padding-right: 2px;

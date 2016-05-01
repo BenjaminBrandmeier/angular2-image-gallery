@@ -39,7 +39,7 @@ export class GalleryApp {
   rightArrowActive: boolean = true
   images: any[] = [{ url: '' }]
   gallery: any[] = []
-  heightCoefficient = 8
+  heightCoefficient = 6
 
   // TypeScript public modifiers
   constructor(private _ngZone: NgZone, private http: Http) {
@@ -99,7 +99,7 @@ export class GalleryApp {
   calcRowHeight(imgRow: IImage[]) {
     let xsum = this.normalizeHeight(imgRow)
 
-    let ratio = (this.getGalleryWidth() - imgRow.length * 2) / xsum
+    let ratio = (this.getGalleryWidth()) / xsum
     let rowHeight = imgRow[0].height * ratio
 
     return rowHeight
@@ -110,7 +110,7 @@ export class GalleryApp {
       let xsum = this.normalizeHeight(imgRow)
 
       if (imgRow != this.gallery[this.gallery.length - 1]) {
-        let ratio = (this.getGalleryWidth() - imgRow.length * 2) / xsum
+        let ratio = (this.getGalleryWidth()) / xsum
 
         imgRow.forEach((img) => {
           img.width = img.width * ratio

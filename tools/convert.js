@@ -9,6 +9,7 @@ var basePath = projectRoot + "/tools/images_to_convert";
 var assetBasePath = projectRoot + "/src/assets/img/gallery/";
 var rawBasePath = "assets/img/gallery/raw/";
 var thumbnailBasePath = "assets/img/gallery/thumbnail/";
+var previewBasePath = "assets/img/gallery/preview/";
 var imageMetadataArray = [];
 
 function convert() {
@@ -40,6 +41,7 @@ function convert() {
               var fileMetadata = {
                 url: rawBasePath + file,
                 thumbnail: thumbnailBasePath + file,
+                preview: previewBasePath + file,
                 date: features['Profile-EXIF']['Date Time Original'],
                 width: features.size.width,
                 height: features.size.height
@@ -52,6 +54,9 @@ function convert() {
 
               // create thumbnails and save them
               createThumbnail(file, filePath);
+
+              // create thumbnails and save them
+              createPreview(file, filePath);
 
               process.stdout.write('Converted '+(++processCount)+' images.\r');
               if (processCount == imagesToProcess) {
@@ -79,13 +84,25 @@ function createFolderStructure() {
   mkdirp.sync(assetBasePath + 'thumbnail', function(err) {
     if (err) throw err;
   });
+  mkdirp.sync(assetBasePath + 'preview', function(err) {
+    if (err) throw err;
+  });
   console.log('...done (folder structure)');
 }
 
 function createThumbnail(file, filePath) {
   gm(filePath)
-    .resize(300)
+    .resize(450)
     .write(assetBasePath + 'thumbnail/' + file, function(err) {
+      if (err) throw err;
+    });
+}
+
+// TODO: create different resolution stages based and show them based on viewport size
+function createPreview(file, filePath) {
+  gm(filePath)
+    .resize(1000)
+    .write(assetBasePath + 'preview/' + file, function(err) {
       if (err) throw err;
     });
 }
