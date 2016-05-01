@@ -1,3 +1,49 @@
+/* Image gallery */
+
+.innerGalleryContainer {
+  position: relative;
+  overflow-y: scroll;
+}
+.galleryContainer {
+  height: 100%;
+  width: 100%;
+}
+.galleryContainer img:not(:last-child) {
+  padding-right: 2px;
+}
+.galleryContainer img:hover {
+  -webkit-filter: brightness(50%);
+  filter: brightness(50%);
+  transition: all ease-out 0.2s;
+  cursor: pointer;
+}
+.imagerow {
+  padding: 0px 0px 2px 0px;
+  display: flex;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Image viewer */
+
+.outerContainer {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.95);
+  transition: all ease-out 1.0s;
+}
+.outerContainer.ng-enter {
+  background-color: rgba(0, 0, 0, 0.0);
+}
+.outerContainer.ng-enter-active {
+  background-color: rgba(0, 0, 0, 0.95);
+}
 .imageContainer {
   position: absolute;
   float: none;
@@ -20,26 +66,6 @@
   transform: translate(0px, 0px);
   transition: all ease-out 1.0s;
 }
-.galleryContainer {
-  height: 100%;
-  width: 100%;
-}
-.galleryContainer img:not(:last-child) {
-  padding-right: 2px;
-}
-.galleryContainer img:hover {
-  -webkit-filter: brightness(50%);
-  filter: brightness(50%);
-  transition: all ease-out 0.2s;
-  cursor: pointer;
-}
-::-webkit-scrollbar {
-  display: none;
-}
-.innerGalleryContainer {
-  position: relative;
-  overflow-y: scroll;
-}
 .arrow {
   height: 50px;
   position: absolute;
@@ -53,23 +79,6 @@
 }
 .arrow.right {
   right: 50px;
-}
-.outerContainer {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.95);
-  transition: all ease-out 1.0s;
-}
-.outerContainer.ng-enter {
-  background-color: rgba(0, 0, 0, 0.0);
-}
-.outerContainer.ng-enter-active {
-  background-color: rgba(0, 0, 0, 0.95);
 }
 .activeArrow {
   opacity: 1.0;
@@ -101,10 +110,6 @@
 }
 .activeArrow.ng-enter-active:hover {
   opacity: 0.8;
-}
-.imagerow {
-  padding: 0px 0px 2px 0px;
-  display: flex;
 }
 .buttonContainer .closeButton {
   position: relative;

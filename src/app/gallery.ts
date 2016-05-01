@@ -203,6 +203,6 @@ export class GalleryApp {
   }
 
   private getGalleryWidth() {
-    return this.galleryContainer.nativeElement.clientWidth -2
+    return this.galleryContainer.nativeElement.clientWidth
   }
 }
