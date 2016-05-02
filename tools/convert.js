@@ -92,7 +92,7 @@ function createFolderStructure() {
 
 function createThumbnail(file, filePath) {
   gm(filePath)
-    .resize(450)
+    .resize(null, 350)
     .write(assetBasePath + 'thumbnail/' + file, function(err) {
       if (err) throw err;
     });
