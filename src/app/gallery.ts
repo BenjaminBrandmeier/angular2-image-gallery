@@ -1,4 +1,4 @@
-import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
+import {Router, RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
 import {CliRouteConfig} from './route-config';
 import {Component, NgZone, ViewChild, ElementRef} from 'angular2/core';
 import {Http, Response, HTTP_PROVIDERS} from 'angular2/http';
@@ -28,7 +28,7 @@ interface IImage {
 ].concat(CliRouteConfig))
 export class GalleryApp {
   @ViewChild('galleryContainer') galleryContainer: ElementRef;
-  // Set our default values
+
   localState = { value: '' }
   currentImg: string
   currentIdx: number = 0
@@ -42,7 +42,7 @@ export class GalleryApp {
   heightCoefficient = 6
 
   // TypeScript public modifiers
-  constructor(private _ngZone: NgZone, private http: Http) {
+  constructor(private _ngZone: NgZone, private http: Http, private router: Router) {
 
   }
 
@@ -200,6 +200,10 @@ export class GalleryApp {
     this.currentIdx = this.images.indexOf(img)
     this.updateArrowActivation()
     this.showBig = true
+  }
+
+  openFullsize() {
+    window.location.href = this.images[this.currentIdx].url
   }
 
   private getGalleryWidth() {

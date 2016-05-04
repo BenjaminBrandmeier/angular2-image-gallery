@@ -101,7 +101,7 @@ function createThumbnail(file, filePath) {
 // TODO: create different resolution stages based and show them based on viewport size
 function createPreview(file, filePath) {
   gm(filePath)
-    .resize(1000)
+    .resize(null, 1000)
     .write(assetBasePath + 'preview/' + file, function(err) {
       if (err) throw err;
     });
