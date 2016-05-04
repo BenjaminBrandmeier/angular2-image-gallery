@@ -28,8 +28,12 @@ Start the developing server with:
 ng serve
 ```
 
-## Built which
+## Built with
 
 This project is based on [angular/angular-cli](https://github.com/angular/angular-cli).
 
 In an earlier version I used the [AngularClass/angular2-webpack-starter](https://github.com/AngularClass/angular2-webpack-starter) seed.
+
+## Troubleshooting
+
+If the convert process fails make sure you have some swap space ready.
