@@ -36,13 +36,6 @@
   width: 100%;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.95);
-  transition: all ease-out 1.0s;
-}
-.outerContainer.ng-enter {
-  background-color: rgba(0, 0, 0, 0.0);
-}
-.outerContainer.ng-enter-active {
-  background-color: rgba(0, 0, 0, 0.95);
 }
 .imageContainer {
   position: absolute;
@@ -63,8 +56,6 @@
   max-height: 100%;
   max-width: 100%;
   opacity: 1.0;
-  transform: translate(0px, 0px);
-  transition: all ease-out 1.0s;
 }
 .arrow {
   height: 50px;
@@ -84,32 +75,14 @@
   opacity: 1.0;
   transition: all ease-out 0.5s;
 }
-.activeArrow.ng-enter {
-  opacity: 0.4;
-}
-.activeArrow.ng-enter-active {
-  opacity: 1.0;
-}
 :not(.activeArrow).arrow {
   opacity: 0.4;
   transition: all ease-out 0.5s;
-}
-:not(.activeArrow).arrow.ng-enter {
-  opacity: 1.0;
-}
-:not(.activeArrow).arrow.ng-enter-active {
-  opacity: 0.4;
 }
 .activeArrow:hover {
   opacity: 0.8;
   cursor: pointer;
   transition: all ease-out 0.5s;
-}
-.activeArrow.ng-enter:hover {
-  opacity: 1.0;
-}
-.activeArrow.ng-enter-active:hover {
-  opacity: 0.8;
 }
 .buttonContainer {
   position: absolute;
