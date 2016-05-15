@@ -1,12 +1,12 @@
 <!doctype html>
 <html>
-
 <head>
   <meta charset="utf-8">
-  <title>Angular 2 Image Gallery</title>
+  <title>Gallery</title>
+  <base href="/">
   {{content-for 'head'}}
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Service worker support is disabled by default.
        Install the worker script and uncomment to enable.
@@ -20,7 +20,6 @@
   </script>
   -->
 </head>
-
 <body style="margin:0">
 
   <div style="margin: 0px 40px 40px 40px">
@@ -31,26 +30,14 @@
   </div>
 
   <script src="vendor/es6-shim/es6-shim.js"></script>
-  <script src="vendor/systemjs/dist/system-polyfills.js"></script>
-  <script src="vendor/angular2/bundles/angular2-polyfills.js"></script>
+  <script src="vendor/reflect-metadata/Reflect.js"></script>
   <script src="vendor/systemjs/dist/system.src.js"></script>
-  <script src="vendor/rxjs/bundles/Rx.js"></script>
-
-  <script src="vendor/angular2/bundles/angular2.dev.js"></script>
-  <script src="vendor/angular2/bundles/http.dev.js"></script>
-  <script src="vendor/angular2/bundles/router.dev.js"></script>
+  <script src="vendor/zone.js/dist/zone.js"></script>
 
   <script>
-    System.config({
-      packages: {
-        app: {
-          format: 'register',
-          defaultExtension: 'js'
-        }
-      }
-    });
-    System.import('app.js').then(null, console.error.bind(console));
+    System.import('system-config.js').then(function () {
+      System.import('main');
+    }).catch(console.error.bind(console));
   </script>
 </body>
-
 </html>

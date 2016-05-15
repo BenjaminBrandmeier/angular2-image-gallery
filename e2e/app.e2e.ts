@@ -9,6 +9,6 @@ describe('gallery App', function() {
 
   it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('gallery Works!');
+    expect(page.getParagraphText()).toEqual('gallery works!');
   });
 });

@@ -1,7 +1,7 @@
 <div class="galleryContainer" #galleryContainer>
   <div class="innerGalleryContainer">
-    <div *ngFor='#imgrow of gallery; #i = index' class="imagerow">
-      <img *ngFor='#img of imgrow; #j = index' class="thumbnail" [style.width]="img.width + 'px'" [style.height]="img.height + 'px'" (click)="openImageViewer(img)" [src]="img.thumbnail" />
+    <div *ngFor='let imgrow of gallery; let i = index' class="imagerow">
+      <img *ngFor='let img of imgrow; let j = index' class="thumbnail" [style.width.px]="img.width" [style.height.px]="img.height" (click)="openImageViewer(img)" [src]="img.thumbnail" />
     </div>
   </div>
 </div>

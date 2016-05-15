@@ -23,3 +23,6 @@ testem.log
 # e2e
 /e2e/*.js
 /e2e/*.map
+
+#System Files
+.DS_Store

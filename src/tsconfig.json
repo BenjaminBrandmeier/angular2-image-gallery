@@ -5,19 +5,19 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "mapRoot": "",
-    "module": "system",
+    "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noImplicitAny": false,
     "outDir": "../dist/",
     "rootDir": ".",
     "sourceMap": true,
-    "sourceRoot": "/",
-    "target": "es5"
+    "target": "es5",
+    "inlineSources": true
   },
 
   "files": [
-    "app.ts",
+    "main.ts",
     "typings.d.ts"
   ]
 }

@@ -4,6 +4,6 @@ export class GalleryPage {
   }
 
   getParagraphText() {
-    return element(by.css('gallery-app p')).getText();
+    return element(by.css('gallery-app h1')).getText();
   }
 }

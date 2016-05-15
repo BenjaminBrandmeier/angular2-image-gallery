@@ -1,7 +1,6 @@
-import {Router, RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS} from 'angular2/router';
-import {CliRouteConfig} from './route-config';
-import {Component, NgZone, ViewChild, ElementRef} from 'angular2/core';
-import {Http, Response, HTTP_PROVIDERS} from 'angular2/http';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router';
+import {Component, NgZone, ViewChild, ElementRef} from '@angular/core';
+import {Http, Response} from '@angular/http';
 import 'rxjs/Rx';
 
 interface IImage {
@@ -13,20 +12,15 @@ interface IImage {
 }
 
 @Component({
+  moduleId: module.id,
   selector: 'gallery',
-  providers: [ROUTER_PROVIDERS, HTTP_PROVIDERS],
-  templateUrl: 'app/gallery.html',
-  directives: [ROUTER_DIRECTIVES],
-  pipes: [],
-  styleUrls: ['app/gallery.css'],
+  templateUrl: 'gallery.component.html',
+  styleUrls: ['gallery.component.css'],
   host: {
     '(document:keydown)': '_keydown($event)',
   }
 })
-@RouteConfig([
-
-].concat(CliRouteConfig))
-export class GalleryApp {
+export class GalleryAppComponent {
   @ViewChild('galleryContainer') galleryContainer: ElementRef;
 
   localState = { value: '' }
@@ -47,19 +41,18 @@ export class GalleryApp {
   }
 
   ngOnInit() {
-
     window.onresize = function(event) {
       this._ngZone.run(() => {
         this.scaleGallery()
       })
     }.bind(this)
+  }
 
+  ngAfterViewInit() {
     this.fetchDataAndRender()
   }
 
   fetchDataAndRender() {
-
-    console.log('THIS.HTTP.GET', this.http.get)
 
     this.http.get(this.galleryBasePath + 'data.json')
       .map((res: Response) => res.json())
@@ -207,6 +200,10 @@ export class GalleryApp {
   }
 
   private getGalleryWidth() {
+    if (this.galleryContainer.nativeElement.clientWidth == 0) {
+
+    }
+    // console.log(this.galleryContainer.nativeElement.clientWidth)
     return this.galleryContainer.nativeElement.clientWidth
   }
 }
