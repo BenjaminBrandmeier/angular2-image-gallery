@@ -48,7 +48,7 @@ export class GalleryAppComponent {
     }.bind(this)
   }
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
     this.fetchDataAndRender()
   }
 
@@ -78,7 +78,7 @@ export class GalleryAppComponent {
         this.scaleGallery()
       },
       err => console.error(err),
-      () => console.log('done'))
+      () => undefined)
   }
 
   shouldAddCandidate(imgRow: IImage[], candidate: IImage): boolean {
@@ -200,10 +200,7 @@ export class GalleryAppComponent {
   }
 
   private getGalleryWidth() {
-    if (this.galleryContainer.nativeElement.clientWidth == 0) {
-
-    }
-    // console.log(this.galleryContainer.nativeElement.clientWidth)
-    return this.galleryContainer.nativeElement.clientWidth
+    // don't use clientWidth because IE 11 is having a hard time with it.
+    return this.galleryContainer.nativeElement.scrollWidth
   }
 }
