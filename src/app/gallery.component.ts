@@ -26,7 +26,7 @@ export class GalleryAppComponent {
   localState = { value: '' }
   currentImg: string
   currentIdx: number = 0
-  arrows: string[] = ['assets/img/left.svg', 'assets/img/right.svg']
+  arrows: string[] = ['assets/img/icon/left.svg', 'assets/img/icon/right.svg']
   galleryBasePath: string = 'assets/img/gallery/'
   showBig: boolean = false
   leftArrowActive: boolean = true

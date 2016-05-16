@@ -109,4 +109,5 @@
   color: #aaa;
   font-size: 1.2em;
   margin-right: 30px;
+  text-shadow: -1px 0 #444, 0 1px #444, 1px 0 #444, 0 -1px #444;
 }

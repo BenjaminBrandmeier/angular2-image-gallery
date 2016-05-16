@@ -11,7 +11,7 @@
   <img [ngClass]="{'activeArrow': rightArrowActive}" class="arrow right" [src]="arrows[1]" (click)="navigateRight()" [hidden]="!showBig" />
   <div class="buttonContainer" [hidden]="!showBig">
     <span class="action fullsize" (click)="openFullsize()" [hidden]="!showBig">100%</span>
-    <img class="action close" src="assets/img/close.svg" (click)="showBig = !showBig" [hidden]="!showBig" />
+    <img class="action close" src="assets/img/icon/close.svg" (click)="showBig = !showBig" [hidden]="!showBig" />
   </div>
   <div class="imageContainer" [hidden]="!showBig">
     <img class="image" [src]="images[currentIdx].preview" [hidden]="!showBig" />
