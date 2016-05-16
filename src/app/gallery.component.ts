@@ -200,7 +200,10 @@ export class GalleryAppComponent {
   }
 
   private getGalleryWidth() {
-    // don't use clientWidth because IE 11 is having a hard time with it.
-    return this.galleryContainer.nativeElement.scrollWidth
+    if (this.galleryContainer.nativeElement.clientWidth == 0) {
+      // IE11
+      return this.galleryContainer.nativeElement.scrollWidth
+    }
+    return this.galleryContainer.nativeElement.clientWidth
   }
 }
