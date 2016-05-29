@@ -1,3 +1,8 @@
+body {
+  margin: 0;
+  background-color: #fff;
+  color: #222;
+}
 @media screen and (min-width: 600px) {
   .mainContainer {
     margin: 0px 40px 40px 40px;
@@ -7,4 +12,14 @@
   .mainContainer {
     margin: 0px 0px 40px 2px;
   }
+}
+.mainContainer * {
+  font-family: sans-serif;
+}
+.mainContainer a {
+  font-weight: 800;
+  text-decoration: none;
+}
+.headlineContainer {
+  margin: 90px 0px 60px 0px;
 }
