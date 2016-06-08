@@ -3,12 +3,12 @@ body {
   background-color: #fff;
   color: #222;
 }
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 700px) {
   .mainContainer {
     margin: 0px 40px 40px 40px;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .mainContainer {
     margin: 0px 0px 40px 2px;
   }
@@ -21,5 +21,5 @@ body {
   text-decoration: none;
 }
 .headlineContainer {
-  margin: 90px 0px 60px 0px;
+  margin: 80px 0px 40px 5px;
 }

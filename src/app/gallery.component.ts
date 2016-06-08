@@ -34,6 +34,7 @@ export class GalleryAppComponent {
   images: any[] = [{ url: '' }]
   gallery: any[] = []
   heightCoefficient = 6
+  imgIterations = 1;
 
   // TypeScript public modifiers
   constructor(private _ngZone: NgZone, private http: Http, private router: Router) {
@@ -46,10 +47,24 @@ export class GalleryAppComponent {
         this.scaleGallery()
       })
     }.bind(this)
+
+    window.onscroll = function(event) {
+      this._ngZone.run(() => {
+        this.reloadImages()
+      })
+    }.bind(this)
   }
 
   ngAfterContentInit() {
     this.fetchDataAndRender()
+
+    var clientHeight = document.documentElement.clientHeight
+    var i = 0
+
+    // TODO: Handle async data fetch
+    while (this.getMaxHeight() <= clientHeight && i++ < 5) {
+      this.reloadImages(true)
+    }
   }
 
   fetchDataAndRender() {
@@ -63,7 +78,7 @@ export class GalleryAppComponent {
         let tempRow = [data[0]]
         let rowIndex = 0
 
-        for (var i = 0; i < data.length; i++) {
+        for (var i = 0; i < this.imgIterations && i < data.length; i++) {
           while (data[i + 1] && this.shouldAddCandidate(tempRow, data[i + 1])) {
             i++
           }
@@ -205,5 +220,21 @@ export class GalleryAppComponent {
       return this.galleryContainer.nativeElement.scrollWidth
     }
     return this.galleryContainer.nativeElement.clientWidth
+  }
+
+  private reloadImages(force : boolean) {
+    var clientHeight = document.documentElement.clientHeight
+    var scrollTop = document.body.scrollTop
+
+    if (scrollTop + clientHeight > this.getMaxHeight() - (clientHeight) || force) {
+      this.imgIterations += 5
+      this.fetchDataAndRender()
+    }
+  }
+
+  private getMaxHeight() {
+    var body = document.body
+    var elm = document.documentElement
+    return Math.max( body.scrollHeight, body.offsetHeight, elm.clientHeight, elm.scrollHeight, elm.offsetHeight )
   }
 }
