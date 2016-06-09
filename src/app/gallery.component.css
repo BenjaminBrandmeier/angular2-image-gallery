@@ -12,9 +12,9 @@
   padding-right: 2px;
 }
 .galleryContainer img:hover {
-  /*-webkit-filter: brightness(50%);*/
+  -webkit-filter: brightness(50%);
   filter: brightness(50%);
-  /*transition: all ease-out 0.2s;*/
+  transition: all ease-out 0.2s;
   cursor: pointer;
 }
 .imagerow {
