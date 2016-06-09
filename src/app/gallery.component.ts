@@ -22,6 +22,7 @@ interface IImage {
 })
 export class GalleryAppComponent {
   @ViewChild('galleryContainer') galleryContainer: ElementRef;
+  @ViewChild('asyncLoadingContainer') asyncLoadingContainer: ElementRef;
 
   localState = { value: '' }
   currentImg: string
@@ -35,6 +36,7 @@ export class GalleryAppComponent {
   gallery: any[] = []
   heightCoefficient = 6
   imgIterations = 1;
+  allImagesLoaded = false
 
   // TypeScript public modifiers
   constructor(private _ngZone: NgZone, private http: Http, private router: Router) {
@@ -50,21 +52,13 @@ export class GalleryAppComponent {
 
     window.onscroll = function(event) {
       this._ngZone.run(() => {
-        this.reloadImages()
+        this.checkForAsyncReload()
       })
     }.bind(this)
   }
 
   ngAfterContentInit() {
     this.fetchDataAndRender()
-
-    var clientHeight = document.documentElement.clientHeight
-    var i = 0
-
-    // TODO: Handle async data fetch
-    while (this.getMaxHeight() <= clientHeight && i++ < 5) {
-      this.reloadImages(true)
-    }
   }
 
   fetchDataAndRender() {
@@ -77,8 +71,9 @@ export class GalleryAppComponent {
 
         let tempRow = [data[0]]
         let rowIndex = 0
+        let i = 0;
 
-        for (var i = 0; i < this.imgIterations && i < data.length; i++) {
+        for (i; i < this.imgIterations && i < data.length; i++) {
           while (data[i + 1] && this.shouldAddCandidate(tempRow, data[i + 1])) {
             i++
           }
@@ -91,6 +86,13 @@ export class GalleryAppComponent {
         }
 
         this.scaleGallery()
+
+        if (i >= data.length) {
+          this.allImagesLoaded = true
+        }
+        else {
+          this.checkForAsyncReload();
+        }
       },
       err => console.error(err),
       () => undefined)
@@ -222,19 +224,20 @@ export class GalleryAppComponent {
     return this.galleryContainer.nativeElement.clientWidth
   }
 
-  private reloadImages(force : boolean) {
-    var clientHeight = document.documentElement.clientHeight
-    var scrollTop = document.body.scrollTop
+  private checkForAsyncReload() {
+    if (!this.allImagesLoaded) {
+      var loadingDiv: any = this.asyncLoadingContainer.nativeElement
 
-    if (scrollTop + clientHeight > this.getMaxHeight() - (clientHeight) || force) {
-      this.imgIterations += 5
-      this.fetchDataAndRender()
+      var elmTop = loadingDiv.getBoundingClientRect().top
+      var elmBottom = loadingDiv.getBoundingClientRect().bottom
+
+      var isVisible = (elmTop >= 0) && (elmBottom <= window.innerHeight)
+
+      if (isVisible) {
+        this.imgIterations += 5
+        this.fetchDataAndRender()
+      }
     }
   }
 
-  private getMaxHeight() {
-    var body = document.body
-    var elm = document.documentElement
-    return Math.max( body.scrollHeight, body.offsetHeight, elm.clientHeight, elm.scrollHeight, elm.offsetHeight )
-  }
 }

@@ -3,6 +3,7 @@
     <div *ngFor='let imgrow of gallery; let i = index' class="imagerow">
       <img *ngFor='let img of imgrow; let j = index' class="thumbnail" [style.width.px]="img.width" [style.height.px]="img.height" (click)="openImageViewer(img)" [src]="img.thumbnail" />
     </div>
+    <div #asyncLoadingContainer class="asyncLoadingContainer"></div>
   </div>
 </div>
 
