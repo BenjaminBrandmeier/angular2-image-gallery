@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 .galleryContainer img:not(:last-child) {
-  padding-right: 2px;
+  padding-right: 1px;
 }
 .galleryContainer img:hover {
   -webkit-filter: brightness(50%);
@@ -18,7 +18,7 @@
   cursor: pointer;
 }
 .imagerow {
-  padding: 0px 0px 2px 0px;
+  padding: 0px 0px 1px 0px;
   display: flex;
 }
 ::-webkit-scrollbar {
@@ -29,7 +29,7 @@
   background-color: transparent;
   height: 0px;
   width: 0px;
-  bottom: 100px;
+  bottom: 120px;
 }
 
 /* Image viewer */

@@ -91,7 +91,7 @@ export class GalleryAppComponent {
           this.allImagesLoaded = true
         }
         else {
-          this.checkForAsyncReload();
+          this.checkForAsyncReload()
         }
       },
       err => console.error(err),
@@ -107,9 +107,9 @@ export class GalleryAppComponent {
   }
 
   calcRowHeight(imgRow: IImage[]) {
-    let xsum = this.normalizeHeight(imgRow)
+    let xsum = this.calcOriginalRowWidth(imgRow)
 
-    let ratio = (this.getGalleryWidth()) / xsum
+    let ratio = this.getGalleryWidth() / xsum
     let rowHeight = imgRow[0].height * ratio
 
     return rowHeight
@@ -117,10 +117,10 @@ export class GalleryAppComponent {
 
   scaleGallery() {
     this.gallery.forEach((imgRow) => {
-      let xsum = this.normalizeHeight(imgRow)
+      let xsum = this.calcOriginalRowWidth(imgRow)
 
       if (imgRow != this.gallery[this.gallery.length - 1]) {
-        let ratio = (this.getGalleryWidth()) / xsum
+        let ratio = this.getGalleryWidth() / xsum
 
         imgRow.forEach((img) => {
           img.width = img.width * ratio
@@ -130,20 +130,19 @@ export class GalleryAppComponent {
     })
   }
 
-  normalizeHeight(imgRow: IImage[]) {
+  calcOriginalRowWidth(imgRow: IImage[]) {
     let xsum = 0
     imgRow.forEach((img) => {
       let individualRatio = this.calcIdealHeight() / img.height
       img.width = img.width * individualRatio
       img.height = this.calcIdealHeight()
-      xsum += img.width + 2
+      xsum += img.width + 1
     })
 
     return xsum
   }
 
   calcIdealHeight() {
-    // let idealHeight = Math.log(this.getGalleryWidth() * 100000) * this.heightCoefficient
     let idealHeight = this.getGalleryWidth() / this.heightCoefficient
     return idealHeight
   }
@@ -239,5 +238,4 @@ export class GalleryAppComponent {
       }
     }
   }
-
 }

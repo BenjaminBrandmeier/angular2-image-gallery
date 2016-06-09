@@ -9,7 +9,5 @@ if (environment.production) {
   enableProdMode();
 }
 
-// bootstrap(GalleryAppComponent);
-
 bootstrap(GalleryAppComponent, [HTTP_PROVIDERS, ROUTER_PROVIDERS]);
 // bootstrap(GalleryAppComponent, [provide(APP_BASE_HREF, {useValue : '/' })]);
