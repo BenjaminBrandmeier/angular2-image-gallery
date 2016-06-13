@@ -1,7 +1,7 @@
-import {Router, ROUTER_DIRECTIVES} from '@angular/router';
-import {Component, NgZone, ViewChild, ElementRef} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import 'rxjs/Rx';
+import {Router, ROUTER_DIRECTIVES} from '@angular/router'
+import {Component, NgZone, ViewChild, ElementRef} from '@angular/core'
+import {Http, Response} from '@angular/http'
+import 'rxjs/Rx'
 
 interface IImage {
   url: string
@@ -21,8 +21,8 @@ interface IImage {
   }
 })
 export class GalleryAppComponent {
-  @ViewChild('galleryContainer') galleryContainer: ElementRef;
-  @ViewChild('asyncLoadingContainer') asyncLoadingContainer: ElementRef;
+  @ViewChild('galleryContainer') galleryContainer: ElementRef
+  @ViewChild('asyncLoadingContainer') asyncLoadingContainer: ElementRef
 
   thumbnailBasePath = 'assets/img/gallery/preview_xxs/'
   localState = { value: '' }
@@ -36,7 +36,7 @@ export class GalleryAppComponent {
   images: any[] = [{ url: '' }]
   gallery: any[] = []
   heightCoefficient = 6
-  imgIterations = 1;
+  imgIterations = 1
   allImagesLoaded = false
   previewImage = ''
 
@@ -156,22 +156,22 @@ export class GalleryAppComponent {
 
   _keydown(event: KeyboardEvent) {
     let prevent = [37, 39, 27]
-      .find(no => no === event.keyCode);
-    if (prevent) event.preventDefault();
+      .find(no => no === event.keyCode)
+    if (prevent) event.preventDefault()
 
     switch (prevent) {
       case 37:
         // left arrow
-        this.navigateLeft();
-        break;
+        this.navigateLeft()
+        break
       case 39:
         // right arrow
-        this.navigateRight();
-        break;
+        this.navigateRight()
+        break
       case 27:
         // esc
         this.showBig = false
-        break;
+        break
     }
   }
 
@@ -206,7 +206,7 @@ export class GalleryAppComponent {
     else {
       this.rightArrowActive = true
     }
-    this.updatePreviewImage();
+    this.updatePreviewImage()
   }
 
   openImageViewer(img) {

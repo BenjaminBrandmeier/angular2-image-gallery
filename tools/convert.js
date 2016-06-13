@@ -24,8 +24,8 @@ function convert() {
 
   var files = fs.readdirSync(basePath);
 
-  // TODO: Implement different sorting mechanisms (e.g. by filename, manually, ...)
-  sortFunction = sortByCreationDate;
+  // sortFunction = sortByCreationDate;
+  sortFunction = sortByFileName;
 
   precheckFile(files, 0);
 
@@ -82,8 +82,8 @@ function identifyImage(files, fidx, filePath, file) {
         name: file,
         raw: rawBasePath + file,
         date: features['Profile-EXIF']['Date Time Original'],
-        width: Math.round((375/features.size.height)*features.size.width),
-        height: 375
+        width: features.size.width,
+        height: features.size.height
       };
 
       imageMetadataArray.push(fileMetadata);
@@ -117,6 +117,24 @@ function sortByCreationDate() {
     if (a.date > b.date) {
       return 1;
     } else if (a.date == b.date) {
+      return 0;
+    } else {
+      return -1;
+    }
+  });
+  console.log('...done (sorting)');
+
+  // save metadata file
+  saveMetadataFile();
+}
+
+function sortByFileName() {
+  console.log('\n\nSorting images by file name...');
+
+  imageMetadataArray.sort(function(a, b) {
+    if (a.name > b.name) {
+      return 1;
+    } else if (a.name == b.name) {
       return 0;
     } else {
       return -1;
