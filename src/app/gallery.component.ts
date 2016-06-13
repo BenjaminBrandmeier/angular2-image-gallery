@@ -24,6 +24,7 @@ export class GalleryAppComponent {
   @ViewChild('galleryContainer') galleryContainer: ElementRef;
   @ViewChild('asyncLoadingContainer') asyncLoadingContainer: ElementRef;
 
+  thumbnailBasePath = 'assets/img/gallery/preview_xxs/'
   localState = { value: '' }
   currentImg: string
   currentIdx: number = 0
@@ -37,6 +38,7 @@ export class GalleryAppComponent {
   heightCoefficient = 6
   imgIterations = 1;
   allImagesLoaded = false
+  previewImage = ''
 
   // TypeScript public modifiers
   constructor(private _ngZone: NgZone, private http: Http, private router: Router) {
@@ -47,6 +49,7 @@ export class GalleryAppComponent {
     window.onresize = function(event) {
       this._ngZone.run(() => {
         this.scaleGallery()
+        this.updatePreviewImage()
       })
     }.bind(this)
 
@@ -71,7 +74,7 @@ export class GalleryAppComponent {
 
         let tempRow = [data[0]]
         let rowIndex = 0
-        let i = 0;
+        let i = 0
 
         for (i; i < this.imgIterations && i < data.length; i++) {
           while (data[i + 1] && this.shouldAddCandidate(tempRow, data[i + 1])) {
@@ -177,7 +180,7 @@ export class GalleryAppComponent {
       this.currentIdx++
       this.updateArrowActivation()
     }
-    this.currentImg = this.images[this.currentIdx].url
+    this.currentImg = this.thumbnailBasePath + this.images[this.currentIdx].name
 
   }
 
@@ -186,7 +189,7 @@ export class GalleryAppComponent {
       this.currentIdx--
       this.updateArrowActivation()
     }
-    this.currentImg = this.images[this.currentIdx].url
+    this.currentImg = this.thumbnailBasePath + this.images[this.currentIdx].name
   }
 
   updateArrowActivation() {
@@ -203,6 +206,7 @@ export class GalleryAppComponent {
     else {
       this.rightArrowActive = true
     }
+    this.updatePreviewImage();
   }
 
   openImageViewer(img) {
@@ -212,7 +216,7 @@ export class GalleryAppComponent {
   }
 
   openFullsize() {
-    window.location.href = this.images[this.currentIdx].url
+    window.location.href = 'assets/img/gallery/raw/' + this.images[this.currentIdx].name
   }
 
   private getGalleryWidth() {
@@ -237,5 +241,28 @@ export class GalleryAppComponent {
         this.fetchDataAndRender()
       }
     }
+  }
+
+  private updatePreviewImage() {
+      let height = window.innerHeight
+      let basePath = 'assets/img/gallery/'
+
+      if (height <= 375) {
+        basePath += 'preview_xxs/'
+      } else if (height <= 768) {
+        basePath += 'preview_xs/'
+      } else if (height <= 1080) {
+        basePath += 'preview_s/'
+      } else if (height <= 1600) {
+        basePath += 'preview_m/'
+      } else if (height <= 2160) {
+        basePath += 'preview_l/'
+      } else if (height <= 2880) {
+        basePath += 'preview_xl/'
+      } else {
+        basePath += 'raw'
+      }
+
+      this.previewImage = basePath + this.images[this.currentIdx].name
   }
 }

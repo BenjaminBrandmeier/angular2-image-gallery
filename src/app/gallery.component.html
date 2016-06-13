@@ -1,7 +1,7 @@
 <div class="galleryContainer" #galleryContainer>
   <div class="innerGalleryContainer">
     <div *ngFor='let imgrow of gallery; let i = index' class="imagerow">
-      <img *ngFor='let img of imgrow; let j = index' class="thumbnail" [style.width.px]="img.width" [style.height.px]="img.height" (click)="openImageViewer(img)" [src]="img.thumbnail" />
+      <img *ngFor='let img of imgrow; let j = index' class="thumbnail" [style.width.px]="img.width" [style.height.px]="img.height" (click)="openImageViewer(img)" [src]="thumbnailBasePath + img.name" />
     </div>
     <div #asyncLoadingContainer class="asyncLoadingContainer"></div>
   </div>
@@ -15,7 +15,7 @@
     <img class="action close" src="assets/img/icon/close.svg" (click)="showBig = !showBig" [hidden]="!showBig" />
   </div>
   <div class="imageContainer" [hidden]="!showBig">
-    <img class="image" [src]="images[currentIdx].preview" [hidden]="!showBig" />
+    <img class="image" [src]="previewImage" [hidden]="!showBig" />
   </div>
 </div>
 

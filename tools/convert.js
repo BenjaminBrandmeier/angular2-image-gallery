@@ -4,76 +4,32 @@ var mkdirp = require('mkdirp');
 var process = require("process");
 var gm = require('gm');
 
+var sortFunction;
 var projectRoot = getProjectRootPath();
 var basePath = projectRoot + "/tools/images_to_convert";
 var assetBasePath = projectRoot + "/src/assets/img/gallery/";
 var rawBasePath = "assets/img/gallery/raw/";
-var thumbnailBasePath = "assets/img/gallery/thumbnail/";
-var previewBasePath = "assets/img/gallery/preview/";
 var imageMetadataArray = [];
+var resolutions = [
+  { name: 'preview_xxs', height: 375 },
+  { name: 'preview_xs', height: 768 },
+  { name: 'preview_s', height: 1080 },
+  { name: 'preview_m', height: 1600 },
+  { name: 'preview_l', height: 2160 },
+  { name: 'preview_xl', height: 2880 }
+];
 
 function convert() {
   createFolderStructure();
 
-  fs.readdir(basePath, function(err, files) {
-    if (err) throw err;
+  var files = fs.readdirSync(basePath);
 
-    // TODO: Implement different sorting mechanisms (e.g. by filename, manually, ...)
-    var sortFunction = sortByCreationDate;
+  // TODO: Implement different sorting mechanisms (e.g. by filename, manually, ...)
+  sortFunction = sortByCreationDate;
 
-    var processCount = 0;
-    var imagesToProcess = 0;
+  precheckFile(files, 0);
 
-    console.log('\nIdentifying images...')
-    files.forEach(function(file, index) {
-      if (file != '.gitignore') {
-        var filePath = path.join(basePath, file);
-        if (fs.lstatSync(filePath).isFile()) {
-          process.stdout.write('Identified '+(++imagesToProcess)+' images.\r');
-          gm(filePath)
-            .identify(function(err, features) {
-              if (err) {
-                console.log(filePath)
-                console.log(err)
-                throw err;
-              }
-
-              var fileMetadata = {
-                url: rawBasePath + file,
-                thumbnail: thumbnailBasePath + file,
-                preview: previewBasePath + file,
-                date: features['Profile-EXIF']['Date Time Original'],
-                width: features.size.width,
-                height: features.size.height
-              };
-
-              imageMetadataArray[processCount] = fileMetadata;
-
-              // copy raw images to assets folder
-              fs.createReadStream(filePath).pipe(fs.createWriteStream(assetBasePath + 'raw/' + file));
-
-              // create thumbnails and save them
-              createThumbnail(file, filePath);
-
-              // create thumbnails and save them
-              createPreview(file, filePath);
-
-              process.stdout.write('Converted '+(++processCount)+' images.\r');
-              if (processCount == imagesToProcess) {
-
-                // after image processing sort image metadata as requested
-                sortFunction();
-
-                // save meta data file
-                saveMetadataFile();
-              }
-            });
-        }
-      }
-    });
-    console.log('\n\nConverting images...');
-    process.stdout.write('Converted 0 images.\r');
-  });
+  console.log('\nConverting images...');
 }
 
 function createFolderStructure() {
@@ -81,29 +37,76 @@ function createFolderStructure() {
   mkdirp.sync(assetBasePath + 'raw', function(err) {
     if (err) throw err;
   });
-  mkdirp.sync(assetBasePath + 'thumbnail', function(err) {
-    if (err) throw err;
-  });
-  mkdirp.sync(assetBasePath + 'preview', function(err) {
-    if (err) throw err;
-  });
+
+  for (var i in resolutions) {
+    mkdirp.sync(assetBasePath + resolutions[i].name, function(err) {
+      if (err) throw err;
+    });
+  }
+
   console.log('...done (folder structure)');
 }
 
-function createThumbnail(file, filePath) {
+function precheckFile(files, fidx) {
+  if (fidx < files.length) {
+    var file = files[fidx];
+    if (file != '.gitignore') {
+      var filePath = path.join(basePath, file);
+      if (fs.lstatSync(filePath).isFile()) {
+        identifyImage(files, fidx, filePath, file);
+      }
+      else {
+        precheckFile(files, ++fidx);
+      }
+    }
+    else {
+      precheckFile(files, ++fidx);
+    }
+  }
+  else {
+    // after image processing sort image metadata as requested
+    sortFunction();
+  }
+}
+
+function identifyImage(files, fidx, filePath, file) {
   gm(filePath)
-    .resize(null, 350)
-    .write(assetBasePath + 'thumbnail/' + file, function(err) {
-      if (err) throw err;
+    .identify(function(err, features) {
+      if (err) {
+        console.log(filePath)
+        console.log(err)
+        throw err;
+      }
+
+      var fileMetadata = {
+        name: file,
+        raw: rawBasePath + file,
+        date: features['Profile-EXIF']['Date Time Original'],
+        width: Math.round((375/features.size.height)*features.size.width),
+        height: 375
+      };
+
+      imageMetadataArray.push(fileMetadata);
+
+      // copy raw image to assets folder
+      fs.createReadStream(filePath).pipe(fs.createWriteStream(assetBasePath + 'raw/' + file));
+
+      createPreviewImageSync(files, fidx, filePath, file, 0);
     });
 }
 
-// TODO: create different resolution stages based and show them based on viewport size
-function createPreview(file, filePath) {
-  gm(filePath)
-    .resize(null, 1000)
-    .write(assetBasePath + 'preview/' + file, function(err) {
-      if (err) throw err;
+function createPreviewImageSync(files, fidx, filePath, file, index) {
+  // create various preview images
+    gm(filePath)
+      .resize(null, resolutions[index].height)
+      .write(assetBasePath + resolutions[index].name + '/' + file, function(err) {
+        if (err) throw err;
+        if (index < resolutions.length-1) {
+          createPreviewImageSync(files, fidx, filePath, file, ++index);
+        } else {
+          process.stdout.write('Converted '+(fidx)+' images.\r');
+          precheckFile(files, ++fidx);
+        }
     });
 }
 
@@ -120,6 +123,9 @@ function sortByCreationDate() {
     }
   });
   console.log('...done (sorting)');
+
+  // save metadata file
+  saveMetadataFile();
 }
 
 function saveMetadataFile() {
