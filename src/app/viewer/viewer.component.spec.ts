@@ -5,13 +5,13 @@ import {
   it,
   inject
 } from '@angular/core/testing';
-import { GalleryAppComponent } from '../app/gallery.component';
+import { ViewerComponent } from './viewer.component';
 
-beforeEachProviders(() => [GalleryAppComponent]);
+beforeEachProviders(() => [ViewerComponent]);
 
-describe('App: Gallery', () => {
+describe('App: Viewer', () => {
   it('should create the app',
-      inject([GalleryAppComponent], (app: GalleryAppComponent) => {
+      inject([ViewerComponent], (app: ViewerComponent) => {
     expect(app).toBeTruthy();
   }));
 

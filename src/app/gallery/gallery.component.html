@@ -1,0 +1,10 @@
+<div #galleryContainer class="galleryContainer" (window:resize)="onResize($event)" (window:scroll)="checkForAsyncReload($event)">
+  <div class="innerGalleryContainer">
+    <div *ngFor='let imgrow of gallery; let i = index' class="imagerow">
+      <img *ngFor='let img of imgrow; let j = index' class="thumbnail" [style.width.px]="img.width" [style.height.px]="img.height" (click)="openImageViewer(img)" [src]="thumbnailBasePath + img.name" />
+    </div>
+    <div #asyncLoadingContainer class="asyncLoadingContainer"></div>
+  </div>
+</div>
+
+<viewer [images]="images" [currentIdx]="currentIdx" [showViewer]="showBig" (onClose)="onClose()"></viewer>

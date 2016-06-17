@@ -1,0 +1,122 @@
+/* Image gallery */
+
+.innerGalleryContainer {
+  position: relative;
+}
+.galleryContainer {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.galleryContainer img:not(:last-child) {
+  padding-right: 1px;
+}
+.galleryContainer img:hover {
+  -webkit-filter: brightness(50%);
+  filter: brightness(50%);
+  transition: all ease-out 0.2s;
+  cursor: pointer;
+}
+.imagerow {
+  margin: 0px 1px 1px 0px;
+  overflow: hidden;
+  display: flex;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.asyncLoadingContainer {
+  position: absolute;
+  background-color: transparent;
+  height: 0px;
+  width: 0px;
+  bottom: 120px;
+}
+
+/* Image viewer */
+
+.outerContainer {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.95);
+}
+.imageContainer {
+  position: absolute;
+  float: none;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+.imageContainer img {
+  position: absolute;
+  display: block;
+  margin: auto auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  max-height: 100%;
+  max-width: 100%;
+  opacity: 1.0;
+}
+.arrow {
+  height: 50px;
+  position: absolute;
+  /* use sass variables here once they are ready */
+  top: calc(50% - 50px/2);
+  bottom: 50%;
+  z-index: 1;
+}
+.arrow.left {
+  left: 50px;
+}
+.arrow.right {
+  right: 50px;
+}
+.activeArrow {
+  opacity: 1.0;
+  transition: all ease-out 0.5s;
+}
+:not(.activeArrow).arrow {
+  opacity: 0.4;
+  transition: all ease-out 0.5s;
+}
+.activeArrow:hover {
+  opacity: 0.8;
+  cursor: pointer;
+  transition: all ease-out 0.5s;
+}
+.buttonContainer {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 20px;
+  text-align: center;
+  opacity: 1.0;
+  z-index: 200;
+  transition: all ease-out 0.5s;
+}
+.buttonContainer .action {
+  height: 100%;
+  cursor: pointer;
+  vertical-align: top;
+}
+.buttonContainer .action:focus {
+  outline: 0;
+}
+.buttonContainer .action:hover {
+  background-color: #222;
+  transition: all ease-out 0.3s;
+}
+.buttonContainer .action.fullsize {
+  color: #aaa;
+  font-size: 1.2em;
+  margin-right: 30px;
+  text-shadow: -1px 0 #444, 0 1px #444, 1px 0 #444, 0 -1px #444;
+}

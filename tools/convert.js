@@ -82,8 +82,8 @@ function identifyImage(files, fidx, filePath, file) {
         name: file,
         raw: rawBasePath + file,
         date: features['Profile-EXIF']['Date Time Original'],
-        width: features.size.width,
-        height: features.size.height
+        width: features.size.width * (350/features.size.height),
+        height: 350
       };
 
       imageMetadataArray.push(fileMetadata);

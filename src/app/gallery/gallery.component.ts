@@ -1,6 +1,7 @@
 import {Router, ROUTER_DIRECTIVES} from '@angular/router'
 import {Component, NgZone, ViewChild, ElementRef} from '@angular/core'
 import {Http, Response} from '@angular/http'
+import {ViewerComponent} from '../viewer/viewer.component'
 import 'rxjs/Rx'
 
 interface IImage {
@@ -16,56 +17,32 @@ interface IImage {
   selector: 'gallery',
   templateUrl: 'gallery.component.html',
   styleUrls: ['gallery.component.css'],
-  host: {
-    '(document:keydown)': '_keydown($event)',
-  }
+  directives: [ViewerComponent]
 })
-export class GalleryAppComponent {
+export class GalleryComponent {
   @ViewChild('galleryContainer') galleryContainer: ElementRef
   @ViewChild('asyncLoadingContainer') asyncLoadingContainer: ElementRef
 
   thumbnailBasePath = 'assets/img/gallery/preview_xxs/'
-  localState = { value: '' }
-  currentImg: string
   currentIdx: number = 0
-  arrows: string[] = ['assets/img/icon/left.svg', 'assets/img/icon/right.svg']
   galleryBasePath: string = 'assets/img/gallery/'
   showBig: boolean = false
-  leftArrowActive: boolean = true
-  rightArrowActive: boolean = true
   images: any[] = [{ url: '' }]
   gallery: any[] = []
   heightCoefficient = 6
   imgIterations = 1
   allImagesLoaded = false
-  previewImage = ''
 
   // TypeScript public modifiers
   constructor(private _ngZone: NgZone, private http: Http, private router: Router) {
 
   }
 
-  ngOnInit() {
-    window.onresize = function(event) {
-      this._ngZone.run(() => {
-        this.scaleGallery()
-        this.updatePreviewImage()
-      })
-    }.bind(this)
-
-    window.onscroll = function(event) {
-      this._ngZone.run(() => {
-        this.checkForAsyncReload()
-      })
-    }.bind(this)
-  }
-
-  ngAfterContentInit() {
+  private ngAfterContentInit() {
     this.fetchDataAndRender()
   }
 
-  fetchDataAndRender() {
-
+  private fetchDataAndRender() {
     this.http.get(this.galleryBasePath + 'data.json')
       .map((res: Response) => res.json())
       .subscribe(
@@ -101,7 +78,7 @@ export class GalleryAppComponent {
       () => undefined)
   }
 
-  shouldAddCandidate(imgRow: IImage[], candidate: IImage): boolean {
+  private shouldAddCandidate(imgRow: IImage[], candidate: IImage): boolean {
     let oldDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
     imgRow.push(candidate)
     let newDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
@@ -109,7 +86,7 @@ export class GalleryAppComponent {
     return Math.abs(oldDifference) > Math.abs(newDifference)
   }
 
-  calcRowHeight(imgRow: IImage[]) {
+  private calcRowHeight(imgRow: IImage[]) {
     let xsum = this.calcOriginalRowWidth(imgRow)
 
     let ratio = this.getGalleryWidth() / xsum
@@ -118,7 +95,7 @@ export class GalleryAppComponent {
     return rowHeight
   }
 
-  scaleGallery() {
+  private scaleGallery() {
     this.gallery.forEach((imgRow) => {
       let xsum = this.calcOriginalRowWidth(imgRow)
 
@@ -133,7 +110,7 @@ export class GalleryAppComponent {
     })
   }
 
-  calcOriginalRowWidth(imgRow: IImage[]) {
+  private calcOriginalRowWidth(imgRow: IImage[]) {
     let xsum = 0
     imgRow.forEach((img) => {
       let individualRatio = this.calcIdealHeight() / img.height
@@ -145,78 +122,16 @@ export class GalleryAppComponent {
     return xsum
   }
 
-  calcIdealHeight() {
+  private calcIdealHeight() {
     let idealHeight = this.getGalleryWidth() / this.heightCoefficient
     return idealHeight
   }
 
-  isActive(index) {
-    return index == this.currentIdx
-  }
-
-  _keydown(event: KeyboardEvent) {
-    let prevent = [37, 39, 27]
-      .find(no => no === event.keyCode)
-    if (prevent) event.preventDefault()
-
-    switch (prevent) {
-      case 37:
-        // left arrow
-        this.navigateLeft()
-        break
-      case 39:
-        // right arrow
-        this.navigateRight()
-        break
-      case 27:
-        // esc
-        this.showBig = false
-        break
-    }
-  }
-
-  navigateRight() {
-    if (this.currentIdx < this.images.length - 1) {
-      this.currentIdx++
-      this.updateArrowActivation()
-    }
-    this.currentImg = this.thumbnailBasePath + this.images[this.currentIdx].name
-
-  }
-
-  navigateLeft() {
-    if (this.currentIdx > 0) {
-      this.currentIdx--
-      this.updateArrowActivation()
-    }
-    this.currentImg = this.thumbnailBasePath + this.images[this.currentIdx].name
-  }
-
-  updateArrowActivation() {
-    if (this.currentIdx <= 0) {
-      this.leftArrowActive = false
-    }
-    else {
-      this.leftArrowActive = true
-    }
-
-    if (this.currentIdx >= this.images.length - 1) {
-      this.rightArrowActive = false
-    }
-    else {
-      this.rightArrowActive = true
-    }
-    this.updatePreviewImage()
-  }
-
-  openImageViewer(img) {
-    this.currentIdx = this.images.indexOf(img)
-    this.updateArrowActivation()
+  private openImageViewer(img) {
+    this.showBig = undefined
     this.showBig = true
-  }
-
-  openFullsize() {
-    window.location.href = 'assets/img/gallery/raw/' + this.images[this.currentIdx].name
+    this.currentIdx = this.images.indexOf(img)
+    console.log(this.showBig)
   }
 
   private getGalleryWidth() {
@@ -243,26 +158,11 @@ export class GalleryAppComponent {
     }
   }
 
-  private updatePreviewImage() {
-      let height = window.innerHeight
-      let basePath = 'assets/img/gallery/'
+  private onClose() {
+    this.showBig = false
+  }
 
-      if (height <= 375) {
-        basePath += 'preview_xxs/'
-      } else if (height <= 768) {
-        basePath += 'preview_xs/'
-      } else if (height <= 1080) {
-        basePath += 'preview_s/'
-      } else if (height <= 1600) {
-        basePath += 'preview_m/'
-      } else if (height <= 2160) {
-        basePath += 'preview_l/'
-      } else if (height <= 2880) {
-        basePath += 'preview_xl/'
-      } else {
-        basePath += 'raw'
-      }
-
-      this.previewImage = basePath + this.images[this.currentIdx].name
+  private onResize() {
+    this.scaleGallery()
   }
 }

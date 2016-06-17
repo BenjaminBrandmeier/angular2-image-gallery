@@ -1,2 +1,3 @@
 export {environment} from './environment';
-export {GalleryAppComponent} from './gallery.component';
+export {GalleryComponent} from './gallery/gallery.component';
+export {ViewerComponent} from './viewer/viewer.component';
