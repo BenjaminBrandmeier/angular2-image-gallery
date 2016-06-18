@@ -4,10 +4,10 @@ For image preparation node.js and graphicsmagick was used.
 
 This project is pretty much work in progress with plenty ideas in mind.
 
-The alpha version contains lots of expected functionality. Be prepared for a smooth beta version. :)
+The minor version contains lots of expected functionality. Be prepared for a smooth major version. :)
 ## Demo
 
-http://oidamo.de/ng2imggallery/0.1.0-alpha/
+http://oidamo.de/ng2imggallery/0.1.0/
 
 ## Pre-requirements
 
