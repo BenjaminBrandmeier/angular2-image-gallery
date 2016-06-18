@@ -1,13 +1,12 @@
 # ng2imggallery
-An experimental image gallery built with Angular 2.
-For image preparation node.js and graphicsmagick was used.
+A responsive image gallery designed for high resolution images.
+The project consists of a gallery, a viewer and a script for image preparation.
 
-This project is pretty much work in progress with plenty ideas in mind.
+The current state is still pretty much work in progress with plenty of ideas in mind.
 
-The minor version contains lots of expected functionality. Be prepared for a smooth major version. :)
 ## Demo
 
-http://oidamo.de/ng2imggallery/0.1.0/
+http://oidamo.de/ng2imggallery/0.2.0/
 
 ## Pre-requirements
 
@@ -35,7 +34,9 @@ ng serve
 
 ## Built with
 
-This project is based on [angular/angular-cli](https://github.com/angular/angular-cli).
+For image prepration node.js and graphicsmagick was used.
+
+The project is built with [angular/angular-cli](https://github.com/angular/angular-cli).
 
 In an earlier version I used the [AngularClass/angular2-webpack-starter](https://github.com/AngularClass/angular2-webpack-starter) seed.
 
