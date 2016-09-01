@@ -1,3 +1,6 @@
+// Karma configuration file, see link for more information
+// https://karma-runner.github.io/0.13/config/configuration-file.html
+
 module.exports = function (config) {
   config.set({
     basePath: '..',
@@ -20,6 +23,7 @@ module.exports = function (config) {
       { pattern: 'dist/vendor/systemjs/dist/system-polyfills.js', included: true, watched: false },
       { pattern: 'dist/vendor/systemjs/dist/system.src.js', included: true, watched: false },
       { pattern: 'dist/vendor/zone.js/dist/async-test.js', included: true, watched: false },
+      { pattern: 'dist/vendor/zone.js/dist/fake-async-test.js', included: true, watched: false },
 
       { pattern: 'config/karma-test-shim.js', included: true, watched: true },
 

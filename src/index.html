@@ -4,22 +4,13 @@
 <head>
   <meta charset="utf-8">
   <title>Gallery</title>
-  <base href="/"> {{content-for 'head'}}
+  <base href="/">
+  {{#unless environment.production}}
+  <script src="/ember-cli-live-reload.js" type="text/javascript"></script>
+  {{/unless}}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="stylesheet" href="index.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Service worker support is disabled by default.
-       Install the worker script and uncomment to enable.
-       Only enable service workers in production.
-  <script type="text/javascript">
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/worker.js').catch(function(err) {
-        console.log('Error installing service worker: ', err);
-      });
-    }
-  </script>
-  -->
 </head>
 
 <body>
@@ -33,16 +24,16 @@
     <span>built with </span><a href="https://github.com/BenjaminBrandmeier/ng2imggallery">ng2imggallery</a>
   </div>
 
-  <script src="vendor/es6-shim/es6-shim.js"></script>
-  <script src="vendor/reflect-metadata/Reflect.js"></script>
-  <script src="vendor/systemjs/dist/system.src.js"></script>
-  <script src="vendor/zone.js/dist/zone.js"></script>
-
+  {{#each scripts.polyfills}}
+  <script src="{{.}}"></script>
+  {{/each}}
   <script>
-    System.import('system-config.js').then(function() {
-      System.import('main');
+      System.import('system-config.js').then(function () {
+      System.import('main.js');
     }).catch(console.error.bind(console));
   </script>
+
+
 </body>
 
 </html>

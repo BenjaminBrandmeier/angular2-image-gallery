@@ -34,7 +34,7 @@ export class GalleryComponent {
   allImagesLoaded = false
 
   // TypeScript public modifiers
-  constructor(private _ngZone: NgZone, private http: Http, private router: Router) {
+  constructor(private _ngZone: NgZone, private http: Http) {
 
   }
 

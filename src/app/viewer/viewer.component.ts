@@ -36,7 +36,7 @@ export class ViewerComponent {
   previewImagePath = ''
 
   // TypeScript public modifiers
-  constructor(private _ngZone: NgZone, private http: Http, private router: Router) {
+  constructor(private _ngZone: NgZone, private http: Http) {
   }
 
   ngOnChanges(changes) {
