@@ -1,4 +1,3 @@
-import {Router, ROUTER_DIRECTIVES} from '@angular/router'
 import {Component, NgZone, ViewChild, ElementRef, Input, Output, EventEmitter} from '@angular/core'
 import {Http, Response} from '@angular/http'
 import 'rxjs/Rx'
