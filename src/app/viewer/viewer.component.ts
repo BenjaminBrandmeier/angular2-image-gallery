@@ -63,7 +63,7 @@ export class ViewerComponent {
         break
       case 27:
         // esc
-        this.showViewer = false
+        this.closeViewer()
         break
     }
   }
