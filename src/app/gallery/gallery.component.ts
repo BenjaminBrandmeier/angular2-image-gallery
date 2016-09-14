@@ -12,11 +12,9 @@ interface IImage {
 }
 
 @Component({
-  moduleId: module.id,
   selector: 'gallery',
   templateUrl: 'gallery.component.html',
-  styleUrls: ['gallery.component.css'],
-  directives: [ViewerComponent]
+  styleUrls: ['gallery.component.css']
 })
 export class GalleryComponent {
   @ViewChild('galleryContainer') galleryContainer: ElementRef

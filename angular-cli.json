@@ -1,32 +1,46 @@
 {
   "project": {
-    "version": "1.0.0-beta.10",
+    "version": "1.0.0-beta.11-webpack.9-4",
     "name": "gallery"
   },
   "apps": [
     {
-      "main": "src/main.ts",
-      "tsconfig": "src/tsconfig.json",
-      "mobile": false
+      "root": "src",
+      "outDir": "dist",
+      "assets": "assets",
+      "index": "index.html",
+      "main": "main.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.json",
+      "prefix": "app",
+      "mobile": false,
+      "styles": [
+        "styles.css"
+      ],
+      "scripts": [
+        "../node_modules/hammerjs/hammer.min.js"
+      ],
+      "environments": {
+        "source": "environments/environment.ts",
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
     }
   ],
   "addons": [],
   "packages": [],
   "e2e": {
     "protractor": {
-      "config": "config/protractor.conf.js"
+      "config": "./protractor.conf.js"
     }
   },
   "test": {
     "karma": {
-      "config": "config/karma.conf.js"
+      "config": "./karma.conf.js"
     }
   },
   "defaults": {
-    "prefix": "app",
-    "sourceDir": "src",
     "styleExt": "css",
-    "prefixInterfaces": false,
-    "lazyRoutePrefix": "+"
+    "prefixInterfaces": false
   }
 }

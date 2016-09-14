@@ -1,14 +1,14 @@
-import { GalleryPage } from './app.po';
+import { AwesomePage } from './app.po';
 
-describe('gallery App', function() {
-  let page: GalleryPage;
+describe('awesome App', function() {
+  let page: AwesomePage;
 
   beforeEach(() => {
-    page = new GalleryPage();
-  })
+    page = new AwesomePage();
+  });
 
   it('should display message saying app works', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('gallery works!');
+    expect(page.getParagraphText()).toEqual('app works!');
   });
 });

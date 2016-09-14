@@ -1,9 +1,11 @@
-export class GalleryPage {
+import { browser, element, by } from 'protractor/globals';
+
+export class AwesomePage {
   navigateTo() {
     return browser.get('/');
   }
 
   getParagraphText() {
-    return element(by.css('gallery-app h1')).getText();
+    return element(by.css('app-root h1')).getText();
   }
 }

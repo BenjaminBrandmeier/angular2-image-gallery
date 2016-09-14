@@ -8,21 +8,17 @@ The current state is still pretty much work in progress with plenty of ideas in 
 
 http://oidamo.de/ng2imggallery/0.2.0/
 
-## Pre-requirements
+## Currently used tools
 
-The following dependencies are installed locally by the setup.sh file:
-
-- NodeJS 5.x
+- Angular 2.0.0-rc.7
+- NodeJS 4.5.0
+- NPM 3.10.7
+- Angular-CLI 1.0.0-beta.11-webpack.9-4
 - graphicsmagick
-- curl
 
 ## Usage
-Run the following commands to get going.
+After checking pre-requirements run the following commands to get going:
 
-Check pre-requirements to see if you need to run the setup:
-```bash
-sh tools/setup.sh
-```
 Copy all your images for the image gallery to "tools/images_to_convert/":
 ```bash
 node convert.js
@@ -32,14 +28,6 @@ Start the developing server with:
 ng serve
 ```
 
-## Built with
-
-For image prepration node.js and graphicsmagick was used.
-
-The project is built with [angular/angular-cli](https://github.com/angular/angular-cli).
-
-In an earlier version I used the [AngularClass/angular2-webpack-starter](https://github.com/AngularClass/angular2-webpack-starter) seed.
-
 ## Troubleshooting
 
-If the convert process fails make sure you have some swap space ready.
+If the convert process fails, make sure you have some swap space ready.

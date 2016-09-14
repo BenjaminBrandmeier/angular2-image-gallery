@@ -11,7 +11,6 @@ interface IImage {
 }
 
 @Component({
-  moduleId: module.id,
   selector: 'viewer',
   templateUrl: 'viewer.component.html',
   styleUrls: ['viewer.component.css'],
