@@ -31,7 +31,6 @@ export class ViewerComponent {
   arrows: string[] = ['assets/img/icon/left.svg', 'assets/img/icon/right.svg']
   leftArrowActive: boolean = true
   rightArrowActive: boolean = true
-  showArrows : boolean = true
   previewImagePath = ''
 
   // TypeScript public modifiers
@@ -97,16 +96,6 @@ export class ViewerComponent {
       this.currentIdx--
       this.updateArrowActivation()
     }
-  }
-
-  swipeLeft() {
-    this.showArrows = false
-    this.navigateRight()
-  }
-
-  swipeRight() {
-    this.showArrows = false
-    this.navigateLeft()
   }
 
   openFullsize() {
