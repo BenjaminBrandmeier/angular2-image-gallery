@@ -5,7 +5,7 @@
     <span class="action fullsize" (click)="openFullsize()" [hidden]="!showViewer">100%</span>
     <img class="action close" src="assets/img/icon/close.svg" (click)="closeViewer()" [hidden]="!showViewer" />
   </div>
-  <div class="imageContainer" (click)="showNavigationArrows()" (swipeleft)="navigate(-1, true)" (swiperight)="navigate(1, true)" [hidden]="!showViewer">
+  <div class="imageContainer" (click)="showNavigationArrows()" (swipeleft)="navigate(1, true)" (swiperight)="navigate(-1, true)" [hidden]="!showViewer">
     <img class="image" [src]="previewImagePath" [hidden]="!showViewer" />
   </div>
 </div>
