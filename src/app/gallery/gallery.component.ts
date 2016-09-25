@@ -26,7 +26,7 @@ export class GalleryComponent {
   showBig: boolean = false
   images: any[] = [{ url: '' }]
   gallery: any[] = []
-  heightCoefficient = 6
+  heightCoefficient = 3
   imgIterations = 1
   allImagesLoaded = false
 
@@ -76,6 +76,7 @@ export class GalleryComponent {
   }
 
   private shouldAddCandidate(imgRow: IImage[], candidate: IImage): boolean {
+    console.log('should')
     let oldDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
     imgRow.push(candidate)
     let newDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
@@ -120,8 +121,21 @@ export class GalleryComponent {
   }
 
   private calcIdealHeight() {
-    let idealHeight = this.getGalleryWidth() / this.heightCoefficient
-    return idealHeight
+    //let idealHeight = (this.getGalleryWidth()*5) / this.heightCoefficient
+    console.log(this.getGalleryWidth())
+    if (this.getGalleryWidth() < 500) {
+      //console.log('a')
+      return (this.getGalleryWidth()*10) / 14
+    }
+    else {
+      //console.log('b')
+      return (this.getGalleryWidth()*4) / 14
+    }
+  /*  let idealHeight = (this.getGalleryWidth()*10) / 14
+    console.log("old: " + idealHeight)
+    idealHeight = Math.max(idealHeight, 200)
+    console.log("new: " + idealHeight)
+    return idealHeight */
   }
 
   private openImageViewer(img) {
@@ -159,6 +173,6 @@ export class GalleryComponent {
   }
 
   private onResize() {
-    this.scaleGallery()
+    this.fetchDataAndRender()
   }
 }
