@@ -33,6 +33,9 @@
 .arrow {
   opacity: 0.0;
 }
+.arrow:hover {
+  cursor: pointer;
+}
 .outerContainer:hover .arrow.activeArrow {
   height: calc(20px + 1.5vw);
   position: absolute;

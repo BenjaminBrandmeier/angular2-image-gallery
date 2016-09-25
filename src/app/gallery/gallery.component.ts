@@ -128,7 +128,6 @@ export class GalleryComponent {
     this.showBig = undefined
     this.showBig = true
     this.currentIdx = this.images.indexOf(img)
-    console.log(this.showBig)
   }
 
   private getGalleryWidth() {

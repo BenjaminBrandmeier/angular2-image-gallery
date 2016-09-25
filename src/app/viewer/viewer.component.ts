@@ -31,6 +31,8 @@ export class ViewerComponent {
   arrows: string[] = ['assets/img/icon/left.svg', 'assets/img/icon/right.svg']
   leftArrowActive: boolean = true
   rightArrowActive: boolean = true
+  leftArrowVisible: boolean = true
+  rightArrowVisible: boolean = true
   previewImagePath = ''
 
   // TypeScript public modifiers
@@ -53,12 +55,12 @@ export class ViewerComponent {
 
     switch (prevent) {
       case 37:
-        // left arrow
-        this.navigateLeft()
+        // navigate left
+        this.navigate(-1, false)
         break
       case 39:
-        // right arrow
-        this.navigateRight()
+        // navigate right
+        this.navigate(1, false)
         break
       case 27:
         // esc
@@ -74,28 +76,42 @@ export class ViewerComponent {
     else {
       this.leftArrowActive = true
     }
-
     if (this.currentIdx >= this.images.length - 1) {
       this.rightArrowActive = false
     }
     else {
       this.rightArrowActive = true
     }
-    this.updatePreviewImage()
   }
 
-  navigateRight() {
-    if (this.currentIdx < this.images.length - 1) {
-      this.currentIdx++
-      this.updateArrowActivation()
+  /**
+  * direction (-1: left, 1: right)
+  * swipe (user swiped)
+  */
+  navigate(direction : number, swipe : boolean) {
+    if ((direction == 1 && this.currentIdx < this.images.length - 1) ||
+       (direction == -1 && this.currentIdx > 0)) {
+      // increases or decreases the counter
+      this.currentIdx += direction
+      if (swipe) {
+        this.hideNavigationArrows()
+      }
+      else {
+        this.updateArrowActivation()
+        this.showNavigationArrows()
+      }
+      this.updatePreviewImage()
     }
   }
 
-  navigateLeft() {
-    if (this.currentIdx > 0) {
-      this.currentIdx--
-      this.updateArrowActivation()
-    }
+  hideNavigationArrows() {
+    this.leftArrowVisible = false
+    this.rightArrowVisible = false
+  }
+
+  showNavigationArrows() {
+    this.leftArrowVisible = true
+    this.rightArrowVisible = true
   }
 
   openFullsize() {

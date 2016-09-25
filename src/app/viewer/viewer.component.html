@@ -1,11 +1,11 @@
 <div class="outerContainer" (window:resize)="onResize($event)" [hidden]="!showViewer">
-  <img [ngClass]="{'activeArrow': leftArrowActive}" class="arrow left" [src]="arrows[0]" (click)="navigateLeft()" [hidden]="!showViewer" />
-  <img [ngClass]="{'activeArrow': rightArrowActive}" class="arrow right" [src]="arrows[1]" (click)="navigateRight()" [hidden]="!showViewer" />
+  <img [ngClass]="{'activeArrow': leftArrowActive}" class="arrow left" [src]="arrows[0]" (click)="navigate(-1, false)" [hidden]="!showViewer || !leftArrowVisible" />
+  <img [ngClass]="{'activeArrow': rightArrowActive}" class="arrow right" [src]="arrows[1]" (click)="navigate(1, false)" [hidden]="!showViewer || !rightArrowVisible" />
   <div class="buttonContainer" [hidden]="!showViewer">
     <span class="action fullsize" (click)="openFullsize()" [hidden]="!showViewer">100%</span>
     <img class="action close" src="assets/img/icon/close.svg" (click)="closeViewer()" [hidden]="!showViewer" />
   </div>
-  <div class="imageContainer" (swipeleft)="navigateLeft()" (swiperight)="navigateRight()" [hidden]="!showViewer">
+  <div class="imageContainer" (click)="showNavigationArrows()" (swipeleft)="navigate(-1, true)" (swiperight)="navigate(1, true)" [hidden]="!showViewer">
     <img class="image" [src]="previewImagePath" [hidden]="!showViewer" />
   </div>
 </div>
