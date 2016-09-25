@@ -40,7 +40,7 @@ export class ViewerComponent {
   }
 
   ngOnChanges(changes) {
-    if (changes.currentIdx && this.images[this.currentIdx].name) {
+    if (this.images[this.currentIdx].name) {
       this.updatePreviewImage()
     }
   }
