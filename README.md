@@ -6,7 +6,7 @@ The current state is still pretty much work in progress with plenty of ideas in 
 
 ## Demo
 
-http://oidamo.de/ng2imggallery/0.2.1/
+http://oidamo.de/ng2imggallery/0.3.0/
 
 ## Currently used tools
 
