@@ -26,7 +26,6 @@ export class GalleryComponent {
   showBig: boolean = false
   images: any[] = [{ url: '' }]
   gallery: any[] = []
-  heightCoefficient = 3
   imgIterations = 1
   allImagesLoaded = false
 
@@ -45,34 +44,37 @@ export class GalleryComponent {
       .subscribe(
       data => {
         this.images = data
-
-        let tempRow = [data[0]]
-        let rowIndex = 0
-        let i = 0
-
-        for (i; i < this.imgIterations && i < data.length; i++) {
-          while (data[i + 1] && this.shouldAddCandidate(tempRow, data[i + 1])) {
-            i++
-          }
-          if (data[i + 1]) {
-            tempRow.pop()
-          }
-          this.gallery[rowIndex++] = tempRow
-
-          tempRow = [data[i + 1]]
-        }
-
-        this.scaleGallery()
-
-        if (i >= data.length) {
-          this.allImagesLoaded = true
-        }
-        else {
-          this.checkForAsyncReload()
-        }
+        this.render()
       },
       err => console.error(err),
       () => undefined)
+  }
+
+  private render() {
+    let tempRow = [this.images[0]]
+    let rowIndex = 0
+    let i = 0
+
+    for (i; i < this.imgIterations && i < this.images.length; i++) {
+      while (this.images[i + 1] && this.shouldAddCandidate(tempRow, this.images[i + 1])) {
+        i++
+      }
+      if (this.images[i + 1]) {
+        tempRow.pop()
+      }
+      this.gallery[rowIndex++] = tempRow
+
+      tempRow = [this.images[i + 1]]
+    }
+
+    this.scaleGallery()
+
+    if (i >= this.images.length) {
+      this.allImagesLoaded = true
+    }
+    else {
+      this.checkForAsyncReload()
+    }
   }
 
   private shouldAddCandidate(imgRow: IImage[], candidate: IImage): boolean {
@@ -121,21 +123,7 @@ export class GalleryComponent {
   }
 
   private calcIdealHeight() {
-    //let idealHeight = (this.getGalleryWidth()*5) / this.heightCoefficient
-    console.log(this.getGalleryWidth())
-    if (this.getGalleryWidth() < 500) {
-      //console.log('a')
-      return (this.getGalleryWidth()*10) / 14
-    }
-    else {
-      //console.log('b')
-      return (this.getGalleryWidth()*4) / 14
-    }
-  /*  let idealHeight = (this.getGalleryWidth()*10) / 14
-    console.log("old: " + idealHeight)
-    idealHeight = Math.max(idealHeight, 200)
-    console.log("new: " + idealHeight)
-    return idealHeight */
+      return (this.getGalleryWidth() / 8) + 70
   }
 
   private openImageViewer(img) {
@@ -173,6 +161,6 @@ export class GalleryComponent {
   }
 
   private onResize() {
-    this.fetchDataAndRender()
+    this.render()
   }
 }
