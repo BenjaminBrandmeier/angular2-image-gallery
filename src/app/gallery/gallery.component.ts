@@ -78,7 +78,6 @@ export class GalleryComponent {
   }
 
   private shouldAddCandidate(imgRow: IImage[], candidate: IImage): boolean {
-    console.log('should')
     let oldDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
     imgRow.push(candidate)
     let newDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
