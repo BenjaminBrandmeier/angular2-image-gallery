@@ -12,8 +12,8 @@ interface IImage {
 
 @Component({
   selector: 'viewer',
-  templateUrl: 'viewer.component.html',
-  styleUrls: ['viewer.component.css'],
+  templateUrl: './viewer.component.html',
+  styleUrls: ['./viewer.component.css'],
   host: {
     '(document:keydown)': 'onKeydown($event)',
   }

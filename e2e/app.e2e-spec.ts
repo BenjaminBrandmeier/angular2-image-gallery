@@ -1,10 +1,10 @@
-import { AwesomePage } from './app.po';
+import { GalleryPage } from './app.po';
 
-describe('awesome App', function() {
-  let page: AwesomePage;
+describe('gallery App', function() {
+  let page: GalleryPage;
 
   beforeEach(() => {
-    page = new AwesomePage();
+    page = new GalleryPage();
   });
 
   it('should display message saying app works', () => {
