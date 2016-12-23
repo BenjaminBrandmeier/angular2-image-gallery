@@ -33,7 +33,7 @@ export class GalleryComponent implements AfterContentInit {
 
   }
 
-  public ngAfterContentInit() {
+  ngAfterContentInit() {
     this.fetchDataAndRender()
   }
 
@@ -50,6 +50,8 @@ export class GalleryComponent implements AfterContentInit {
   }
 
   private render() {
+    this.gallery = []
+
     let tempRow = [this.images[0]]
     let rowIndex = 0
     let i = 0
