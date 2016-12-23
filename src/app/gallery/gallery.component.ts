@@ -1,6 +1,5 @@
-import {Component, NgZone, ViewChild, ElementRef} from '@angular/core'
+import {Component, NgZone, ViewChild, ElementRef, AfterContentInit} from '@angular/core'
 import {Http, Response} from '@angular/http'
-import {ViewerComponent} from '../viewer/viewer.component'
 import 'rxjs/Rx'
 
 interface IImage {
@@ -12,11 +11,11 @@ interface IImage {
 }
 
 @Component({
-  selector: 'gallery',
+  selector: 'app-gallery',
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.css']
 })
-export class GalleryComponent {
+export class GalleryComponent implements AfterContentInit {
   @ViewChild('galleryContainer') galleryContainer: ElementRef
   @ViewChild('asyncLoadingContainer') asyncLoadingContainer: ElementRef
 
@@ -34,7 +33,7 @@ export class GalleryComponent {
 
   }
 
-  private ngAfterContentInit() {
+  public ngAfterContentInit() {
     this.fetchDataAndRender()
   }
 
@@ -71,8 +70,7 @@ export class GalleryComponent {
 
     if (i >= this.images.length) {
       this.allImagesLoaded = true
-    }
-    else {
+    } else {
       this.checkForAsyncReload()
     }
   }
@@ -98,7 +96,7 @@ export class GalleryComponent {
     this.gallery.forEach((imgRow) => {
       let xsum = this.calcOriginalRowWidth(imgRow)
 
-      if (imgRow != this.gallery[this.gallery.length - 1]) {
+      if (imgRow !== this.gallery[this.gallery.length - 1]) {
         let ratio = this.getGalleryWidth() / xsum
 
         imgRow.forEach((img) => {
@@ -132,7 +130,7 @@ export class GalleryComponent {
   }
 
   private getGalleryWidth() {
-    if (this.galleryContainer.nativeElement.clientWidth == 0) {
+    if (this.galleryContainer.nativeElement.clientWidth === 0) {
       // IE11
       return this.galleryContainer.nativeElement.scrollWidth
     }
@@ -141,12 +139,12 @@ export class GalleryComponent {
 
   private checkForAsyncReload() {
     if (!this.allImagesLoaded) {
-      var loadingDiv: any = this.asyncLoadingContainer.nativeElement
+      let loadingDiv: any = this.asyncLoadingContainer.nativeElement
 
-      var elmTop = loadingDiv.getBoundingClientRect().top
-      var elmBottom = loadingDiv.getBoundingClientRect().bottom
+      let elmTop = loadingDiv.getBoundingClientRect().top
+      let elmBottom = loadingDiv.getBoundingClientRect().bottom
 
-      var isVisible = (elmTop >= 0) && (elmBottom <= window.innerHeight)
+      let isVisible = (elmTop >= 0) && (elmBottom <= window.innerHeight)
 
       if (isVisible) {
         this.imgIterations += 5

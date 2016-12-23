@@ -1,4 +1,7 @@
-import {Component, NgZone, ViewChild, ElementRef, Input, Output, EventEmitter} from '@angular/core'
+import {
+    Component, NgZone, ViewChild, ElementRef, Input, Output, EventEmitter, OnChanges,
+    AfterContentInit, HostBinding
+} from '@angular/core'
 import {Http, Response} from '@angular/http'
 import 'rxjs/Rx'
 
@@ -11,14 +14,14 @@ interface IImage {
 }
 
 @Component({
-  selector: 'viewer',
+  selector: 'app-viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.css'],
   host: {
     '(document:keydown)': 'onKeydown($event)',
   }
 })
-export class ViewerComponent {
+export class ViewerComponent implements OnChanges, AfterContentInit {
   @Input()
   images: any[]
   @Input()
@@ -51,7 +54,7 @@ export class ViewerComponent {
   onKeydown(event: KeyboardEvent) {
     let prevent = [37, 39, 27]
       .find(no => no === event.keyCode)
-    if (prevent) event.preventDefault()
+    if (prevent) { event.preventDefault() }
 
     switch (prevent) {
       case 37:
@@ -72,14 +75,12 @@ export class ViewerComponent {
   updateArrowActivation() {
     if (this.currentIdx <= 0) {
       this.leftArrowActive = false
-    }
-    else {
+    } else {
       this.leftArrowActive = true
     }
     if (this.currentIdx >= this.images.length - 1) {
       this.rightArrowActive = false
-    }
-    else {
+    } else {
       this.rightArrowActive = true
     }
   }
@@ -88,15 +89,14 @@ export class ViewerComponent {
   * direction (-1: left, 1: right)
   * swipe (user swiped)
   */
-  navigate(direction : number, swipe : boolean) {
-    if ((direction == 1 && this.currentIdx < this.images.length - 1) ||
-       (direction == -1 && this.currentIdx > 0)) {
+  navigate(direction: number, swipe: boolean) {
+    if ((direction === 1 && this.currentIdx < this.images.length - 1) ||
+       (direction === -1 && this.currentIdx > 0)) {
       // increases or decreases the counter
       this.currentIdx += direction
       if (swipe) {
         this.hideNavigationArrows()
-      }
-      else {
+      } else {
         this.updateArrowActivation()
         this.showNavigationArrows()
       }
