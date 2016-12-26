@@ -16,6 +16,16 @@ http://oidamo.de/ng2imggallery/0.3.1/
 - Angular-CLI 1.0.0-beta.11-webpack.9-4
 - graphicsmagick
 
+## Pre-requirements
+
+Run npm install in root directory and under tools directory.
+
+For windows users get graphicsmagick here:
+http://www.graphicsmagick.org/download.html
+
+For ubuntu users install graphicsmagick via:
+apt-get install graphicsmagick
+
 ## Usage
 After checking pre-requirements run the following commands to get going:
 

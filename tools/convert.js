@@ -97,6 +97,7 @@ function identifyImage(files, fidx, filePath, file) {
 
 function createPreviewImageSync(files, fidx, filePath, file, index) {
   // create various preview images
+
     gm(filePath)
       .resize(null, resolutions[index].height)
       .write(assetBasePath + resolutions[index].name + '/' + file, function(err) {
@@ -124,7 +125,6 @@ function sortByCreationDate() {
   });
   console.log('...done (sorting)');
 
-  // save metadata file
   saveMetadataFile();
 }
 
@@ -142,7 +142,6 @@ function sortByFileName() {
   });
   console.log('...done (sorting)');
 
-  // save metadata file
   saveMetadataFile();
 }
 
@@ -158,7 +157,7 @@ function saveMetadataFile() {
 
 function getProjectRootPath() {
   var toolsPath = path.dirname(require.main.filename);
-  var pathElements = toolsPath.split('/');
+  var pathElements = toolsPath.split(/[/|\\]/);
   pathElements.pop();
   return pathElements.join('/');
 }
