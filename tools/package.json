@@ -10,6 +10,5 @@
     "gm": "1.23.0",
     "image-size": "^0.5.1"
   },
-  "author": "Benjamin Brandmeier",
-  "license": "ISC"
+  "author": "Benjamin Brandmeier"
 }

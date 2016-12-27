@@ -1,34 +1,40 @@
 /* Image gallery */
 
 .innerGalleryContainer {
-  position: relative;
+    position: relative;
 }
+
 .galleryContainer {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }
+
 .galleryContainer img:not(:last-child) {
-  padding-right: 1px;
+    padding-right: 1px;
 }
+
 .galleryContainer img:hover {
-  -webkit-filter: brightness(50%);
-  filter: brightness(50%);
-  transition: all ease-out 0.2s;
-  cursor: pointer;
+    -webkit-filter: brightness(50%);
+    filter: brightness(50%);
+    transition: all ease-out 0.2s;
+    cursor: pointer;
 }
+
 .imagerow {
-  margin: 0px 1px 1px 0px;
-  overflow: hidden;
-  display: flex;
+    margin: 0px 1px 1px 0px;
+    overflow: hidden;
+    display: flex;
 }
+
 ::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
+
 .asyncLoadingContainer {
-  position: absolute;
-  background-color: transparent;
-  height: 0px;
-  width: 0px;
-  bottom: 120px;
+    position: absolute;
+    background-color: transparent;
+    height: 0px;
+    width: 0px;
+    bottom: 120px;
 }

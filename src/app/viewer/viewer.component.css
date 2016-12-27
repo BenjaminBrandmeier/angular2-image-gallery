@@ -1,87 +1,100 @@
 /* Image viewer */
 
 .outerContainer {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.95);
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.95);
 }
+
 .imageContainer {
-  position: absolute;
-  float: none;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+    position: absolute;
+    float: none;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
 }
+
 .imageContainer img {
-  position: absolute;
-  display: block;
-  margin: auto auto;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  max-height: 100%;
-  max-width: 100%;
-  opacity: 1.0;
+    position: absolute;
+    display: block;
+    margin: auto auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    max-height: 100%;
+    max-width: 100%;
+    opacity: 1.0;
 }
+
 .arrow {
-  opacity: 0.0;
+    opacity: 0.0;
 }
+
 .arrow:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
+
 .outerContainer:hover .arrow.activeArrow {
-  height: calc(20px + 1.5vw);
-  position: absolute;
-  /* use sass variables here once they are ready */
-  top: calc(50% - (20px + 1.5vw)/2);
-  bottom: 50%;
-  z-index: 1;
-  opacity: 1.0;
-  transition: all ease-out 0.5s;
+    height: calc(20px + 1.5vw);
+    position: absolute;
+    /* use sass variables here once they are ready */
+    top: calc(50% - (20px + 1.5vw) / 2);
+    bottom: 50%;
+    z-index: 1;
+    opacity: 1.0;
+    transition: all ease-out 0.5s;
 }
+
 .arrow.left {
-  left: 2vw;
+    left: 2vw;
 }
+
 .arrow.right {
-  right: 2vw;
+    right: 2vw;
 }
+
 .arrow:not(.activeArrow):hover {
-  opacity: 0.0;
-  cursor: pointer;
-  transition: all ease-out 0.5s;
+    opacity: 0.0;
+    cursor: pointer;
+    transition: all ease-out 0.5s;
 }
+
 .buttonContainer {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  height: 20px;
-  text-align: center;
-  opacity: 1.0;
-  z-index: 200;
-  transition: all ease-out 0.5s;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 20px;
+    text-align: center;
+    opacity: 1.0;
+    z-index: 200;
+    transition: all ease-out 0.5s;
 }
+
 .buttonContainer .action {
-  height: 100%;
-  cursor: pointer;
-  vertical-align: top;
+    height: 100%;
+    cursor: pointer;
+    vertical-align: top;
 }
+
 .buttonContainer .action:focus {
-  outline: 0;
+    outline: 0;
 }
+
 .buttonContainer .action:hover {
-  background-color: #222;
-  transition: all ease-out 0.3s;
+    background-color: #222;
+    transition: all ease-out 0.3s;
 }
+
 .buttonContainer .action.fullsize {
-  color: #aaa;
-  font-size: 1.2em;
-  margin-right: 30px;
-  text-shadow: -1px 0 #444, 0 1px #444, 1px 0 #444, 0 -1px #444;
+    color: #aaa;
+    font-size: 1.2em;
+    margin-right: 30px;
+    text-shadow: -1px 0 #444, 0 1px #444, 1px 0 #444, 0 -1px #444;
 }
