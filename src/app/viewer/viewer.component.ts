@@ -5,14 +5,6 @@ import {
 import {Http, Response} from '@angular/http'
 import 'rxjs/Rx'
 
-interface IImage {
-  url: string
-  thumbnail: string
-  date: string
-  width: number
-  height: number
-}
-
 @Component({
   selector: 'app-viewer',
   templateUrl: './viewer.component.html',
@@ -124,26 +116,33 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
   }
 
   private updatePreviewImage() {
-    let height = window.innerHeight
-    let basePath = 'assets/img/gallery/'
+    let screenWidth = window.innerWidth
+    let screenHeight = window.innerHeight
 
-    if (height <= 375) {
-      basePath += 'preview_xxs/'
-    } else if (height <= 768) {
-      basePath += 'preview_xs/'
-    } else if (height <= 1080) {
-      basePath += 'preview_s/'
-    } else if (height <= 1600) {
-      basePath += 'preview_m/'
-    } else if (height <= 2160) {
-      basePath += 'preview_l/'
-    } else if (height <= 2880) {
-      basePath += 'preview_xl/'
-    } else {
-      basePath += 'raw'
+    let optimalCategory = 'preview_xs'
+
+    if (screenWidth > this.images[this.currentIdx]['preview_xs'].width &&
+        screenHeight > this.images[this.currentIdx]['preview_xs'].height) {
+        optimalCategory = 'preview_s'
+    }
+    if (screenWidth > this.images[this.currentIdx]['preview_s'].width &&
+        screenHeight > this.images[this.currentIdx]['preview_s'].height) {
+        optimalCategory = 'preview_m'
+    }
+    if (screenWidth > this.images[this.currentIdx]['preview_m'].width &&
+        screenHeight > this.images[this.currentIdx]['preview_m'].height) {
+        optimalCategory = 'preview_l'
+    }
+    if (screenWidth > this.images[this.currentIdx]['preview_l'].width &&
+        screenHeight > this.images[this.currentIdx]['preview_l'].height) {
+        optimalCategory = 'preview_xl'
+    }
+    if (screenWidth > this.images[this.currentIdx]['preview_xl'].width &&
+        screenHeight > this.images[this.currentIdx]['preview_xl'].height) {
+        optimalCategory = 'raw'
     }
 
-    this.previewImagePath = basePath + this.images[this.currentIdx].name
+    this.previewImagePath = this.images[this.currentIdx][optimalCategory].path
   }
 
   private onResize() {

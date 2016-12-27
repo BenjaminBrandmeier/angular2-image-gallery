@@ -2,12 +2,22 @@ import {Component, NgZone, ViewChild, ElementRef, AfterContentInit} from '@angul
 import {Http, Response} from '@angular/http'
 import 'rxjs/Rx'
 
-interface IImage {
-  url: string
-  thumbnail: string
-  date: string
-  width: number
+interface IPreviewImageInformation {
+  path: string
   height: number
+  width: number
+}
+
+interface IImage {
+  name: string
+  date: string
+  preview_xxs: IPreviewImageInformation
+  preview_xs: IPreviewImageInformation
+  preview_s: IPreviewImageInformation
+  preview_m: IPreviewImageInformation
+  preview_l: IPreviewImageInformation
+  preview_xl: IPreviewImageInformation
+  raw: IPreviewImageInformation
 }
 
 @Component({
@@ -89,12 +99,15 @@ export class GalleryComponent implements AfterContentInit {
     let xsum = this.calcOriginalRowWidth(imgRow)
 
     let ratio = this.getGalleryWidth() / xsum
-    let rowHeight = imgRow[0].height * ratio
+    let rowHeight = imgRow[0].preview_xxs.height * ratio
 
     return rowHeight
   }
 
   private scaleGallery() {
+    // TODO: Make this dynamic depending on screen size
+    let galleryImageSizeCategory = 'preview_xxs';
+
     this.gallery.forEach((imgRow) => {
       let xsum = this.calcOriginalRowWidth(imgRow)
 
@@ -102,8 +115,14 @@ export class GalleryComponent implements AfterContentInit {
         let ratio = this.getGalleryWidth() / xsum
 
         imgRow.forEach((img) => {
-          img.width = img.width * ratio
-          img.height = img.height * ratio
+          img.width = img[galleryImageSizeCategory].width * ratio
+          img.height = img[galleryImageSizeCategory].height * ratio
+        })
+      }
+      else {
+        imgRow.forEach((img) => {
+          img.width = img[galleryImageSizeCategory].width
+          img.height = img[galleryImageSizeCategory].height
         })
       }
     })
@@ -112,10 +131,10 @@ export class GalleryComponent implements AfterContentInit {
   private calcOriginalRowWidth(imgRow: IImage[]) {
     let xsum = 0
     imgRow.forEach((img) => {
-      let individualRatio = this.calcIdealHeight() / img.height
-      img.width = img.width * individualRatio
-      img.height = this.calcIdealHeight()
-      xsum += img.width + 1
+      let individualRatio = this.calcIdealHeight() / img.preview_xxs.height
+      img.preview_xxs.width = img.preview_xxs.width * individualRatio
+      img.preview_xxs.height = this.calcIdealHeight()
+      xsum += img.preview_xxs.width + 1
     })
 
     return xsum
