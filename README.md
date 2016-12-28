@@ -10,10 +10,9 @@ http://oidamo.de/ng2imggallery/0.3.1/
 
 ## Currently used tools
 
-- Angular 2.0.0-rc.7
-- NodeJS 4.5.0
-- NPM 3.10.7
-- Angular-CLI 1.0.0-beta.11-webpack.9-4
+- Angular 2.3.1
+- NodeJS 7.3.0
+- Angular-CLI 1.0.0-beta.24
 - graphicsmagick
 
 ## Pre-requirements

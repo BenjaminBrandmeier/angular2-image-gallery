@@ -98,13 +98,14 @@ function createPreviewImage(files, fidx, filePath, file, index) {
 
     gm(filePath)
         .resize(null, resolutions[index].height)
+        .quality(95)
         .write(assetsAbsoluteBasePath + resolutions[index].name + '/' + file, function (err) {
             if (err) throw err;
             if (index !== resolutions.length - 2) {
                 // don't resize raw images
                 createPreviewImage(files, fidx, filePath, file, ++index);
             } else {
-                process.stdout.write('\rConverted ' + (fidx) + ' out of ' + files.length - 1 + " images.");
+                process.stdout.write('\rConverted ' + (fidx) + " images.");
                 processFiles(files, ++fidx);
             }
         });
