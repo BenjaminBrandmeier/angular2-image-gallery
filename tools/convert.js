@@ -3,7 +3,6 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 var process = require("process");
 var gm = require('gm');
-var sizeOf = require('image-size');
 
 var sortFunction;
 var projectRoot = getProjectRootPath();
@@ -17,7 +16,8 @@ var resolutions = [
     {name: 'preview_s', height: 1080},
     {name: 'preview_m', height: 1600},
     {name: 'preview_l', height: 2160},
-    {name: 'preview_xl', height: 2880}
+    {name: 'preview_xl', height: 2880},
+    {name: 'raw', height: undefined}
 ];
 
 function convert() {
@@ -65,9 +65,8 @@ function processFiles(files, fidx) {
         }
     }
     else {
-        provideImageInformation();
-        // after image processing sort image metadata as requested
-        sortFunction();
+        console.log('\n\nProviding image information...')
+        provideImageInformation(imageMetadataArray, 0, resolutions, 0);
     }
 }
 
@@ -82,7 +81,7 @@ function identifyImage(files, fidx, filePath, file) {
 
             var imageMetadata = {
                 name: file,
-                date: features['Profile-EXIF']['Date Time Original'],
+                date: features['Profile-EXIF']['Date Time Original']
             };
 
             imageMetadataArray.push(imageMetadata);
@@ -90,50 +89,63 @@ function identifyImage(files, fidx, filePath, file) {
             // copy raw image to assets folder
             fs.createReadStream(filePath).pipe(fs.createWriteStream(assetsAbsoluteBasePath + 'raw/' + file));
 
-            createPreviewImageSync(files, fidx, filePath, file, 0);
+            createPreviewImage(files, fidx, filePath, file, 0);
         });
 }
 
-function createPreviewImageSync(files, fidx, filePath, file, index) {
+function createPreviewImage(files, fidx, filePath, file, index) {
     // create various preview images
 
     gm(filePath)
         .resize(null, resolutions[index].height)
         .write(assetsAbsoluteBasePath + resolutions[index].name + '/' + file, function (err) {
             if (err) throw err;
-            if (index < resolutions.length - 1) {
-                createPreviewImageSync(files, fidx, filePath, file, ++index);
+            if (index !== resolutions.length - 2) {
+                // don't resize raw images
+                createPreviewImage(files, fidx, filePath, file, ++index);
             } else {
-                process.stdout.write('Converted ' + (fidx) + ' images.\r');
+                process.stdout.write('\rConverted ' + (fidx) + ' out of ' + files.length - 1 + " images.");
                 processFiles(files, ++fidx);
             }
         });
 }
 
-function provideImageInformation() {
-    imageMetadataArray.forEach(function (imgMetadata) {
-        resolutions.forEach(function (resolution) {
-            var filePath = assetsAbsoluteBasePath + resolution.name + '/' + imgMetadata.name;
+function provideImageInformation(imageMetadataArray, imgMetadataIdx, resolutions, resolutionIdx) {
+    var imgMetadata = imageMetadataArray[imgMetadataIdx];
+    var resolution = resolutions[resolutionIdx];
 
-            var dimensions = sizeOf(filePath);
+    var filePath = assetsAbsoluteBasePath + resolution.name + '/' + imgMetadata.name;
+
+    gm(filePath)
+        .size(function (err, size) {
+            if (err) {
+                console.log(filePath)
+                console.log(err)
+                throw err;
+            }
+
             imgMetadata[resolution.name] = {};
             imgMetadata[resolution.name]['path'] = previewRelativePath + resolution.name + '/' + imgMetadata.name;
-            imgMetadata[resolution.name]['width'] = dimensions.width;
-            imgMetadata[resolution.name]['height'] = dimensions.height;
+            imgMetadata[resolution.name]['width'] = size.width;
+            imgMetadata[resolution.name]['height'] = size.height;
+
+            if (imageMetadataArray.length - 1 == imgMetadataIdx &&
+                resolutions.length - 1 == resolutionIdx) {
+                console.log('...done (information)');
+
+                sortFunction();
+            }
+            else if (resolutions.length - 1 == resolutionIdx) {
+                provideImageInformation(imageMetadataArray, ++imgMetadataIdx, resolutions, 0);
+            }
+            else {
+                provideImageInformation(imageMetadataArray, imgMetadataIdx, resolutions, ++resolutionIdx);
+            }
         });
-
-        var filePath = assetsAbsoluteBasePath + 'raw/' + imgMetadata.name;
-
-        var dimensions = sizeOf(filePath);
-        imgMetadata['raw'] = {};
-        imgMetadata['raw']['path'] = previewRelativePath + 'raw/' + imgMetadata.name;
-        imgMetadata['raw']['width'] = dimensions.width;
-        imgMetadata['raw']['height'] = dimensions.height;
-    });
 }
 
 function sortByCreationDate() {
-    console.log('\n\nSorting images by actual creation time...');
+    console.log('\nSorting images by actual creation time...');
 
     imageMetadataArray.sort(function (a, b) {
         if (a.date > b.date) {
@@ -150,7 +162,7 @@ function sortByCreationDate() {
 }
 
 function sortByFileName() {
-    console.log('\n\nSorting images by file name...');
+    console.log('\nSorting images by file name...');
 
     imageMetadataArray.sort(function (a, b) {
         if (a.name > b.name) {
@@ -167,7 +179,7 @@ function sortByFileName() {
 }
 
 function saveMetadataFile() {
-    var metadataAsJSON = JSON.stringify(imageMetadataArray, null, 4);
+    var metadataAsJSON = JSON.stringify(imageMetadataArray, null, null);
     console.log('\nSaving metadata file...');
 
     fs.writeFile(assetsAbsoluteBasePath + 'data.json', metadataAsJSON, function (err) {

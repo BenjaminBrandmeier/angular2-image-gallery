@@ -7,8 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "gm": "1.23.0",
-    "image-size": "^0.5.1"
+    "gm": "1.23.0"
   },
   "author": "Benjamin Brandmeier"
 }
