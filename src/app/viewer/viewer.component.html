@@ -1,14 +1,25 @@
-<div class="outerContainer" (window:resize)="onResize($event)" [hidden]="!showViewer">
+<div class="outerContainer" (window:resize)="onResize($event)" *ngIf="showViewer">
+
+    <md-button-toggle-group *ngIf="qualitySelectorShown" (change)="qualityChanged($event.value)" name="quality">
+        <md-button-toggle value="auto" checked="true">Auto</md-button-toggle>
+        <md-button-toggle value="low">Low</md-button-toggle>
+        <md-button-toggle value="mid">Mid</md-button-toggle>
+        <md-button-toggle value="high">High</md-button-toggle>
+    </md-button-toggle-group>
+
     <img [ngClass]="{'activeArrow': leftArrowActive}" class="arrow left" [src]="arrows[0]" (click)="navigate(-1, false)"
-         [hidden]="!showViewer || !leftArrowVisible"/>
+         [hidden]="!leftArrowVisible"/>
     <img [ngClass]="{'activeArrow': rightArrowActive}" class="arrow right" [src]="arrows[1]"
-         (click)="navigate(1, false)" [hidden]="!showViewer || !rightArrowVisible"/>
-    <div class="buttonContainer" [hidden]="!showViewer">
-        <span class="action fullsize" (click)="openFullsize()" [hidden]="!showViewer">100%</span>
-        <img class="action close" src="assets/img/icon/close.svg" (click)="closeViewer()" [hidden]="!showViewer"/>
+         (click)="navigate(1, false)" [hidden]="!rightArrowVisible"/>
+    <div class="buttonContainer">
+        <img class="action close" src="assets/img/icon/close.svg" (click)="closeViewer()"/>
     </div>
+    <button md-fab disableRipple class="menuButton" (click)="showQualitySelector()">
+        <md-icon>settings</md-icon>
+    </button>
     <div class="imageContainer" (click)="showNavigationArrows()" (swipeleft)="navigate(1, true)"
-         (swiperight)="navigate(-1, true)" [hidden]="!showViewer">
-        <img class="image" [src]="previewImagePath" [hidden]="!showViewer"/>
+         (swiperight)="navigate(-1, true)">
+        <img class="image" [src]="previewImagePath"/>
     </div>
+
 </div>

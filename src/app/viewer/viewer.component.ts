@@ -1,9 +1,5 @@
-import {
-    Component, NgZone, ViewChild, ElementRef, Input, Output, EventEmitter, OnChanges,
-    AfterContentInit, HostBinding
-} from '@angular/core'
-import {Http, Response} from '@angular/http'
-import 'rxjs/Rx'
+import {Component, Input, Output, EventEmitter, OnChanges, AfterContentInit} from "@angular/core";
+import "rxjs/Rx";
 
 @Component({
     selector: 'app-viewer',
@@ -28,10 +24,11 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
     rightArrowActive: boolean = true
     leftArrowVisible: boolean = true
     rightArrowVisible: boolean = true
+    qualitySelectorShown: boolean = false
+    qualitySelected: string = 'auto'
     previewImagePath = ''
 
-    // TypeScript public modifiers
-    constructor(private _ngZone: NgZone, private http: Http) {
+    constructor() {
     }
 
     ngOnChanges(changes) {
@@ -121,33 +118,61 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
         let screenWidth = window.innerWidth
         let screenHeight = window.innerHeight
 
-        let optimalCategory = 'preview_xs'
+        let usedCategory = ''
 
-        if (screenWidth > this.images[this.currentIdx]['preview_xs'].width &&
-            screenHeight > this.images[this.currentIdx]['preview_xs'].height) {
-            optimalCategory = 'preview_s'
-        }
-        if (screenWidth > this.images[this.currentIdx]['preview_s'].width &&
-            screenHeight > this.images[this.currentIdx]['preview_s'].height) {
-            optimalCategory = 'preview_m'
-        }
-        if (screenWidth > this.images[this.currentIdx]['preview_m'].width &&
-            screenHeight > this.images[this.currentIdx]['preview_m'].height) {
-            optimalCategory = 'preview_l'
-        }
-        if (screenWidth > this.images[this.currentIdx]['preview_l'].width &&
-            screenHeight > this.images[this.currentIdx]['preview_l'].height) {
-            optimalCategory = 'preview_xl'
-        }
-        if (screenWidth > this.images[this.currentIdx]['preview_xl'].width &&
-            screenHeight > this.images[this.currentIdx]['preview_xl'].height) {
-            optimalCategory = 'raw'
+        switch (this.qualitySelected) {
+            case 'auto': {
+                usedCategory = 'preview_xs'
+
+                if (screenWidth > this.images[this.currentIdx]['preview_xs'].width &&
+                    screenHeight > this.images[this.currentIdx]['preview_xs'].height) {
+                    usedCategory = 'preview_s'
+                }
+                if (screenWidth > this.images[this.currentIdx]['preview_s'].width &&
+                    screenHeight > this.images[this.currentIdx]['preview_s'].height) {
+                    usedCategory = 'preview_m'
+                }
+                if (screenWidth > this.images[this.currentIdx]['preview_m'].width &&
+                    screenHeight > this.images[this.currentIdx]['preview_m'].height) {
+                    usedCategory = 'preview_l'
+                }
+                if (screenWidth > this.images[this.currentIdx]['preview_l'].width &&
+                    screenHeight > this.images[this.currentIdx]['preview_l'].height) {
+                    usedCategory = 'preview_xl'
+                }
+                if (screenWidth > this.images[this.currentIdx]['preview_xl'].width &&
+                    screenHeight > this.images[this.currentIdx]['preview_xl'].height) {
+                    usedCategory = 'raw'
+                }
+                break;
+            }
+            case 'low': {
+                usedCategory = 'preview_xxs'
+                break;
+            }
+            case 'mid': {
+                usedCategory = 'preview_m'
+                break;
+            }
+            case 'high': {
+                usedCategory = 'raw'
+                break;
+            }
         }
 
-        this.previewImagePath = this.images[this.currentIdx][optimalCategory].path
+        this.previewImagePath = this.images[this.currentIdx][usedCategory].path
     }
 
     private onResize() {
+        this.updatePreviewImage()
+    }
+
+    showQualitySelector() {
+        this.qualitySelectorShown = !this.qualitySelectorShown
+    }
+
+    qualityChanged(newQuality) {
+        this.qualitySelected = newQuality
         this.updatePreviewImage()
     }
 }

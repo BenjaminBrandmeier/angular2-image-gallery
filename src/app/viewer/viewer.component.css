@@ -98,3 +98,29 @@
     margin-right: 30px;
     text-shadow: -1px 0 #444, 0 1px #444, 1px 0 #444, 0 -1px #444;
 }
+
+md-button-toggle-group {
+    display: table;
+    top: 70px;
+    margin: 0 auto;
+    background-color: #fff;
+    z-index: 500;
+}
+
+md-button-toggle.checked {
+    background-color: #a0a0a0;
+}
+
+.menuButton {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    text-align: center;
+    opacity: 1.0;
+    z-index: 200;
+    transition: all ease-out 0.5s;
+}
+
+[md-fab], [md-mini-fab] {
+    background-color: #aaaaaa;
+}

@@ -1,6 +1,6 @@
-import {Component, NgZone, ViewChild, ElementRef, AfterContentInit} from '@angular/core'
-import {Http, Response} from '@angular/http'
-import 'rxjs/Rx'
+import {Component, NgZone, ViewChild, ElementRef, AfterContentInit} from "@angular/core";
+import {Http, Response} from "@angular/http";
+import "rxjs/Rx";
 
 interface IPreviewImageInformation {
     path: string
