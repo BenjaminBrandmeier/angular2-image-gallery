@@ -1,4 +1,6 @@
 # ng2imggallery
+[![Build Status](https://travis-ci.org/BenjaminBrandmeier/ng2imggallery.svg?branch=master)](https://travis-ci.org/BenjaminBrandmeier/ng2imggallery)
+
 A responsive image gallery designed for high resolution images.
 The project consists of a gallery, a viewer and a script for image preparation.
 
