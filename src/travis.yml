@@ -1,0 +1,21 @@
+language: node_js
+sudo: false
+cache:
+  directories:
+    - node
+    - node_modules
+dist: trusty
+node_js:
+  - '7.3.0'
+branches:
+  only:
+  - master
+before_install:
+ - npm install -g angular-cli
+script:
+ - ng build --prod
+notifications:
+  webhooks:
+    on_success: always
+    on_failure: always
+    on_start: false
