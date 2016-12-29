@@ -20,8 +20,6 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
     onClose = new EventEmitter<boolean>()
 
     arrows: string[] = ['assets/img/icon/left.svg', 'assets/img/icon/right.svg']
-    leftArrowActive: boolean = true
-    rightArrowActive: boolean = true
     leftArrowVisible: boolean = true
     rightArrowVisible: boolean = true
     qualitySelectorShown: boolean = false
@@ -41,7 +39,7 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
     }
 
     onKeydown(event: KeyboardEvent) {
-        let prevent = [37, 39, 27]
+        let prevent = [37, 39, 27, 36, 35]
             .find(no => no === event.keyCode)
         if (prevent) {
             event.preventDefault()
@@ -59,21 +57,25 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
             case 27:
                 // esc
                 this.closeViewer()
+            case 36:
+                // pos 1
+                this.currentIdx = 0
+                this.updatePreviewImage()
+                break
+            case 35:
+                // end
+                this.currentIdx = this.images.length - 1
+                this.updatePreviewImage()
                 break
         }
     }
 
-    updateArrowActivation() {
-        if (this.currentIdx <= 0) {
-            this.leftArrowActive = false
-        } else {
-            this.leftArrowActive = true
-        }
-        if (this.currentIdx >= this.images.length - 1) {
-            this.rightArrowActive = false
-        } else {
-            this.rightArrowActive = true
-        }
+    public get leftArrowActive(): boolean {
+        return this.currentIdx > 0;
+    }
+
+    public get rightArrowActive(): boolean {
+        return this.currentIdx < this.images.length - 1;
     }
 
     /**
@@ -88,7 +90,6 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
             if (swipe) {
                 this.hideNavigationArrows()
             } else {
-                this.updateArrowActivation()
                 this.showNavigationArrows()
             }
             this.updatePreviewImage()
