@@ -5,8 +5,8 @@ var process = require("process");
 var gm = require('gm');
 
 var sortFunction;
-var projectRoot = getProjectRootPath();
-var toConvertAbsoluteBasePath = projectRoot + "/tools/images_to_convert";
+var projectRoot = path.dirname(require.main.filename);
+var toConvertAbsoluteBasePath = projectRoot + "/images_to_convert";
 var assetsAbsoluteBasePath = projectRoot + "/src/assets/img/gallery/";
 var previewRelativePath = "assets/img/gallery/";
 var imageMetadataArray = [];
@@ -187,13 +187,6 @@ function saveMetadataFile() {
         if (err) throw err;
         console.log('...done (metadata)');
     });
-}
-
-function getProjectRootPath() {
-    var toolsPath = path.dirname(require.main.filename);
-    var pathElements = toolsPath.split(/[/|\\]/);
-    pathElements.pop();
-    return pathElements.join('/');
 }
 
 convert();

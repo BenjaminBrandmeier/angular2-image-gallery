@@ -2,11 +2,12 @@
 [![Build Status](https://travis-ci.org/BenjaminBrandmeier/ng2imggallery.svg?branch=master)](https://travis-ci.org/BenjaminBrandmeier/ng2imggallery)
 
 A responsive image gallery designed for high resolution images.
+
 The project consists of a gallery, a viewer and a script for image preparation.
 
 There is still a lot to do. I will provide a feature list in the near feature.
 
-If you'd like to contribute, I'm happy to accept pull requests. :)
+If you'd like to contribute, I'm happy to accept pull requests.
 
 ## Demo
 
@@ -21,26 +22,31 @@ http://oidamo.de/ng2imggallery/0.4.0/
 
 ## Pre-requirements
 
-Run npm install in root directory and under tools directory.
+Install node, angular-cli and graphicsmagick.
 
-For windows users get graphicsmagick here:
+For windows users:
 http://www.graphicsmagick.org/download.html
 
-For ubuntu users install graphicsmagick via:
-apt-get install graphicsmagick
-
-## Usage
-After checking pre-requirements run the following commands to get going:
-
-Copy all your images for the image gallery to "tools/images_to_convert/":
+For ubuntu users:
 ```bash
-node convert.js
+apt-get install graphicsmagick
 ```
-Start the developing server with:
+## Usage
+Copy all your images to the folder **images_to_convert**.
+
+Install dependencies:
+```bash
+npm install
+```
+Start conversion process:
+```bash
+npm run convert
+```
+Start the development server with:
 ```bash
 ng serve
 ```
 
 ## Troubleshooting
 
-If the convert process fails, make sure you have some swap space ready.
+If the convert process fails, make sure you have enough swap space provided.
