@@ -5,8 +5,6 @@ A responsive image gallery designed for high resolution images.
 
 The project consists of a gallery, a viewer and a script for image preparation.
 
-There is still a lot to do. I will provide a feature list in the near feature.
-
 If you'd like to contribute, I'm happy to accept pull requests.
 
 ## Demo
@@ -25,6 +23,7 @@ http://oidamo.de/ng2imggallery/0.4.0/
 Install node, angular-cli and graphicsmagick.
 
 For windows users:
+
 http://www.graphicsmagick.org/download.html
 
 For ubuntu users:
