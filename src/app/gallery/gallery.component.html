@@ -1,11 +1,15 @@
-<div #galleryContainer class="galleryContainer" (window:resize)="onResize($event)"
-     (window:scroll)="checkForAsyncReload($event)">
+<div #galleryContainer class="galleryContainer">
     <div class="innerGalleryContainer">
         <div *ngFor='let imgrow of gallery; let i = index' class="imagerow">
-            <img *ngFor='let img of imgrow; let j = index' class="thumbnail" [style.width.px]="img.width"
-                 [style.height.px]="img.height" (click)="openImageViewer(img)" [src]="thumbnailBasePath + img.name"/>
+            <img #imageElement
+                 *ngFor='let img of imgrow; let j = index'
+                 class="thumbnail"
+                 [style.width.px]="img.width"
+                 [style.height.px]="img.height"
+                 (click)="openImageViewer(img)"
+                 [src]="loadImage(img)"
+                 [style.background]="img['loaded'] ? 'transparent' : img.dominantColor"/>
         </div>
-        <div #asyncLoadingContainer class="asyncLoadingContainer"></div>
     </div>
 </div>
 

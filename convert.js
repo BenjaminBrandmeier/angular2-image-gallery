@@ -130,14 +130,22 @@ function provideImageInformation(imageMetadataArray, imgMetadataIdx, resolutions
             imgMetadata[resolution.name]['width'] = size.width;
             imgMetadata[resolution.name]['height'] = size.height;
 
-            if (imageMetadataArray.length - 1 == imgMetadataIdx &&
-                resolutions.length - 1 == resolutionIdx) {
-                console.log('...done (information)');
+            if (resolutions.length - 1 == resolutionIdx) {
+                gm(filePath)
+                    .resize(250, 250)
+                    .colors(1)
+                    .toBuffer('RGB', function (err, buffer) {
+                        if (err) throw err;
+                        imgMetadata['dominantColor'] = '#' + buffer.slice(0, 3).toString('hex');
 
-                sortFunction();
-            }
-            else if (resolutions.length - 1 == resolutionIdx) {
-                provideImageInformation(imageMetadataArray, ++imgMetadataIdx, resolutions, 0);
+                        if (imageMetadataArray.length - 1 == imgMetadataIdx) {
+                            console.log('...done (information)');
+                            sortFunction();
+                        }
+                        else {
+                            provideImageInformation(imageMetadataArray, ++imgMetadataIdx, resolutions, 0);
+                        }
+                    });
             }
             else {
                 provideImageInformation(imageMetadataArray, imgMetadataIdx, resolutions, ++resolutionIdx);

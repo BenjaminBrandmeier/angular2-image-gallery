@@ -1,6 +1,9 @@
-import {Component, NgZone, ViewChild, ElementRef, AfterContentInit} from "@angular/core";
-import {Http, Response} from "@angular/http";
-import "rxjs/Rx";
+import {
+    Component, ViewChild, ElementRef, AfterContentInit, HostListener, ViewChildren,
+    ChangeDetectorRef
+} from "@angular/core"
+import {Http, Response} from "@angular/http"
+import "rxjs/Rx"
 
 interface IPreviewImageInformation {
     path: string
@@ -11,6 +14,7 @@ interface IPreviewImageInformation {
 interface IImage {
     name: string
     date: string
+    dominantColor: string
     preview_xxs: IPreviewImageInformation
     preview_xs: IPreviewImageInformation
     preview_s: IPreviewImageInformation
@@ -27,20 +31,23 @@ interface IImage {
 })
 export class GalleryComponent implements AfterContentInit {
     @ViewChild('galleryContainer') galleryContainer: ElementRef
-    @ViewChild('asyncLoadingContainer') asyncLoadingContainer: ElementRef
+    @ViewChildren('imageElement') imageElements: any
 
-    thumbnailBasePath = 'assets/img/gallery/preview_xxs/'
+    @HostListener('window:scroll', ['$event']) triggerCycle(event) {
+    }
+
+    @HostListener('window:resize', ['$event']) windowResize(event) {
+        this.render()
+    }
+
     currentIdx: number = 0
     galleryBasePath: string = 'assets/img/gallery/'
     showBig: boolean = false
-    images: any[] = [{url: ''}]
+    images: any[] = [{}]
     gallery: any[] = []
-    imgIterations = 1
-    allImagesLoaded = false
+    imgIterations = 100000
 
-    // TypeScript public modifiers
-    constructor(private _ngZone: NgZone, private http: Http) {
-
+    constructor(private http: Http, private ChangeDetectorRef: ChangeDetectorRef) {
     }
 
     ngAfterContentInit() {
@@ -61,6 +68,9 @@ export class GalleryComponent implements AfterContentInit {
 
     private render() {
         this.gallery = []
+        this.images.forEach((image) => {
+            image['loaded'] = false
+        })
 
         let tempRow = [this.images[0]]
         let rowIndex = 0
@@ -79,12 +89,6 @@ export class GalleryComponent implements AfterContentInit {
         }
 
         this.scaleGallery()
-
-        if (i >= this.images.length) {
-            this.allImagesLoaded = true
-        } else {
-            this.checkForAsyncReload()
-        }
     }
 
     private shouldAddCandidate(imgRow: IImage[], candidate: IImage): boolean {
@@ -106,7 +110,7 @@ export class GalleryComponent implements AfterContentInit {
 
     private scaleGallery() {
         // TODO: Make this dynamic depending on screen size
-        let galleryImageSizeCategory = 'preview_xxs';
+        let galleryImageSizeCategory = 'preview_xxs'
 
         this.gallery.forEach((imgRow) => {
             let xsum = this.calcOriginalRowWidth(imgRow)
@@ -126,6 +130,8 @@ export class GalleryComponent implements AfterContentInit {
                 })
             }
         })
+
+        this.ChangeDetectorRef.detectChanges()
     }
 
     private calcOriginalRowWidth(imgRow: IImage[]) {
@@ -158,27 +164,25 @@ export class GalleryComponent implements AfterContentInit {
         return this.galleryContainer.nativeElement.clientWidth
     }
 
-    private checkForAsyncReload() {
-        if (!this.allImagesLoaded) {
-            let loadingDiv: any = this.asyncLoadingContainer.nativeElement
-
-            let elmTop = loadingDiv.getBoundingClientRect().top
-            let elmBottom = loadingDiv.getBoundingClientRect().bottom
-
-            let isVisible = (elmTop >= 0) && (elmBottom <= window.innerHeight)
-
-            if (isVisible) {
-                this.imgIterations += 5
-                this.fetchDataAndRender()
-            }
-        }
-    }
-
     private onClose() {
         this.showBig = false
     }
 
-    private onResize() {
-        this.render()
+    private loadImage(image) {
+        let imageIndex = this.images.indexOf(image)
+        let imageElements = this.imageElements.toArray()
+
+        if (imageElements.length > 0 && this.isScrolledIntoView(imageElements[imageIndex].nativeElement)) {
+            image['loaded'] = true
+            return image['preview_xxs']['path']
+        }
+        return ''
+    }
+
+    private isScrolledIntoView(element) {
+        let elementTop = element.getBoundingClientRect().top
+        let elementBottom = element.getBoundingClientRect().bottom
+
+        return elementTop < window.innerHeight && elementBottom >= 0
     }
 }
