@@ -60,6 +60,9 @@ export class GalleryComponent implements AfterContentInit {
             .subscribe(
                 data => {
                     this.images = data
+
+                    // twice because webkit image size bug
+                    this.render()
                     this.render()
                 },
                 err => console.error(err),

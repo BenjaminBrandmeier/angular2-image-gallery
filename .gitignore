@@ -40,3 +40,5 @@ upload.txt
 #System Files
 .DS_Store
 Thumbs.db
+images_to_convert/
+upload.txt
