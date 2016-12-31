@@ -1,4 +1,4 @@
-# ng2imggallery
+# Angular 2 Image Gallery
 [![Build Status](https://travis-ci.org/BenjaminBrandmeier/ng2imggallery.svg?branch=master)](https://travis-ci.org/BenjaminBrandmeier/ng2imggallery)
 
 A responsive image gallery designed for high resolution images.
