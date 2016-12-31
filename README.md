@@ -9,7 +9,7 @@ If you'd like to contribute, I'm happy to accept pull requests.
 
 ## Demo
 
-http://oidamo.de/ng2imggallery/0.4.0/
+http://oidamo.de/ng2imggallery/
 
 ## Currently used tools
 
