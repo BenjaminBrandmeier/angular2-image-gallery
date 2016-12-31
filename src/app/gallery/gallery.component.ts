@@ -175,7 +175,8 @@ export class GalleryComponent implements AfterContentInit {
         let imageIndex = this.images.indexOf(image)
         let imageElements = this.imageElements.toArray()
 
-        if (imageElements.length > 0 && this.isScrolledIntoView(imageElements[imageIndex].nativeElement)) {
+        if (image['loaded'] ||
+            (imageElements.length > 0 && this.isScrolledIntoView(imageElements[imageIndex].nativeElement))) {
             image['loaded'] = true
             return image['preview_xxs']['path']
         }
@@ -186,6 +187,6 @@ export class GalleryComponent implements AfterContentInit {
         let elementTop = element.getBoundingClientRect().top
         let elementBottom = element.getBoundingClientRect().bottom
 
-        return elementTop < window.innerHeight && elementBottom >= 0
+        return elementTop < window.innerHeight && elementBottom >= 0 && (elementBottom > 0 || elementTop > 0)
     }
 }

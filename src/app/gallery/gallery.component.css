@@ -11,7 +11,7 @@
 }
 
 .galleryContainer img:not(:last-child) {
-    padding-right: 1px;
+    margin-right: 1px;
 }
 
 .galleryContainer img:hover {
