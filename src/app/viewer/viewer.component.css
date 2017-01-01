@@ -21,7 +21,14 @@
     right: 0px;
 }
 
-.imageContainer img {
+
+.imageContainer .image {
+    display: none;
+    object-fit: contain;
+    font-family: 'object-fit: contain;'
+}
+
+.imageContainer .image.active {
     position: absolute;
     display: block;
     margin: auto auto;
@@ -29,8 +36,8 @@
     right: 0;
     top: 0;
     bottom: 0;
-    max-height: 100%;
-    max-width: 100%;
+    height: 100%;
+    width: 100%;
     opacity: 1.0;
 }
 

@@ -1,4 +1,7 @@
-import {Component, Input, Output, EventEmitter, OnChanges, AfterContentInit} from "@angular/core";
+import {
+    Component, Input, Output, EventEmitter, OnChanges, AfterContentInit, ElementRef,
+    ViewChild, Renderer, ViewChildren, QueryList
+} from "@angular/core";
 import "rxjs/Rx";
 
 @Component({
@@ -10,6 +13,8 @@ import "rxjs/Rx";
     }
 })
 export class ViewerComponent implements OnChanges, AfterContentInit {
+    @ViewChild('image') image: ElementRef
+    @ViewChildren('imageContainer') imageContainer: QueryList<any>;
     @Input()
     images: any[]
     @Input()
@@ -24,9 +29,11 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
     rightArrowVisible: boolean = true
     qualitySelectorShown: boolean = false
     qualitySelected: string = 'auto'
-    previewImagePath = ''
+    categorySelected: string = 'preview_xxs'
+    removedTranslation: boolean
+    private transform: string;
 
-    constructor() {
+    constructor(private renderer: Renderer) {
     }
 
     ngOnChanges(changes) {
@@ -78,14 +85,23 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
         return this.currentIdx < this.images.length - 1;
     }
 
+    pan(swipe: any) {
+        let currentDeltaX = swipe.deltaX;
+        this.transform = 'translate(' + currentDeltaX + 'px, 0px)'
+    }
+
+    panEnd() {
+        this.transform = 'translate(0px, 0px)'
+    }
+
     /**
      * direction (-1: left, 1: right)
      * swipe (user swiped)
      */
-    navigate(direction: number, swipe: boolean) {
+    navigate(direction: number, swipe: any) {
         if ((direction === 1 && this.currentIdx < this.images.length - 1) ||
             (direction === -1 && this.currentIdx > 0)) {
-            // increases or decreases the counter
+
             this.currentIdx += direction
             if (swipe) {
                 this.hideNavigationArrows()
@@ -106,10 +122,6 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
         this.rightArrowVisible = true
     }
 
-    openFullsize() {
-        window.location.href = 'assets/img/gallery/raw/' + this.images[this.currentIdx].name
-    }
-
     private closeViewer() {
         this.showViewer = false
         this.onClose.emit(false)
@@ -119,49 +131,52 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
         let screenWidth = window.innerWidth
         let screenHeight = window.innerHeight
 
-        let usedCategory = ''
-
         switch (this.qualitySelected) {
             case 'auto': {
-                usedCategory = 'preview_xs'
+                this.categorySelected = 'preview_xxs'
 
+                if (screenWidth > this.images[this.currentIdx]['preview_xxs'].width &&
+                    screenHeight > this.images[this.currentIdx]['preview_xxs'].height) {
+                    this.categorySelected = 'preview_xs'
+                }
                 if (screenWidth > this.images[this.currentIdx]['preview_xs'].width &&
                     screenHeight > this.images[this.currentIdx]['preview_xs'].height) {
-                    usedCategory = 'preview_s'
+                    this.categorySelected = 'preview_s'
                 }
                 if (screenWidth > this.images[this.currentIdx]['preview_s'].width &&
                     screenHeight > this.images[this.currentIdx]['preview_s'].height) {
-                    usedCategory = 'preview_m'
+                    this.categorySelected = 'preview_m'
                 }
                 if (screenWidth > this.images[this.currentIdx]['preview_m'].width &&
                     screenHeight > this.images[this.currentIdx]['preview_m'].height) {
-                    usedCategory = 'preview_l'
+                    this.categorySelected = 'preview_l'
                 }
                 if (screenWidth > this.images[this.currentIdx]['preview_l'].width &&
                     screenHeight > this.images[this.currentIdx]['preview_l'].height) {
-                    usedCategory = 'preview_xl'
+                    this.categorySelected = 'preview_xl'
                 }
                 if (screenWidth > this.images[this.currentIdx]['preview_xl'].width &&
                     screenHeight > this.images[this.currentIdx]['preview_xl'].height) {
-                    usedCategory = 'raw'
+                    this.categorySelected = 'raw'
                 }
                 break;
             }
             case 'low': {
-                usedCategory = 'preview_xxs'
+                this.categorySelected = 'preview_xxs'
                 break;
             }
             case 'mid': {
-                usedCategory = 'preview_m'
+                this.categorySelected = 'preview_m'
                 break;
             }
             case 'high': {
-                usedCategory = 'raw'
+                this.categorySelected = 'raw'
                 break;
             }
         }
 
-        this.previewImagePath = this.images[this.currentIdx][usedCategory].path
+        this.images.forEach((image) => image['active'] = false)
+        this.images[this.currentIdx]['active'] = true
     }
 
     private onResize() {

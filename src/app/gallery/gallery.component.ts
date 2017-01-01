@@ -1,6 +1,6 @@
 import {
     Component, ViewChild, ElementRef, AfterContentInit, HostListener, ViewChildren,
-    ChangeDetectorRef
+    ChangeDetectorRef, QueryList
 } from "@angular/core"
 import {Http, Response} from "@angular/http"
 import "rxjs/Rx"
@@ -31,7 +31,7 @@ interface IImage {
 })
 export class GalleryComponent implements AfterContentInit {
     @ViewChild('galleryContainer') galleryContainer: ElementRef
-    @ViewChildren('imageElement') imageElements: any
+    @ViewChildren('imageElement') imageElements: QueryList<any>
 
     @HostListener('window:scroll', ['$event']) triggerCycle(event) {
     }
