@@ -1,6 +1,16 @@
 import {
-    Component, Input, Output, EventEmitter, OnChanges, AfterContentInit, ElementRef,
-    ViewChild, Renderer, ViewChildren, QueryList
+    Component,
+    Input,
+    Output,
+    EventEmitter,
+    OnChanges,
+    AfterContentInit,
+    trigger,
+    state,
+    style,
+    transition,
+    animate,
+    ChangeDetectorRef
 } from "@angular/core";
 import "rxjs/Rx";
 
@@ -10,11 +20,57 @@ import "rxjs/Rx";
     styleUrls: ['./viewer.component.css'],
     host: {
         '(document:keydown)': 'onKeydown($event)',
-    }
+    },
+    animations: [
+        trigger('imageTransition', [
+            state('enterFromRight', style({
+                opacity: 1,
+                transform: 'translate(0px, 0px)'
+            })),
+            state('enterFromLeft', style({
+                opacity: 1,
+                transform: 'translate(0px, 0px)'
+            })),
+            state('leaveToLeft', style({
+                opacity: 0,
+                transform: 'translate(-10%, 0px)'
+            })),
+            state('leaveToRight', style({
+                opacity: 0,
+                transform: 'translate(10%, 0px)'
+            })),
+            transition('* => enterFromRight', [
+                style({
+                    opacity: 0,
+                    transform: 'translate(3%, 0px)'
+                }),
+                animate('250ms 500ms ease-in')
+            ]),
+            transition('* => enterFromLeft', [
+                style({
+                    opacity: 0,
+                    transform: 'translate(-3%, 0px)'
+                }),
+                animate('250ms 500ms ease-in')
+            ]),
+            transition('* => leaveToLeft', [
+                style({
+                    opacity: 1,
+                    transform: 'translate(0px, 0px)'
+                }),
+                animate('250ms ease-out')]
+            ),
+            transition('* => leaveToRight', [
+                style({
+                    opacity: 1,
+                    transform: 'translate(0px, 0px)'
+                }),
+                animate('250ms ease-out')]
+            )
+        ])
+    ]
 })
 export class ViewerComponent implements OnChanges, AfterContentInit {
-    @ViewChild('image') image: ElementRef
-    @ViewChildren('imageContainer') imageContainer: QueryList<any>;
     @Input()
     images: any[]
     @Input()
@@ -30,10 +86,9 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
     qualitySelectorShown: boolean = false
     qualitySelected: string = 'auto'
     categorySelected: string = 'preview_xxs'
-    removedTranslation: boolean
     private transform: string;
 
-    constructor(private renderer: Renderer) {
+    constructor(private ChangeDetectorRef: ChangeDetectorRef) {
     }
 
     ngOnChanges(changes) {
@@ -64,14 +119,19 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
             case 27:
                 // esc
                 this.closeViewer()
+                break
             case 36:
                 // pos 1
+                this.images[this.currentIdx]['transition'] = 'leaveToRight'
                 this.currentIdx = 0
+                this.images[this.currentIdx]['transition'] = 'enterFromLeft'
                 this.updatePreviewImage()
                 break
             case 35:
                 // end
+                this.images[this.currentIdx]['transition'] = 'leaveToLeft'
                 this.currentIdx = this.images.length - 1
+                this.images[this.currentIdx]['transition'] = 'enterFromRight'
                 this.updatePreviewImage()
                 break
         }
@@ -87,11 +147,7 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
 
     pan(swipe: any) {
         let currentDeltaX = swipe.deltaX;
-        this.transform = 'translate(' + currentDeltaX + 'px, 0px)'
-    }
-
-    panEnd() {
-        this.transform = 'translate(0px, 0px)'
+        this.transform = currentDeltaX + 'px'
     }
 
     /**
@@ -102,7 +158,16 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
         if ((direction === 1 && this.currentIdx < this.images.length - 1) ||
             (direction === -1 && this.currentIdx > 0)) {
 
+            if (direction == -1) {
+                this.images[this.currentIdx]['transition'] = 'leaveToRight'
+                this.images[this.currentIdx - 1]['transition'] = 'enterFromLeft'
+            }
+            else {
+                this.images[this.currentIdx]['transition'] = 'leaveToLeft'
+                this.images[this.currentIdx + 1]['transition'] = 'enterFromRight'
+            }
             this.currentIdx += direction
+
             if (swipe) {
                 this.hideNavigationArrows()
             } else {
@@ -123,6 +188,8 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
     }
 
     private closeViewer() {
+        this.images.forEach((image) => image['transition'] = undefined)
+        this.images.forEach((image) => image['active'] = false)
         this.showViewer = false
         this.onClose.emit(false)
     }
@@ -175,8 +242,13 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
             }
         }
 
-        this.images.forEach((image) => image['active'] = false)
         this.images[this.currentIdx]['active'] = true
+        // wait for animation to end
+        setTimeout(() => {
+            this.images.forEach((image) => image['active'] = false)
+            this.images[this.currentIdx]['active'] = true
+            this.transform = '0px'
+        }, 500)
     }
 
     private onResize() {

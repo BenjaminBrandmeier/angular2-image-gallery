@@ -61,7 +61,7 @@ export class GalleryComponent implements AfterContentInit {
                 data => {
                     this.images = data
 
-                    // twice because webkit image size bug
+                    // twice because of webkit image size bug
                     this.render()
                     this.render()
                 },
@@ -140,10 +140,10 @@ export class GalleryComponent implements AfterContentInit {
     private calcOriginalRowWidth(imgRow: IImage[]) {
         let xsum = 0
         imgRow.forEach((img) => {
-            let individualRatio = this.calcIdealHeight() / img.preview_xxs.height
-            img.preview_xxs.width = img.preview_xxs.width * individualRatio
-            img.preview_xxs.height = this.calcIdealHeight()
-            xsum += img.preview_xxs.width + 1
+            let individualRatio = this.calcIdealHeight() / img['preview_xxs']['height']
+            img['preview_xxs']['width'] = img['preview_xxs']['width'] * individualRatio
+            img['preview_xxs']['height'] = this.calcIdealHeight()
+            xsum += img['preview_xxs']['width'] + 1
         })
 
         return xsum

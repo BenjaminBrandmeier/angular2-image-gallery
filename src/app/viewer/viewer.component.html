@@ -19,14 +19,14 @@
         <md-icon>settings</md-icon>
     </button>
 
-    <div #imageContainer class="imageContainer" (click)="showNavigationArrows()" (swipeleft)="navigate(1, $event)"
-         (swiperight)="navigate(-1, $event)" (pan)="pan($event)" (panend)="panEnd()">
-        <img #image
-             *ngFor='let img of images; let j = index'
+    <div class="imageContainer" (click)="showNavigationArrows()" (swipeleft)="navigate(1, $event)"
+         (swiperight)="navigate(-1, $event)" (pan)="pan($event)">
+        <img *ngFor='let img of images; let j = index'
              class="image"
              [class.active]="img['active']"
+             [@imageTransition]="img['transition']"
              [src]="img['active'] ? img[categorySelected]['path'] : img['preview_xxs']['path']"
-             [style.transform]="transform"/>
+             [style.left]="transform"/>
     </div>
 
 </div>
