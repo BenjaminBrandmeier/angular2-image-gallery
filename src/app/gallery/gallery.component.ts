@@ -4,6 +4,7 @@ import {
 } from "@angular/core"
 import {Http, Response} from "@angular/http"
 import "rxjs/Rx"
+import {ImageService} from "../services/image.service";
 
 interface IPreviewImageInformation {
     path: string
@@ -40,18 +41,33 @@ export class GalleryComponent implements AfterContentInit {
         this.render()
     }
 
-    currentIdx: number = 0
     galleryBasePath: string = 'assets/img/gallery/'
-    showBig: boolean = false
     images: any[] = [{}]
     gallery: any[] = []
     imgIterations = 100000
 
-    constructor(private http: Http, private ChangeDetectorRef: ChangeDetectorRef) {
+    constructor(private ImageService : ImageService, private http: Http, private ChangeDetectorRef: ChangeDetectorRef) {
     }
 
-    ngAfterContentInit() {
+    public ngAfterContentInit() {
         this.fetchDataAndRender()
+    }
+
+    public openImageViewer(img) {
+        this.ImageService.updateSelectedImageIndex(this.images.indexOf(img))
+        this.ImageService.showImageViewer(true)
+    }
+
+    public loadImage(image) {
+        let imageIndex = this.images.indexOf(image)
+        let imageElements = this.imageElements.toArray()
+
+        if (image['loaded'] ||
+            (imageElements.length > 0 && this.isScrolledIntoView(imageElements[imageIndex].nativeElement))) {
+            image['loaded'] = true
+            return image['preview_xxs']['path']
+        }
+        return ''
     }
 
     private fetchDataAndRender() {
@@ -60,6 +76,7 @@ export class GalleryComponent implements AfterContentInit {
             .subscribe(
                 data => {
                     this.images = data
+                    this.ImageService.updateImages(this.images)
 
                     // twice because of webkit image size bug
                     this.render()
@@ -153,34 +170,12 @@ export class GalleryComponent implements AfterContentInit {
         return (this.getGalleryWidth() / 8) + 70
     }
 
-    private openImageViewer(img) {
-        this.showBig = undefined
-        this.showBig = true
-        this.currentIdx = this.images.indexOf(img)
-    }
-
     private getGalleryWidth() {
         if (this.galleryContainer.nativeElement.clientWidth === 0) {
             // IE11
             return this.galleryContainer.nativeElement.scrollWidth
         }
         return this.galleryContainer.nativeElement.clientWidth
-    }
-
-    private onClose() {
-        this.showBig = false
-    }
-
-    private loadImage(image) {
-        let imageIndex = this.images.indexOf(image)
-        let imageElements = this.imageElements.toArray()
-
-        if (image['loaded'] ||
-            (imageElements.length > 0 && this.isScrolledIntoView(imageElements[imageIndex].nativeElement))) {
-            image['loaded'] = true
-            return image['preview_xxs']['path']
-        }
-        return ''
     }
 
     private isScrolledIntoView(element) {

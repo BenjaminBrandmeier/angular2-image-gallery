@@ -5,6 +5,7 @@ import {HttpModule} from "@angular/http";
 import {GalleryComponent} from "./gallery/gallery.component";
 import {ViewerComponent} from "./viewer/viewer.component";
 import {MaterialModule} from "@angular/material";
+import {ImageService} from "./services/image.service";
 
 @NgModule({
     declarations: [
@@ -17,7 +18,7 @@ import {MaterialModule} from "@angular/material";
         HttpModule,
         MaterialModule.forRoot()
     ],
-    providers: [],
+    providers: [ImageService],
     bootstrap: [GalleryComponent]
 })
 export class AppModule {

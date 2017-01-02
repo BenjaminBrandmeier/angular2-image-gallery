@@ -13,6 +13,7 @@ import {
     ChangeDetectorRef
 } from "@angular/core";
 import "rxjs/Rx";
+import {ImageService} from "../services/image.service";
 
 @Component({
     selector: 'app-viewer',
@@ -70,71 +71,34 @@ import "rxjs/Rx";
         ])
     ]
 })
-export class ViewerComponent implements OnChanges, AfterContentInit {
-    @Input()
-    images: any[]
-    @Input()
-    currentIdx: number
-    @Input()
-    showViewer: boolean;
-    @Output()
-    onClose = new EventEmitter<boolean>()
-
-    arrows: string[] = ['assets/img/icon/left.svg', 'assets/img/icon/right.svg']
-    leftArrowVisible: boolean = true
-    rightArrowVisible: boolean = true
-    qualitySelectorShown: boolean = false
-    qualitySelected: string = 'auto'
-    categorySelected: string = 'preview_xxs'
+export class ViewerComponent {
+    private images: any[] = [{}]
+    private currentIdx: number = 0
+    private showViewer: boolean;
+    private arrows: string[] = ['assets/img/icon/left.svg', 'assets/img/icon/right.svg']
+    private leftArrowVisible: boolean = true
+    private rightArrowVisible: boolean = true
+    private qualitySelectorShown: boolean = false
+    private qualitySelected: string = 'auto'
+    private categorySelected: string = 'preview_xxs'
     private transform: string;
 
-    constructor(private ChangeDetectorRef: ChangeDetectorRef) {
-    }
-
-    ngOnChanges(changes) {
-        if (this.images[this.currentIdx].name) {
-            this.updatePreviewImage()
-        }
-    }
-
-    ngAfterContentInit() {
-    }
-
-    onKeydown(event: KeyboardEvent) {
-        let prevent = [37, 39, 27, 36, 35]
-            .find(no => no === event.keyCode)
-        if (prevent) {
-            event.preventDefault()
-        }
-
-        switch (prevent) {
-            case 37:
-                // navigate left
-                this.navigate(-1, false)
-                break
-            case 39:
-                // navigate right
-                this.navigate(1, false)
-                break
-            case 27:
-                // esc
-                this.closeViewer()
-                break
-            case 36:
-                // pos 1
-                this.images[this.currentIdx]['transition'] = 'leaveToRight'
-                this.currentIdx = 0
-                this.images[this.currentIdx]['transition'] = 'enterFromLeft'
-                this.updatePreviewImage()
-                break
-            case 35:
-                // end
-                this.images[this.currentIdx]['transition'] = 'leaveToLeft'
-                this.currentIdx = this.images.length - 1
-                this.images[this.currentIdx]['transition'] = 'enterFromRight'
-                this.updatePreviewImage()
-                break
-        }
+    constructor(private ImageService: ImageService) {
+        ImageService.imagesUpdated$.subscribe(
+            images => {
+                this.images = images
+            })
+        ImageService.imageSelectedIndexUpdated$.subscribe(
+            newIndex => {
+                this.currentIdx = newIndex
+                this.images.forEach((image) => image['active'] = false)
+                this.images[this.currentIdx]['active'] = true
+                this.transform = '0px'
+            })
+        ImageService.showImageViewerChanged$.subscribe(
+            showViewer => {
+                this.showViewer = showViewer
+            })
     }
 
     public get leftArrowActive(): boolean {
@@ -145,16 +109,29 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
         return this.currentIdx < this.images.length - 1;
     }
 
-    pan(swipe: any) {
+    public pan(swipe: any) {
         let currentDeltaX = swipe.deltaX;
         this.transform = currentDeltaX + 'px'
+    }
+
+    public onResize() {
+        this.updateImage()
+    }
+
+    public showQualitySelector() {
+        this.qualitySelectorShown = !this.qualitySelectorShown
+    }
+
+    public qualityChanged(newQuality) {
+        this.qualitySelected = newQuality
+        this.updateImage()
     }
 
     /**
      * direction (-1: left, 1: right)
      * swipe (user swiped)
      */
-    navigate(direction: number, swipe: any) {
+    private navigate(direction: number, swipe: any) {
         if ((direction === 1 && this.currentIdx < this.images.length - 1) ||
             (direction === -1 && this.currentIdx > 0)) {
 
@@ -169,32 +146,23 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
             this.currentIdx += direction
 
             if (swipe) {
-                this.hideNavigationArrows()
+                this.leftArrowVisible = false
+                this.rightArrowVisible = false
             } else {
-                this.showNavigationArrows()
+                this.leftArrowVisible = true
+                this.rightArrowVisible = true
             }
-            this.updatePreviewImage()
+            this.updateImage()
         }
-    }
-
-    hideNavigationArrows() {
-        this.leftArrowVisible = false
-        this.rightArrowVisible = false
-    }
-
-    showNavigationArrows() {
-        this.leftArrowVisible = true
-        this.rightArrowVisible = true
     }
 
     private closeViewer() {
         this.images.forEach((image) => image['transition'] = undefined)
         this.images.forEach((image) => image['active'] = false)
-        this.showViewer = false
-        this.onClose.emit(false)
+        this.ImageService.showImageViewer(false)
     }
 
-    private updatePreviewImage() {
+    private updateImage() {
         let screenWidth = window.innerWidth
         let screenHeight = window.innerHeight
 
@@ -251,16 +219,40 @@ export class ViewerComponent implements OnChanges, AfterContentInit {
         }, 500)
     }
 
-    private onResize() {
-        this.updatePreviewImage()
-    }
+    private onKeydown(event: KeyboardEvent) {
+        let prevent = [37, 39, 27, 36, 35]
+            .find(no => no === event.keyCode)
+        if (prevent) {
+            event.preventDefault()
+        }
 
-    showQualitySelector() {
-        this.qualitySelectorShown = !this.qualitySelectorShown
-    }
-
-    qualityChanged(newQuality) {
-        this.qualitySelected = newQuality
-        this.updatePreviewImage()
+        switch (prevent) {
+            case 37:
+                // navigate left
+                this.navigate(-1, false)
+                break
+            case 39:
+                // navigate right
+                this.navigate(1, false)
+                break
+            case 27:
+                // esc
+                this.closeViewer()
+                break
+            case 36:
+                // pos 1
+                this.images[this.currentIdx]['transition'] = 'leaveToRight'
+                this.currentIdx = 0
+                this.images[this.currentIdx]['transition'] = 'enterFromLeft'
+                this.updateImage()
+                break
+            case 35:
+                // end
+                this.images[this.currentIdx]['transition'] = 'leaveToLeft'
+                this.currentIdx = this.images.length - 1
+                this.images[this.currentIdx]['transition'] = 'enterFromRight'
+                this.updateImage()
+                break
+        }
     }
 }
