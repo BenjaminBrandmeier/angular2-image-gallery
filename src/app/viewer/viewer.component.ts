@@ -11,9 +11,9 @@ import {
     transition,
     animate,
     ChangeDetectorRef
-} from "@angular/core";
-import "rxjs/Rx";
-import {ImageService} from "../services/image.service";
+} from "@angular/core"
+import "rxjs/Rx"
+import {ImageService} from "../services/image.service"
 
 @Component({
     selector: 'app-viewer',
@@ -74,14 +74,14 @@ import {ImageService} from "../services/image.service";
 export class ViewerComponent {
     private images: any[] = [{}]
     private currentIdx: number = 0
-    private showViewer: boolean;
+    private showViewer: boolean
     private arrows: string[] = ['assets/img/icon/left.svg', 'assets/img/icon/right.svg']
     private leftArrowVisible: boolean = true
     private rightArrowVisible: boolean = true
     private qualitySelectorShown: boolean = false
     private qualitySelected: string = 'auto'
     private categorySelected: string = 'preview_xxs'
-    private transform: string;
+    private transform: string
 
     constructor(private ImageService: ImageService) {
         ImageService.imagesUpdated$.subscribe(
@@ -94,6 +94,7 @@ export class ViewerComponent {
                 this.images.forEach((image) => image['active'] = false)
                 this.images[this.currentIdx]['active'] = true
                 this.transform = '0px'
+                this.updateQuality()
             })
         ImageService.showImageViewerChanged$.subscribe(
             showViewer => {
@@ -102,15 +103,15 @@ export class ViewerComponent {
     }
 
     public get leftArrowActive(): boolean {
-        return this.currentIdx > 0;
+        return this.currentIdx > 0
     }
 
     public get rightArrowActive(): boolean {
-        return this.currentIdx < this.images.length - 1;
+        return this.currentIdx < this.images.length - 1
     }
 
     public pan(swipe: any) {
-        let currentDeltaX = swipe.deltaX;
+        let currentDeltaX = swipe.deltaX
         this.transform = currentDeltaX + 'px'
     }
 
@@ -146,14 +147,22 @@ export class ViewerComponent {
             this.currentIdx += direction
 
             if (swipe) {
-                this.leftArrowVisible = false
-                this.rightArrowVisible = false
+                this.hideNavigationArrows()
             } else {
-                this.leftArrowVisible = true
-                this.rightArrowVisible = true
+                this.showNavigationArrows()
             }
             this.updateImage()
         }
+    }
+
+    private hideNavigationArrows() {
+        this.leftArrowVisible = false
+        this.rightArrowVisible = false
+    }
+
+    private showNavigationArrows() {
+        this.leftArrowVisible = true
+        this.rightArrowVisible = true
     }
 
     private closeViewer() {
@@ -163,6 +172,21 @@ export class ViewerComponent {
     }
 
     private updateImage() {
+        this.updateQuality()
+
+        this.images[this.currentIdx]['active'] = true
+        // wait for animation to end
+        setTimeout(() => {
+            this.images.forEach((image) => {
+                if (image != this.images[this.currentIdx]) {
+                    image['active'] = false
+                    this.transform = '0px'
+                }
+            })
+        }, 500)
+    }
+
+    private updateQuality() {
         let screenWidth = window.innerWidth
         let screenHeight = window.innerHeight
 
@@ -194,29 +218,21 @@ export class ViewerComponent {
                     screenHeight > this.images[this.currentIdx]['preview_xl'].height) {
                     this.categorySelected = 'raw'
                 }
-                break;
+                break
             }
             case 'low': {
                 this.categorySelected = 'preview_xxs'
-                break;
+                break
             }
             case 'mid': {
                 this.categorySelected = 'preview_m'
-                break;
+                break
             }
             case 'high': {
                 this.categorySelected = 'raw'
-                break;
+                break
             }
         }
-
-        this.images[this.currentIdx]['active'] = true
-        // wait for animation to end
-        setTimeout(() => {
-            this.images.forEach((image) => image['active'] = false)
-            this.images[this.currentIdx]['active'] = true
-            this.transform = '0px'
-        }, 500)
     }
 
     private onKeydown(event: KeyboardEvent) {

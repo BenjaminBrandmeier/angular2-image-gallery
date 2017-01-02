@@ -1,10 +1,10 @@
 import {
-    Component, ViewChild, ElementRef, AfterContentInit, HostListener, ViewChildren,
-    ChangeDetectorRef, QueryList
+    Component, ViewChild, ElementRef, HostListener, ViewChildren,
+    ChangeDetectorRef, QueryList, OnInit
 } from "@angular/core"
 import {Http, Response} from "@angular/http"
 import "rxjs/Rx"
-import {ImageService} from "../services/image.service";
+import {ImageService} from "../services/image.service"
 
 interface IPreviewImageInformation {
     path: string
@@ -30,26 +30,26 @@ interface IImage {
     templateUrl: './gallery.component.html',
     styleUrls: ['./gallery.component.css']
 })
-export class GalleryComponent implements AfterContentInit {
+export class GalleryComponent implements OnInit {
     @ViewChild('galleryContainer') galleryContainer: ElementRef
     @ViewChildren('imageElement') imageElements: QueryList<any>
 
     @HostListener('window:scroll', ['$event']) triggerCycle(event) {
+        this.scaleGallery()
     }
 
     @HostListener('window:resize', ['$event']) windowResize(event) {
         this.render()
     }
 
-    galleryBasePath: string = 'assets/img/gallery/'
-    images: any[] = [{}]
+    imageDataFilePath: string = 'assets/img/gallery/data.json'
+    images: IImage[] = []
     gallery: any[] = []
-    imgIterations = 100000
 
-    constructor(private ImageService : ImageService, private http: Http, private ChangeDetectorRef: ChangeDetectorRef) {
+    constructor(private ImageService: ImageService, private http: Http, private ChangeDetectorRef: ChangeDetectorRef) {
     }
 
-    public ngAfterContentInit() {
+    public ngOnInit() {
         this.fetchDataAndRender()
     }
 
@@ -58,27 +58,19 @@ export class GalleryComponent implements AfterContentInit {
         this.ImageService.showImageViewer(true)
     }
 
-    public loadImage(image) {
-        let imageIndex = this.images.indexOf(image)
-        let imageElements = this.imageElements.toArray()
-
-        if (image['loaded'] ||
-            (imageElements.length > 0 && this.isScrolledIntoView(imageElements[imageIndex].nativeElement))) {
-            image['loaded'] = true
-            return image['preview_xxs']['path']
-        }
-        return ''
-    }
-
     private fetchDataAndRender() {
-        this.http.get(this.galleryBasePath + 'data.json')
+        this.http.get(this.imageDataFilePath)
             .map((res: Response) => res.json())
             .subscribe(
                 data => {
                     this.images = data
                     this.ImageService.updateImages(this.images)
 
-                    // twice because of webkit image size bug
+                    this.images.forEach((image) => {
+                        image['loaded'] = false
+                        image['srcAfterFocus'] = ''
+                    })
+                    // initial rendering
                     this.render()
                     this.render()
                 },
@@ -88,15 +80,12 @@ export class GalleryComponent implements AfterContentInit {
 
     private render() {
         this.gallery = []
-        this.images.forEach((image) => {
-            image['loaded'] = false
-        })
 
         let tempRow = [this.images[0]]
         let rowIndex = 0
         let i = 0
 
-        for (i; i < this.imgIterations && i < this.images.length; i++) {
+        for (i; i < this.images.length; i++) {
             while (this.images[i + 1] && this.shouldAddCandidate(tempRow, this.images[i + 1])) {
                 i++
             }
@@ -123,7 +112,7 @@ export class GalleryComponent implements AfterContentInit {
         let xsum = this.calcOriginalRowWidth(imgRow)
 
         let ratio = this.getGalleryWidth() / xsum
-        let rowHeight = imgRow[0].preview_xxs.height * ratio
+        let rowHeight = imgRow[0]['preview_xxs']['height'] * ratio
 
         return rowHeight
     }
@@ -131,6 +120,7 @@ export class GalleryComponent implements AfterContentInit {
     private scaleGallery() {
         // TODO: Make this dynamic depending on screen size
         let galleryImageSizeCategory = 'preview_xxs'
+        let imageCounter = 0
 
         this.gallery.forEach((imgRow) => {
             let xsum = this.calcOriginalRowWidth(imgRow)
@@ -141,17 +131,32 @@ export class GalleryComponent implements AfterContentInit {
                 imgRow.forEach((img) => {
                     img.width = img[galleryImageSizeCategory].width * ratio
                     img.height = img[galleryImageSizeCategory].height * ratio
+                    this.checkForAsyncLoading(img, imageCounter++)
                 })
             }
             else {
                 imgRow.forEach((img) => {
                     img.width = img[galleryImageSizeCategory].width
                     img.height = img[galleryImageSizeCategory].height
+                    this.checkForAsyncLoading(img, imageCounter++)
                 })
             }
         })
 
         this.ChangeDetectorRef.detectChanges()
+    }
+
+    private checkForAsyncLoading(image, imageCounter: number) {
+        let imageElements = this.imageElements.toArray()
+
+        if (image['loaded'] ||
+            (imageElements.length > 0 && this.isScrolledIntoView(imageElements[imageCounter].nativeElement))) {
+            image['loaded'] = true
+            image['srcAfterFocus'] = image['preview_xxs']['path']
+        }
+        else {
+            image['srcAfterFocus'] = ''
+        }
     }
 
     private calcOriginalRowWidth(imgRow: IImage[]) {
