@@ -10,8 +10,8 @@
     overflow: hidden;
 }
 
-.galleryContainer img:not(:last-child) {
-    margin-right: 1px;
+.galleryContainer img:last-child {
+    margin-right: 0px !important; /* important to overwrite inline css */
 }
 
 .galleryContainer img:hover {
@@ -22,7 +22,7 @@
 }
 
 .imagerow {
-    margin: 0px 1px 1px 0px;
+    margin-right: 1px;
     overflow: hidden;
     display: flex;
 }

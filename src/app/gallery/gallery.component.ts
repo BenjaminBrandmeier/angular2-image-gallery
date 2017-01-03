@@ -1,6 +1,6 @@
 import {
     Component, ViewChild, ElementRef, HostListener, ViewChildren,
-    ChangeDetectorRef, QueryList, OnInit
+    ChangeDetectorRef, QueryList, OnInit, Input
 } from "@angular/core"
 import {Http, Response} from "@angular/http"
 import "rxjs/Rx"
@@ -26,31 +26,32 @@ interface IImage {
 }
 
 @Component({
-    selector: 'app-gallery',
+    selector: 'gallery',
     templateUrl: './gallery.component.html',
     styleUrls: ['./gallery.component.css']
 })
 export class GalleryComponent implements OnInit {
+    @Input('margin') imageMargin : number = 1
     @ViewChild('galleryContainer') galleryContainer: ElementRef
     @ViewChildren('imageElement') imageElements: QueryList<any>
-
     @HostListener('window:scroll', ['$event']) triggerCycle(event) {
         this.scaleGallery()
     }
-
     @HostListener('window:resize', ['$event']) windowResize(event) {
         this.render()
     }
 
-    imageDataFilePath: string = 'assets/img/gallery/data.json'
-    images: IImage[] = []
-    gallery: any[] = []
+    private imageDataFilePath: string = 'assets/img/gallery/data.json'
+    private images: IImage[] = []
+    private gallery: any[] = []
 
-    constructor(private ImageService: ImageService, private http: Http, private ChangeDetectorRef: ChangeDetectorRef) {
+    constructor(private ImageService: ImageService, private http: Http, private ChangeDetectorRef: ChangeDetectorRef, elementRef: ElementRef) {
+        this.imageMargin = elementRef.nativeElement.getAttribute('imageMargin');
     }
 
     public ngOnInit() {
         this.fetchDataAndRender()
+        console.log('imageMargin', this.imageMargin)
     }
 
     public openImageViewer(img) {
@@ -166,7 +167,7 @@ export class GalleryComponent implements OnInit {
             let individualRatio = this.calcIdealHeight() / img['preview_xxs']['height']
             img['preview_xxs']['width'] = img['preview_xxs']['width'] * individualRatio
             img['preview_xxs']['height'] = this.calcIdealHeight()
-            xsum += img['preview_xxs']['width'] + 1
+            xsum += img['preview_xxs']['width'] + this.imageMargin
         })
 
         return xsum

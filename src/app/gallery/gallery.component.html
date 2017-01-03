@@ -1,6 +1,9 @@
 <div #galleryContainer class="galleryContainer">
     <div class="innerGalleryContainer">
-        <div *ngFor='let imgrow of gallery; let i = index' class="imagerow">
+        <div *ngFor='let imgrow of gallery; let i = index'
+             class="imagerow"
+             [style.margin-bottom.px]="imageMargin"
+             [style.margin-right.px]="imageMargin">
             <img #imageElement
                  *ngFor='let img of imgrow; let j = index'
                  class="thumbnail"
@@ -8,9 +11,10 @@
                  [style.height.px]="img.height"
                  (click)="openImageViewer(img)"
                  [src]="img['srcAfterFocus']"
-                 [style.background]="img.dominantColor"/>
+                 [style.background]="img.dominantColor"
+                 [style.margin-right.px]="imageMargin"/>
         </div>
     </div>
 </div>
 
-<app-viewer></app-viewer>
+<viewer></viewer>

@@ -6,11 +6,13 @@ import {GalleryComponent} from "./gallery/gallery.component";
 import {ViewerComponent} from "./viewer/viewer.component";
 import {MaterialModule} from "@angular/material";
 import {ImageService} from "./services/image.service";
+import { DemoComponent } from './demo/demo.component';
 
 @NgModule({
     declarations: [
         GalleryComponent,
-        ViewerComponent
+        ViewerComponent,
+        DemoComponent
     ],
     imports: [
         BrowserModule,
@@ -19,7 +21,7 @@ import {ImageService} from "./services/image.service";
         MaterialModule.forRoot()
     ],
     providers: [ImageService],
-    bootstrap: [GalleryComponent]
+    bootstrap: [DemoComponent]
 })
 export class AppModule {
 }

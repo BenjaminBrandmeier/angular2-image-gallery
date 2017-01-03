@@ -5,28 +5,3 @@ body {
     background-color: #fff;
     color: #222;
 }
-
-@media screen and (min-width: 700px) {
-    .mainContainer {
-        margin: 0px 40px 40px 40px;
-    }
-}
-
-@media (max-width: 700px) {
-    .mainContainer {
-        margin: 0px 0px 40px 2px;
-    }
-}
-
-.mainContainer {
-    font-family: sans-serif;
-}
-
-.mainContainer a {
-    font-weight: 800;
-    text-decoration: none;
-}
-
-.headlineContainer {
-    margin: 80px 0px 40px 5px;
-}

@@ -17,7 +17,7 @@ import {ImageService} from "../services/image.service"
 import {imageTransition, showViewerTransition} from "./viewer.animations";
 
 @Component({
-    selector: 'app-viewer',
+    selector: 'viewer',
     templateUrl: './viewer.component.html',
     styleUrls: ['./viewer.component.css'],
     host: {
