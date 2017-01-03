@@ -31,7 +31,8 @@ tools/node_modules
 npm-debug.log
 testem.log
 /typings
-upload.txt
+upload-temp.sh
+upload-prod.sh
 
 # e2e
 /e2e/*.js
@@ -41,4 +42,3 @@ upload.txt
 .DS_Store
 Thumbs.db
 images_to_convert/
-upload.txt
