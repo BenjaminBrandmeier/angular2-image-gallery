@@ -67,7 +67,7 @@ export class GalleryComponent implements OnInit {
                     this.ImageService.updateImages(this.images)
 
                     this.images.forEach((image) => {
-                        image['loaded'] = false
+                        image['galleryImageLoaded'] = false
                         image['viewerImageLoaded'] = false
                         image['srcAfterFocus'] = ''
                     })
@@ -150,9 +150,9 @@ export class GalleryComponent implements OnInit {
     private checkForAsyncLoading(image, imageCounter: number) {
         let imageElements = this.imageElements.toArray()
 
-        if (image['loaded'] ||
+        if (image['galleryImageLoaded'] ||
             (imageElements.length > 0 && this.isScrolledIntoView(imageElements[imageCounter].nativeElement))) {
-            image['loaded'] = true
+            image['galleryImageLoaded'] = true
             image['srcAfterFocus'] = image['preview_xxs']['path']
         }
         else {
