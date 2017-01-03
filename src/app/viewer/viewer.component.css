@@ -21,16 +21,18 @@
     right: 0px;
 }
 
-
-.imageContainer .image {
-    display: none;
-    object-fit: contain;
-    font-family: 'object-fit: contain;'
+.imageContainer .image,
+.imageContainer .preloading-image
+{
+    visibility: hidden;
 }
 
 .imageContainer .image.active {
     position: absolute;
-    display: block;
+    visibility: visible;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
     margin: auto auto;
     left: 0;
     right: 0;

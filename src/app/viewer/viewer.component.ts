@@ -82,6 +82,7 @@ export class ViewerComponent {
     private qualitySelected: string = 'auto'
     private categorySelected: string = 'preview_xxs'
     private transform: string
+    private Math: Math
 
     constructor(private ImageService: ImageService) {
         ImageService.imagesUpdated$.subscribe(
@@ -100,6 +101,7 @@ export class ViewerComponent {
             showViewer => {
                 this.showViewer = showViewer
             })
+        this.Math = Math
     }
 
     public get leftArrowActive(): boolean {
@@ -116,6 +118,10 @@ export class ViewerComponent {
     }
 
     public onResize() {
+        this.images.forEach((image) => {
+            image['viewerImageLoaded'] = false
+            image['active'] = false
+        })
         this.updateImage()
     }
 
@@ -126,6 +132,10 @@ export class ViewerComponent {
     public qualityChanged(newQuality) {
         this.qualitySelected = newQuality
         this.updateImage()
+    }
+
+    public imageLoaded(image) {
+        image['viewerImageLoaded'] = true
     }
 
     /**
@@ -172,11 +182,10 @@ export class ViewerComponent {
     }
 
     private updateImage() {
-        this.updateQuality()
-
-        this.images[this.currentIdx]['active'] = true
         // wait for animation to end
         setTimeout(() => {
+            this.updateQuality()
+            this.images[this.currentIdx]['active'] = true
             this.images.forEach((image) => {
                 if (image != this.images[this.currentIdx]) {
                     image['active'] = false

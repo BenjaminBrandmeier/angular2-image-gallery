@@ -68,6 +68,7 @@ export class GalleryComponent implements OnInit {
 
                     this.images.forEach((image) => {
                         image['loaded'] = false
+                        image['viewerImageLoaded'] = false
                         image['srcAfterFocus'] = ''
                     })
                     // initial rendering
