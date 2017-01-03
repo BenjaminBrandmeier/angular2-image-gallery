@@ -68,9 +68,29 @@ import {ImageService} from "../services/image.service"
                 }),
                 animate('250ms ease-out')]
             )
-        ])
-    ]
+        ]),
+        trigger('showViewerTransition', [
+            state('true', style({
+                opacity: 1
+            })),
+            state('void', style({
+                opacity: 0
+            })),
+            transition('void => *', [
+                style({
+                    opacity: 0
+                }),
+                animate('1000ms ease-in')]
+            ),
+            transition('* => void', [
+                style({
+                    opacity: 1
+                }),
+                animate('500ms ease-out')]
+            )
+        ])]
 })
+
 export class ViewerComponent {
     private images: any[] = [{}]
     private currentIdx: number = 0

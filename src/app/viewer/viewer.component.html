@@ -1,4 +1,4 @@
-<div class="outerContainer" (window:resize)="onResize($event)" *ngIf="showViewer">
+<div class="outerContainer" (window:resize)="onResize($event)" *ngIf="showViewer" [@showViewerTransition]="showViewer">
 
     <md-button-toggle-group *ngIf="qualitySelectorShown" (change)="qualityChanged($event.value)" name="quality">
         <md-button-toggle value="auto" checked="true">Auto</md-button-toggle>
