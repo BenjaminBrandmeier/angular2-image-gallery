@@ -1,17 +1,16 @@
 <div class="mainContainer">
-  <div class="headlineContainer">
-    ng2imggallery
-  </div>
-  <md-input-container>
-    <input
-            md-input
-            type="number"
-            min="1"
-            max="30"
-            placeholder="Space between images"
-           [(ngModel)]="imageMargin">
-  </md-input-container>
-  <gallery [margin]="imageMargin"></gallery>
-  <br/><br/>
-  <span>built with </span><a href="https://github.com/BenjaminBrandmeier/ng2imggallery">ng2imggallery</a>
+    <div class="headlineContainer">
+        ng2imggallery
+    </div>
+    <md-input-container>
+        <input md-input [(ngModel)]="flexBorderSize" type="number" min="1" max="50" placeholder="Space between images">
+    </md-input-container>
+    <md-input-container>
+        <input md-input [(ngModel)]="flexImageSize" type="number" min="0" max="50" placeholder="Image size">
+    </md-input-container>
+
+    <gallery [flexBorderSize]="flexBorderSize" [flexImageSize]="flexImageSize"></gallery>
+
+    <br/><br/>
+    <span>built with </span><a href="https://github.com/BenjaminBrandmeier/ng2imggallery">ng2imggallery</a>
 </div>

@@ -31,7 +31,9 @@ interface IImage {
     styleUrls: ['./gallery.component.css']
 })
 export class GalleryComponent implements OnInit, OnChanges {
-    @Input('margin') providedImageMargin: number = 1
+    @Input('flexBorderSize') providedImageMargin: number = 3
+    @Input('flexImageSize') providedImageSize: number = 7
+
     @ViewChild('galleryContainer') galleryContainer: ElementRef
     @ViewChildren('imageElement') imageElements: QueryList<any>
 
@@ -143,7 +145,7 @@ export class GalleryComponent implements OnInit, OnChanges {
     }
 
     private calcIdealHeight() {
-        return (this.getGalleryWidth() / 8) + 70
+        return this.getGalleryWidth() / (80 / this.providedImageSize) + 100
     }
 
     private getGalleryWidth() {

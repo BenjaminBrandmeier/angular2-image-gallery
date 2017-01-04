@@ -9,7 +9,8 @@ export class DemoComponent implements OnInit {
 
   constructor() { }
 
-  private imageMargin: number = 5
+  private flexBorderSize: number = 3
+  private flexImageSize: number = 7
 
   ngOnInit() {
   }
