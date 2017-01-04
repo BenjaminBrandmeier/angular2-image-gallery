@@ -30,14 +30,14 @@ For ubuntu users:
 ```bash
 apt-get install graphicsmagick
 ```
-## Usage
+## Getting started
 Copy all your images to the folder **images_to_convert**.
 
 Install dependencies:
 ```bash
 npm install
 ```
-Start conversion process:
+Start images conversion process:
 ```bash
 npm run convert
 ```
@@ -46,6 +46,16 @@ Start the development server with:
 ng serve
 ```
 
+## Embed in your project
+I'm planning on publishing a npm package for this soon to make embedding even simpler.
+For now, after the conversion of your images finished successfully, add the gallery, viewer and service as components/providers to your project and include the gallery inside your Angular 2 template as follows:
+
+```bash
+<gallery [flexBorderSize]="flexBorderSize" [flexImageSize]="flexImageSize"></gallery>
+```
+
+The parameters flexBorderSize and flexImageSize are optional. You may play around on the demo site to find out what parameters suit your needs.
+
 ## Troubleshooting
 
-If the convert process fails, make sure you have enough swap space provided.
+If the conversion process fails, make sure you have enough swap space provided.
