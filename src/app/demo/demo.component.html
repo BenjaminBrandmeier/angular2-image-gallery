@@ -2,7 +2,15 @@
   <div class="headlineContainer">
     ng2imggallery
   </div>
-  <input type="text" [(ngModel)]="imageMargin"/>
+  <md-input-container>
+    <input
+            md-input
+            type="number"
+            min="1"
+            max="30"
+            placeholder="Space between images"
+           [(ngModel)]="imageMargin">
+  </md-input-container>
   <gallery [margin]="imageMargin"></gallery>
   <br/><br/>
   <span>built with </span><a href="https://github.com/BenjaminBrandmeier/ng2imggallery">ng2imggallery</a>

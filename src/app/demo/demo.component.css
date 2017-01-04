@@ -22,3 +22,7 @@
 .headlineContainer {
     margin: 80px 0px 40px 5px;
 }
+
+md-input-container {
+    min-width: 150px;
+}

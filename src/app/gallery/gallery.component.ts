@@ -31,12 +31,14 @@ interface IImage {
     styleUrls: ['./gallery.component.css']
 })
 export class GalleryComponent implements OnInit, OnChanges {
-    @Input('margin') imageMargin : number = 1
+    @Input('margin') providedImageMargin: number = 1
     @ViewChild('galleryContainer') galleryContainer: ElementRef
     @ViewChildren('imageElement') imageElements: QueryList<any>
+
     @HostListener('window:scroll', ['$event']) triggerCycle(event) {
         this.scaleGallery()
     }
+
     @HostListener('window:resize', ['$event']) windowResize(event) {
         this.render()
     }
@@ -116,10 +118,16 @@ export class GalleryComponent implements OnInit, OnChanges {
     private calcRowHeight(imgRow: IImage[]) {
         let originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
-        let ratio = (this.getGalleryWidth() - (imgRow.length-1)*this.imageMargin) / originalRowWidth
+        let ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
         let rowHeight = imgRow[0]['preview_xxs']['height'] * ratio
 
         return rowHeight
+    }
+
+    private calcImageMargin() {
+        let galleryWidth = this.getGalleryWidth()
+        let ratio = galleryWidth / 1920
+        return Math.round(Math.max(1, this.providedImageMargin * ratio))
     }
 
     private calcOriginalRowWidth(imgRow: IImage[]) {
@@ -155,16 +163,14 @@ export class GalleryComponent implements OnInit, OnChanges {
             let originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
             if (imgRow !== this.gallery[this.gallery.length - 1]) {
-                let ratio = (this.getGalleryWidth() - (imgRow.length-1)*this.imageMargin) / originalRowWidth
+                let ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
 
                 let xsum = 0
                 imgRow.forEach((img) => {
                     img['width'] = img[galleryImageSizeCategory]['width'] * ratio
-                    xsum += img['width'] + this.imageMargin
                     img['height'] = img[galleryImageSizeCategory]['height'] * ratio
                     this.checkForAsyncLoading(img, imageCounter++)
                 })
-                xsum -= this.imageMargin
             }
             else {
                 imgRow.forEach((img) => {
