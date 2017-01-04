@@ -48,6 +48,7 @@ export class GalleryComponent implements OnInit, OnChanges {
     private imageDataFilePath: string = 'assets/img/gallery/data.json'
     private images: IImage[] = []
     private gallery: any[] = []
+    private minimalQualityCategory = 'preview_xxs'
 
     constructor(private ImageService: ImageService, private http: Http, private ChangeDetectorRef: ChangeDetectorRef, elementRef: ElementRef) {
     }
@@ -79,7 +80,7 @@ export class GalleryComponent implements OnInit, OnChanges {
                         image['viewerImageLoaded'] = false
                         image['srcAfterFocus'] = ''
                     })
-                    // initial rendering
+                    // twice, single leads to different strange browser behaviour
                     this.render()
                     this.render()
                 },
@@ -121,7 +122,7 @@ export class GalleryComponent implements OnInit, OnChanges {
         let originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
         let ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
-        let rowHeight = imgRow[0]['preview_xxs']['height'] * ratio
+        let rowHeight = imgRow[0][this.minimalQualityCategory]['height'] * ratio
 
         return rowHeight
     }
@@ -135,10 +136,10 @@ export class GalleryComponent implements OnInit, OnChanges {
     private calcOriginalRowWidth(imgRow: IImage[]) {
         let originalRowWidth = 0
         imgRow.forEach((img) => {
-            let individualRatio = this.calcIdealHeight() / img['preview_xxs']['height']
-            img['preview_xxs']['width'] = img['preview_xxs']['width'] * individualRatio
-            img['preview_xxs']['height'] = this.calcIdealHeight()
-            originalRowWidth += img['preview_xxs']['width']
+            let individualRatio = this.calcIdealHeight() / img[this.minimalQualityCategory]['height']
+            img[this.minimalQualityCategory]['width'] = img[this.minimalQualityCategory]['width'] * individualRatio
+            img[this.minimalQualityCategory]['height'] = this.calcIdealHeight()
+            originalRowWidth += img[this.minimalQualityCategory]['width']
         })
 
         return originalRowWidth
@@ -157,9 +158,8 @@ export class GalleryComponent implements OnInit, OnChanges {
     }
 
     private scaleGallery() {
-        // TODO: Make this dynamic depending on screen size
-        let galleryImageSizeCategory = 'preview_xxs'
         let imageCounter = 0
+        let maximumGalleryImageHeight = 0
 
         this.gallery.forEach((imgRow) => {
             let originalRowWidth = this.calcOriginalRowWidth(imgRow)
@@ -167,21 +167,28 @@ export class GalleryComponent implements OnInit, OnChanges {
             if (imgRow !== this.gallery[this.gallery.length - 1]) {
                 let ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
 
-                let xsum = 0
                 imgRow.forEach((img) => {
-                    img['width'] = img[galleryImageSizeCategory]['width'] * ratio
-                    img['height'] = img[galleryImageSizeCategory]['height'] * ratio
+                    img['width'] = img[this.minimalQualityCategory]['width'] * ratio
+                    img['height'] = img[this.minimalQualityCategory]['height'] * ratio
+                    maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
                     this.checkForAsyncLoading(img, imageCounter++)
                 })
             }
             else {
                 imgRow.forEach((img) => {
-                    img.width = img[galleryImageSizeCategory]['width']
-                    img.height = img[galleryImageSizeCategory]['height']
+                    img.width = img[this.minimalQualityCategory]['width']
+                    img.height = img[this.minimalQualityCategory]['height']
+                    maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
                     this.checkForAsyncLoading(img, imageCounter++)
                 })
             }
         })
+
+        if (maximumGalleryImageHeight > 375) {
+            this.minimalQualityCategory = 'preview_xs'
+        } else {
+            this.minimalQualityCategory = 'preview_xxs'
+        }
 
         this.ChangeDetectorRef.detectChanges()
     }
@@ -192,7 +199,7 @@ export class GalleryComponent implements OnInit, OnChanges {
         if (image['galleryImageLoaded'] ||
             (imageElements.length > 0 && this.isScrolledIntoView(imageElements[imageCounter].nativeElement))) {
             image['galleryImageLoaded'] = true
-            image['srcAfterFocus'] = image['preview_xxs']['path']
+            image['srcAfterFocus'] = image[this.minimalQualityCategory]['path']
         }
         else {
             image['srcAfterFocus'] = ''
