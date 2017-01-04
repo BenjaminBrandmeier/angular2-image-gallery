@@ -11,7 +11,8 @@
 }
 
 .galleryContainer img:last-child {
-    margin-right: 0px !important; /* important to overwrite inline css */
+    /* important to overwrite inline css and prevent chrome flickering bug */
+    margin-right: -1px !important;
 }
 
 .galleryContainer img:hover {

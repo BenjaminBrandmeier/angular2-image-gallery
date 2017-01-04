@@ -1,6 +1,6 @@
 import {
     Component, ViewChild, ElementRef, HostListener, ViewChildren,
-    ChangeDetectorRef, QueryList, OnInit, Input
+    ChangeDetectorRef, QueryList, OnInit, Input, SimpleChanges, OnChanges
 } from "@angular/core"
 import {Http, Response} from "@angular/http"
 import "rxjs/Rx"
@@ -30,7 +30,7 @@ interface IImage {
     templateUrl: './gallery.component.html',
     styleUrls: ['./gallery.component.css']
 })
-export class GalleryComponent implements OnInit {
+export class GalleryComponent implements OnInit, OnChanges {
     @Input('margin') imageMargin : number = 1
     @ViewChild('galleryContainer') galleryContainer: ElementRef
     @ViewChildren('imageElement') imageElements: QueryList<any>
@@ -46,12 +46,15 @@ export class GalleryComponent implements OnInit {
     private gallery: any[] = []
 
     constructor(private ImageService: ImageService, private http: Http, private ChangeDetectorRef: ChangeDetectorRef, elementRef: ElementRef) {
-        this.imageMargin = elementRef.nativeElement.getAttribute('imageMargin');
     }
 
     public ngOnInit() {
         this.fetchDataAndRender()
-        console.log('imageMargin', this.imageMargin)
+    }
+
+    public ngOnChanges(changes: SimpleChanges) {
+        // input params changed
+        this.render()
     }
 
     public openImageViewer(img) {
@@ -111,12 +114,36 @@ export class GalleryComponent implements OnInit {
     }
 
     private calcRowHeight(imgRow: IImage[]) {
-        let xsum = this.calcOriginalRowWidth(imgRow)
+        let originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
-        let ratio = this.getGalleryWidth() / xsum
+        let ratio = (this.getGalleryWidth() - (imgRow.length-1)*this.imageMargin) / originalRowWidth
         let rowHeight = imgRow[0]['preview_xxs']['height'] * ratio
 
         return rowHeight
+    }
+
+    private calcOriginalRowWidth(imgRow: IImage[]) {
+        let originalRowWidth = 0
+        imgRow.forEach((img) => {
+            let individualRatio = this.calcIdealHeight() / img['preview_xxs']['height']
+            img['preview_xxs']['width'] = img['preview_xxs']['width'] * individualRatio
+            img['preview_xxs']['height'] = this.calcIdealHeight()
+            originalRowWidth += img['preview_xxs']['width']
+        })
+
+        return originalRowWidth
+    }
+
+    private calcIdealHeight() {
+        return (this.getGalleryWidth() / 8) + 70
+    }
+
+    private getGalleryWidth() {
+        if (this.galleryContainer.nativeElement.clientWidth === 0) {
+            // IE11
+            return this.galleryContainer.nativeElement.scrollWidth
+        }
+        return this.galleryContainer.nativeElement.clientWidth
     }
 
     private scaleGallery() {
@@ -125,21 +152,24 @@ export class GalleryComponent implements OnInit {
         let imageCounter = 0
 
         this.gallery.forEach((imgRow) => {
-            let xsum = this.calcOriginalRowWidth(imgRow)
+            let originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
             if (imgRow !== this.gallery[this.gallery.length - 1]) {
-                let ratio = this.getGalleryWidth() / xsum
+                let ratio = (this.getGalleryWidth() - (imgRow.length-1)*this.imageMargin) / originalRowWidth
 
+                let xsum = 0
                 imgRow.forEach((img) => {
-                    img.width = img[galleryImageSizeCategory].width * ratio
-                    img.height = img[galleryImageSizeCategory].height * ratio
+                    img['width'] = img[galleryImageSizeCategory]['width'] * ratio
+                    xsum += img['width'] + this.imageMargin
+                    img['height'] = img[galleryImageSizeCategory]['height'] * ratio
                     this.checkForAsyncLoading(img, imageCounter++)
                 })
+                xsum -= this.imageMargin
             }
             else {
                 imgRow.forEach((img) => {
-                    img.width = img[galleryImageSizeCategory].width
-                    img.height = img[galleryImageSizeCategory].height
+                    img.width = img[galleryImageSizeCategory]['width']
+                    img.height = img[galleryImageSizeCategory]['height']
                     this.checkForAsyncLoading(img, imageCounter++)
                 })
             }
@@ -159,30 +189,6 @@ export class GalleryComponent implements OnInit {
         else {
             image['srcAfterFocus'] = ''
         }
-    }
-
-    private calcOriginalRowWidth(imgRow: IImage[]) {
-        let xsum = 0
-        imgRow.forEach((img) => {
-            let individualRatio = this.calcIdealHeight() / img['preview_xxs']['height']
-            img['preview_xxs']['width'] = img['preview_xxs']['width'] * individualRatio
-            img['preview_xxs']['height'] = this.calcIdealHeight()
-            xsum += img['preview_xxs']['width'] + this.imageMargin
-        })
-
-        return xsum
-    }
-
-    private calcIdealHeight() {
-        return (this.getGalleryWidth() / 8) + 70
-    }
-
-    private getGalleryWidth() {
-        if (this.galleryContainer.nativeElement.clientWidth === 0) {
-            // IE11
-            return this.galleryContainer.nativeElement.scrollWidth
-        }
-        return this.galleryContainer.nativeElement.clientWidth
     }
 
     private isScrolledIntoView(element) {

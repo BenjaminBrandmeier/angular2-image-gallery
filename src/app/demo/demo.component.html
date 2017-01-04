@@ -2,7 +2,8 @@
   <div class="headlineContainer">
     ng2imggallery
   </div>
-  <gallery [margin]="1"></gallery>
+  <input type="text" [(ngModel)]="imageMargin"/>
+  <gallery [margin]="imageMargin"></gallery>
   <br/><br/>
   <span>built with </span><a href="https://github.com/BenjaminBrandmeier/ng2imggallery">ng2imggallery</a>
 </div>

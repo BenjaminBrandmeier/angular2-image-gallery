@@ -9,6 +9,8 @@ export class DemoComponent implements OnInit {
 
   constructor() { }
 
+  private imageMargin: number = 5
+
   ngOnInit() {
   }
 
