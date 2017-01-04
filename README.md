@@ -51,7 +51,7 @@ I'm planning on publishing a npm package for this soon to make embedding even si
 For now, after the conversion of your images finished successfully, add the gallery, viewer and service as components/providers to your project and include the gallery inside your Angular 2 template as follows:
 
 ```bash
-<gallery [flexBorderSize]="flexBorderSize" [flexImageSize]="flexImageSize"></gallery>
+<gallery [flexBorderSize]="3" [flexImageSize]="7"></gallery>
 ```
 
 The parameters flexBorderSize and flexImageSize are optional. You may play around on the demo site to find out what parameters suit your needs.
