@@ -21,18 +21,10 @@
 
     <div class="imageContainer" (click)="showNavigationArrows()" (swipeleft)="navigate(1, $event)"
          (swiperight)="navigate(-1, $event)" (pan)="pan($event)">
-        <div *ngFor='let img of images; let j = index'
-             class="image"
-             [class.active]="img['active']"
-             [@imageTransition]="img['transition']"
-             [style.background-image]="img['viewerImageLoaded'] ? 'url('+img[categorySelected]['path']+')' : Math.abs(currentIdx-j) <=1 ? 'url('+img['preview_xxs']['path']+')' : ''"
-             [style.left]="transform">
+        <div *ngFor='let img of images; let j = index' class="image" [class.active]="img['active']" [@imageTransition]="img['transition']" [style.background-image]="img['viewerImageLoaded'] ? 'url('+img[categorySelected]['path']+')' : Math.abs(currentIdx-j) <=1 ? 'url('+img['preview_xxs']['path']+')' : ''"  [style.left]="transform">
         </div>
 
-        <img *ngFor='let img of images; let j = index'
-             class="preloading-image"
-             (load)="imageLoaded(img)"
-             src="{{ Math.abs(currentIdx-j) <=1 ? img[categorySelected]['path'] : ''}}"/>
+        <img *ngFor='let img of images; let j = index' class="preloading-image" (load)="imageLoaded(img)" src="{{ Math.abs(currentIdx-j) <=1 ? img[categorySelected]['path'] : ''}}"/>
     </div>
 
 </div>

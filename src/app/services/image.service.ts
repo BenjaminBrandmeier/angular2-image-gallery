@@ -11,9 +11,9 @@ export class ImageService {
     private imageSelectedIndexUpdatedSource = new Subject<number>()
     private showImageViewerSource = new Subject<boolean>()
 
-    imagesUpdated$ = this.imagesUpdatedSource.asObservable()
-    imageSelectedIndexUpdated$ = this.imageSelectedIndexUpdatedSource.asObservable()
-    showImageViewerChanged$ = this.showImageViewerSource.asObservable()
+    imagesUpdated$ : any = this.imagesUpdatedSource.asObservable()
+    imageSelectedIndexUpdated$ : any = this.imageSelectedIndexUpdatedSource.asObservable()
+    showImageViewerChanged$ : any = this.showImageViewerSource.asObservable()
 
     updateImages(images: any[]) {
         this.imagesUpdatedSource.next(images)

@@ -3,6 +3,7 @@
 # compiled output
 /dist
 /tmp
+/publish
 
 # dependencies
 /node_modules
@@ -33,6 +34,7 @@ testem.log
 /typings
 upload-temp.sh
 upload-prod.sh
+prepare.sh
 
 # e2e
 /e2e/*.js
