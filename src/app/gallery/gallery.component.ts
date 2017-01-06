@@ -6,25 +6,6 @@ import {Http, Response} from "@angular/http"
 import "rxjs/Rx"
 import {ImageService} from "../services/image.service"
 
-interface IPreviewImageInformation {
-    path: string
-    height: number
-    width: number
-}
-
-interface IImage {
-    name: string
-    date: string
-    dominantColor: string
-    preview_xxs: IPreviewImageInformation
-    preview_xs: IPreviewImageInformation
-    preview_s: IPreviewImageInformation
-    preview_m: IPreviewImageInformation
-    preview_l: IPreviewImageInformation
-    preview_xl: IPreviewImageInformation
-    raw: IPreviewImageInformation
-}
-
 @Component({
     selector: 'gallery',
     templateUrl: './gallery.component.html',
@@ -46,7 +27,7 @@ export class GalleryComponent implements OnInit, OnChanges {
     }
 
     private imageDataFilePath: string = 'assets/img/gallery/data.json'
-    private images: IImage[] = []
+    private images: any[] = []
     private gallery: any[] = []
     private minimalQualityCategory = 'preview_xxs'
 
@@ -84,7 +65,7 @@ export class GalleryComponent implements OnInit, OnChanges {
                     this.render()
                     this.render()
                 },
-                err => console.error(err),
+                err => console.error("Did you run the convert script from angular2-image-gallery for your images first? Original error: " + err),
                 () => undefined)
     }
 
@@ -110,7 +91,7 @@ export class GalleryComponent implements OnInit, OnChanges {
         this.scaleGallery()
     }
 
-    private shouldAddCandidate(imgRow: IImage[], candidate: IImage): boolean {
+    private shouldAddCandidate(imgRow: any[], candidate: any): boolean {
         let oldDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
         imgRow.push(candidate)
         let newDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
@@ -118,7 +99,7 @@ export class GalleryComponent implements OnInit, OnChanges {
         return Math.abs(oldDifference) > Math.abs(newDifference)
     }
 
-    private calcRowHeight(imgRow: IImage[]) {
+    private calcRowHeight(imgRow: any[]) {
         let originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
         let ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
@@ -133,7 +114,7 @@ export class GalleryComponent implements OnInit, OnChanges {
         return Math.round(Math.max(1, this.providedImageMargin * ratio))
     }
 
-    private calcOriginalRowWidth(imgRow: IImage[]) {
+    private calcOriginalRowWidth(imgRow: any[]) {
         let originalRowWidth = 0
         imgRow.forEach((img) => {
             let individualRatio = this.calcIdealHeight() / img[this.minimalQualityCategory]['height']

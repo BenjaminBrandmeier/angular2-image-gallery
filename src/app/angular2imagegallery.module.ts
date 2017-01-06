@@ -18,7 +18,11 @@ import {ImageService} from "./services/image.service";
         HttpModule,
         MaterialModule.forRoot()
     ],
-    providers: [ImageService]
+    providers: [ImageService],
+    exports: [
+        GalleryComponent,
+        ViewerComponent
+    ]
 })
 export class Angular2ImageGalleryModule {
 }
