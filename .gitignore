@@ -4,7 +4,11 @@
 /dist
 /tmp
 /publish
-/src/**/*.js
+/src/app/*.js
+/src/app/demo/*.js
+/src/app/gallery/*.js
+/src/app/services/*.js
+/src/app/viewer/*.js
 
 # dependencies
 /node_modules
