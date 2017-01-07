@@ -19,14 +19,14 @@ http://oidamo.de/angular2-image-gallery/
 - graphicsmagick
 
 ## How to use the gallery in your project
-#### Pre-requirements
+### Pre-requirements
 Install **node** and **graphicsmagick**.
 
 For windows users: http://www.graphicsmagick.org/download.html
 
 For ubuntu users run: `apt-get install graphicsmagick`
 
-#### Embed in your project
+### Embed in your project
 
 1.  Install angular2-image-gallery
   ```bash
