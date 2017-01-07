@@ -4,6 +4,7 @@
 /dist
 /tmp
 /publish
+/src/**/*.js
 
 # dependencies
 /node_modules
