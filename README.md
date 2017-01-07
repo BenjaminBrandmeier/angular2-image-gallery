@@ -63,6 +63,7 @@ node node_modules/angular2-image-gallery/convert.js <path/to/your/images>
   ```javascript
 <gallery [flexBorderSize]="3" [flexImageSize]="7"></gallery>
   ```
+
 The parameters flexBorderSize and flexImageSize are optional. 
 
 You may play around on the demo site to find out what parameters suit your needs.
