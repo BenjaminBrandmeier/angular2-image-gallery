@@ -34,7 +34,6 @@ testem.log
 /typings
 upload-temp.sh
 upload-prod.sh
-prepare.sh
 
 # e2e
 /e2e/*.js

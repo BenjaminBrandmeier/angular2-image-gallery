@@ -2,7 +2,7 @@
 
 set -eux
 
-rm -r publish
+rm -rf publish
 
 node node_modules/typescript/bin/tsc --project src --outDir publish
 
@@ -15,8 +15,12 @@ rm publish/test.d.ts
 rm publish/test.js
 rm publish/test.js.map
 rm publish/app/**/**.spec.**
+rm publish/polyfills.d.ts
+rm publish/polyfills.js
 
 cp package.json publish/
+cp config/convert.js publish/
+cp config/angular2imagegallery.module.ts publish/app
 cp src/app/gallery/gallery.component.html publish/app/gallery
 cp src/app/viewer/viewer.component.html publish/app/viewer
 cp src/app/gallery/gallery.component.css publish/app/gallery
