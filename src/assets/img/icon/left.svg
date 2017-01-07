@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<svg height="24px" version="1.1" viewBox="0 0 24 24" width="24px" xmlns="http://www.w3.org/2000/svg" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" xmlns:xlink="http://www.w3.org/1999/xlink"><title/><desc/>
-  <g fill="none" fill-rule="evenodd" id="miu" stroke="#555" stroke-width="0.2">
-    <g id="Artboard-1" transform="translate(-395.000000, -191.000000)"><g id="slice" transform="translate(215.000000, 119.000000)"/><path
-      d="M396,202.5 C396,196.148725 401.148725,191 407.5,191 C413.851275,191 419,196.148725 419,202.5 C419,208.851275 413.851275,214 407.5,214 C401.148725,214 396,208.851275 396,202.5 Z M408.656854,196.843146 L410.071068,198.257359 L405.828427,202.5 L410.071068,206.742641 L408.656854,208.156854 L403,202.5 L408.656854,196.843146 Z"
-      fill="#aaa"
-      id="circle-back-arrow-glyph"/></g>
-  </g>
-</svg>

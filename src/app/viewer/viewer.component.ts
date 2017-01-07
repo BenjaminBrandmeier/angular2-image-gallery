@@ -90,7 +90,6 @@ export class ViewerComponent {
     private images: any[] = [{}]
     private currentIdx: number = 0
     private showViewer: boolean
-    private arrows: string[] = ['assets/img/icon/left.svg', 'assets/img/icon/right.svg']
     private leftArrowVisible: boolean = true
     private rightArrowVisible: boolean = true
     private qualitySelectorShown: boolean = false
