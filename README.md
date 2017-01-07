@@ -28,41 +28,41 @@ For ubuntu users run: `apt-get install graphicsmagick`
 
 #### Embed in your project
 
-1. Install angular2-image-gallery
-```bash
+1.  Install angular2-image-gallery
+  ```bash
 npm install angular2-image-gallery --save
-```
+  ```
 
-2. Import angular2-image-gallery in your Angular 2 module
-```javascript
+2.  Import angular2-image-gallery in your Angular 2 module
+  ```javascript
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     Angular2ImageGalleryModule <-----
   ],
-```
+  ```
 
 3. Import scripts (when using angular-cli add these lines in polyfills.ts)
-```javascript
+  ```javascript
 import 'web-animations-js/web-animations.min';
 import 'hammerjs/hammer';
-```
+  ```
 
 4. Import styles (when using angular-cli add this line in styles.css)
-```javascript
+  ```javascript
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
-```
+  ```
 
 5. Run convert script
-```bash
+  ```bash
 node node_modules/angular2-image-gallery/convert.js <path/to/your/images>
-```
+  ```
 
 6. Embed gallery in your template
-```javascript
+  ```javascript
 <gallery [flexBorderSize]="3" [flexImageSize]="7"></gallery>
-```
+  ```
 The parameters flexBorderSize and flexImageSize are optional. 
 
 You may play around on the demo site to find out what parameters suit your needs.
