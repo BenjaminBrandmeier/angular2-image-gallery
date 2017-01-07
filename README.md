@@ -9,7 +9,7 @@ If you'd like to contribute, I'm happy to accept pull requests.
 
 ## Demo
 
-http://oidamo.de/ng2imggallery/
+http://oidamo.de/angular2-image-gallery/
 
 ## Currently used tools
 
@@ -18,44 +18,58 @@ http://oidamo.de/ng2imggallery/
 - Angular-CLI 1.0.0-beta.24
 - graphicsmagick
 
-## Pre-requirements
+## How to use the gallery in your project
+#### Pre-requirements
+Install **node** and **graphicsmagick**.
 
-Install node, angular-cli and graphicsmagick.
+For windows users: http://www.graphicsmagick.org/download.html
 
-For windows users:
+For ubuntu users run: `apt-get install graphicsmagick`
 
-http://www.graphicsmagick.org/download.html
+#### Embed in your project
 
-For ubuntu users:
+1. Install angular2-image-gallery
 ```bash
-apt-get install graphicsmagick
-```
-## Getting started
-Copy all your images to the folder **images_to_convert**.
-
-Install dependencies:
-```bash
-npm install
-```
-Start images conversion process:
-```bash
-npm run convert
-```
-Start the development server with:
-```bash
-ng serve
+npm install angular2-image-gallery --save
 ```
 
-## Embed in your project
-I'm planning on publishing a npm package for this soon to make embedding even simpler.
-For now, after the conversion of your images finished successfully, add the gallery, viewer and service as components/providers to your project and include the gallery inside your Angular 2 template as follows:
+2. Import angular2-image-gallery in your Angular 2 module
+```javascript
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    Angular2ImageGalleryModule <-----
+  ],
+```
 
+3. Import scripts (when using angular-cli add these lines in polyfills.ts)
+```javascript
+import 'web-animations-js/web-animations.min';
+import 'hammerjs/hammer';
+```
+
+4. Import styles (when using angular-cli add this line in styles.css)
+```javascript
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+```
+
+5. Run convert script
 ```bash
+node node_modules/angular2-image-gallery/convert.js <path/to/your/images>
+```
+
+6. Embed gallery in your template
+```javascript
 <gallery [flexBorderSize]="3" [flexImageSize]="7"></gallery>
 ```
+The parameters flexBorderSize and flexImageSize are optional. 
 
-The parameters flexBorderSize and flexImageSize are optional. You may play around on the demo site to find out what parameters suit your needs.
+You may play around on the demo site to find out what parameters suit your needs.
 
+That's it, start your application and have a look!
 ## Troubleshooting
 
 If the conversion process fails, make sure you have enough swap space provided.
+
+If you experience any other issues, please raise an issue on GitHub.

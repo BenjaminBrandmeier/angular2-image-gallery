@@ -17,8 +17,10 @@ rm publish/test.js.map
 rm publish/app/**/**.spec.**
 rm publish/polyfills.d.ts
 rm publish/polyfills.js
+rm publish/polyfills.js.map
 
 cp package.json publish/
+cp README.md publish/
 cp misc/convert.js publish/
 cp misc/angular2imagegallery.module.ts publish/app
 cp src/app/gallery/gallery.component.html publish/app/gallery
