@@ -68,6 +68,7 @@ The parameters flexBorderSize and flexImageSize are optional.
 You may play around on the demo site to find out what parameters suit your needs.
 
 That's it, start your application and have a look!
+
 ## Troubleshooting
 
 If the conversion process fails, make sure you have enough swap space provided.
