@@ -3,9 +3,10 @@ var path = require('path');
 var mkdirp = require('mkdirp');
 var process = require("process");
 var gm = require('gm');
+var appRoot = require('app-root-path');
 
 var sortFunction;
-var projectRoot = path.dirname(require.main.filename);
+var projectRoot = appRoot.path;
 var toConvertAbsoluteBasePath = projectRoot + "/images_to_convert";
 var assetsAbsoluteBasePath = projectRoot + "/src/assets/img/gallery/";
 var previewRelativePath = "assets/img/gallery/";
@@ -19,6 +20,10 @@ var resolutions = [
     {name: 'preview_xl', height: 2880},
     {name: 'raw', height: undefined}
 ];
+
+if (process.argv[2]) {
+    toConvertAbsoluteBasePath = process.argv[2]
+}
 
 function convert() {
     createFolderStructure();

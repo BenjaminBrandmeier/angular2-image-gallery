@@ -19,8 +19,8 @@ rm publish/polyfills.d.ts
 rm publish/polyfills.js
 
 cp package.json publish/
-cp config/convert.js publish/
-cp config/angular2imagegallery.module.ts publish/app
+cp misc/convert.js publish/
+cp misc/angular2imagegallery.module.ts publish/app
 cp src/app/gallery/gallery.component.html publish/app/gallery
 cp src/app/viewer/viewer.component.html publish/app/viewer
 cp src/app/gallery/gallery.component.css publish/app/gallery
