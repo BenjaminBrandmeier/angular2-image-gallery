@@ -1,7 +1,17 @@
 <div #galleryContainer class="galleryContainer">
     <div class="innerGalleryContainer">
-        <div *ngFor='let imgrow of gallery; let i = index' class="imagerow" [style.margin-bottom.px]="calcImageMargin()">
-            <img #imageElement *ngFor='let img of imgrow; let j = index' class="thumbnail" [style.width.px]="img['width']" [style.height.px]="img['height']" (click)="openImageViewer(img)" [src]="img['srcAfterFocus']" [style.background]="img.dominantColor" [style.margin-right.px]="calcImageMargin()"/>
+        <div *ngFor='let imgrow of gallery; let i = index'
+             class="imagerow"
+             [style.margin-bottom.px]="calcImageMargin()">
+            <img #imageElement
+                 *ngFor='let img of imgrow; let j = index'
+                 class="thumbnail"
+                 [style.width.px]="img['width']"
+                 [style.height.px]="img['height']"
+                 (click)="openImageViewer(img)"
+                 [src]="img['srcAfterFocus']"
+                 [style.background]="img.dominantColor"
+                 [style.margin-right.px]="calcImageMargin()"/>
         </div>
     </div>
 </div>

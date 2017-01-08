@@ -28,8 +28,8 @@ cp src/app/viewer/viewer.component.html publish/app/viewer
 cp src/app/gallery/gallery.component.css publish/app/gallery
 cp src/app/viewer/viewer.component.css publish/app/viewer
 
-node_modules/.bin/ng2-inline.cmd -o . -b publish/app/viewer publish/app/viewer/*.js
-node_modules/.bin/ng2-inline.cmd -o . -b publish/app/gallery publish/app/gallery/*.js
+node_modules/.bin/ng2-inline.cmd -o . -b publish/app/viewer publish/app/viewer/*.js -c
+node_modules/.bin/ng2-inline.cmd -o . -b publish/app/gallery publish/app/gallery/*.js -c
 
 rm publish/app/gallery/gallery.component.html
 rm publish/app/viewer/viewer.component.html
