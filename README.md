@@ -1,5 +1,6 @@
 # Angular 2 Image Gallery
 [![Build Status](https://travis-ci.org/BenjaminBrandmeier/angular2-image-gallery.svg?branch=master)](https://travis-ci.org/BenjaminBrandmeier/angular2-image-gallery)
+[![npm version](https://badge.fury.io/js/angular2-image-gallery.svg)](https://badge.fury.io/js/angular2-image-gallery)
 
 A responsive image gallery designed for high resolution images.
 
