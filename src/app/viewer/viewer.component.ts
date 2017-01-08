@@ -4,7 +4,7 @@ import {
     state,
     style,
     transition,
-    animate,
+    animate
 } from "@angular/core"
 import "rxjs/Rx"
 import {ImageService} from "../services/image.service"
@@ -28,37 +28,35 @@ import {ImageService} from "../services/image.service"
             })),
             state('leaveToLeft', style({
                 opacity: 0,
-                transform: 'translate(-10%, 0px)'
+                transform: 'translate(-100px, 0px)'
             })),
             state('leaveToRight', style({
                 opacity: 0,
-                transform: 'translate(10%, 0px)'
+                transform: 'translate(100px, 0px)'
             })),
             transition('* => enterFromRight', [
                 style({
                     opacity: 0,
-                    transform: 'translate(3%, 0px)'
+                    transform: 'translate(30px, 0px)'
                 }),
                 animate('250ms 500ms ease-in')
             ]),
             transition('* => enterFromLeft', [
                 style({
                     opacity: 0,
-                    transform: 'translate(-3%, 0px)'
+                    transform: 'translate(-30px, 0px)'
                 }),
                 animate('250ms 500ms ease-in')
             ]),
             transition('* => leaveToLeft', [
                 style({
-                    opacity: 1,
-                    transform: 'translate(0px, 0px)'
+                    opacity: 1
                 }),
                 animate('250ms ease-out')]
             ),
             transition('* => leaveToRight', [
                 style({
-                    opacity: 1,
-                    transform: 'translate(0px, 0px)'
+                    opacity: 1
                 }),
                 animate('250ms ease-out')]
             )
@@ -95,7 +93,7 @@ export class ViewerComponent {
     private qualitySelectorShown: boolean = false
     private qualitySelected: string = 'auto'
     private categorySelected: string = 'preview_xxs'
-    private transform: string
+    private transform: number
     private Math: Math
 
     constructor(private ImageService: ImageService) {
@@ -108,7 +106,7 @@ export class ViewerComponent {
                 this.currentIdx = newIndex
                 this.images.forEach((image) => image['active'] = false)
                 this.images[this.currentIdx]['active'] = true
-                this.transform = '0px'
+                this.transform = 0
                 this.updateQuality()
             })
         ImageService.showImageViewerChanged$.subscribe(
@@ -127,8 +125,7 @@ export class ViewerComponent {
     }
 
     public pan(swipe: any) {
-        let currentDeltaX = swipe.deltaX
-        this.transform = currentDeltaX + 'px'
+        this.transform = swipe.deltaX
     }
 
     public onResize() {
@@ -203,7 +200,7 @@ export class ViewerComponent {
             this.images.forEach((image) => {
                 if (image != this.images[this.currentIdx]) {
                     image['active'] = false
-                    this.transform = '0px'
+                    this.transform = 0
                 }
             })
         }, 500)

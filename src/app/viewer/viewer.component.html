@@ -30,7 +30,7 @@
              [class.active]="img['active']"
              [@imageTransition]="img['transition']"
              [style.background-image]="img['viewerImageLoaded'] ? 'url('+img[categorySelected]['path']+')' : Math.abs(currentIdx-j) <=1 ? 'url('+img['preview_xxs']['path']+')' : ''"
-             [style.left]="transform"></div>
+             [style.left]="transform+'px'"></div>
 
         <img *ngFor='let img of images; let j = index'
              class="preloading-image"
