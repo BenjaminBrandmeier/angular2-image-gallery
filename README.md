@@ -1,22 +1,15 @@
 # Angular 2 Image Gallery
-[![Build Status](https://travis-ci.org/BenjaminBrandmeier/ng2imggallery.svg?branch=master)](https://travis-ci.org/BenjaminBrandmeier/ng2imggallery)
+[![Build Status](https://travis-ci.org/BenjaminBrandmeier/angular2-image-gallery.svg?branch=master)](https://travis-ci.org/BenjaminBrandmeier/angular2-image-gallery)
 
 A responsive image gallery designed for high resolution images.
 
 The project consists of a gallery, a viewer and a script for image preparation.
 
-If you'd like to contribute, I'm happy to accept pull requests.
+Before using the gallery, you have to process all of your images that will be part of your gallery with the node.js script. The processed images will be stored to your applications assets. During runtime everything runs client-side and there is no separate server-side communication involved. The viewer takes care that an optimal image quality is served based on the device resolution.
 
 ## Demo
 
 http://oidamo.de/angular2-image-gallery/
-
-## Currently used tools
-
-- Angular 2.3.1
-- NodeJS 7.3.0
-- Angular-CLI 1.0.0-beta.24
-- graphicsmagick
 
 ## How to use the gallery in your project
 ### Pre-requirements
@@ -69,6 +62,13 @@ The parameters flexBorderSize and flexImageSize are optional.
 You may play around on the demo site to find out what parameters suit your needs.
 
 That's it, start your application and have a look!
+
+## Currently used tools
+
+- Angular 2.3.1
+- NodeJS 7.3.0
+- Angular-CLI 1.0.0-beta.24
+- graphicsmagick
 
 ## Troubleshooting
 
