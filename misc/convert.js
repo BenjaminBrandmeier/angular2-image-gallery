@@ -84,9 +84,14 @@ function identifyImage(files, fidx, filePath, file) {
                 throw err;
             }
 
+            var dateTimeOriginal = undefined;
+            if (features['Profile-EXIF']) {
+                dateTimeOriginal = features['Profile-EXIF']['Date Time Original'];
+            }
+
             var imageMetadata = {
                 name: file,
-                date: features['Profile-EXIF']['Date Time Original']
+                date: dateTimeOriginal
             };
 
             imageMetadataArray.push(imageMetadata);
