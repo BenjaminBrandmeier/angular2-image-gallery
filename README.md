@@ -18,13 +18,13 @@ Install **node (>= 4.2.2)** and **graphicsmagick**: http://www.graphicsmagick.or
 
 ### Embed in your project
 
-##### 1. Install angular2-image-gallery
+#### 1. Install angular2-image-gallery
 
 ```bash
 npm install angular2-image-gallery --save
 ```
 
-##### 2. Import angular2-image-gallery in your Angular 2 module
+#### 2. Import angular2-image-gallery in your Angular 2 module
 
 ```javascript
 imports: [
@@ -35,20 +35,20 @@ imports: [
 ],
 ```
 
-##### 3. Import scripts (when using angular-cli add these lines in polyfills.ts)
+#### 3. Import scripts (when using angular-cli add these lines in polyfills.ts)
 
 ```javascript
 import 'web-animations-js/web-animations.min';
 import 'hammerjs/hammer';
 ```
 
-##### 4. Import styles (when using angular-cli add this line in styles.css)
+#### 4. Import styles (when using angular-cli add this line in styles.css)
 
 ```javascript
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
 ```
 
-##### 5. Run convert script
+#### 5. Run convert script
 
 ```bash
 node node_modules/angular2-image-gallery/convert.js <path/to/your/images>
@@ -59,7 +59,7 @@ Add a flag to define the order of the images inside the gallery
 
 `-d` sort chronologically by the original creation time (e.g. for coverages of a wedding)
 
-##### 6. Embed gallery in your template
+#### 6. Embed gallery in your template
 
 ```javascript
 <gallery [flexBorderSize]="3" [flexImageSize]="7"></gallery>
