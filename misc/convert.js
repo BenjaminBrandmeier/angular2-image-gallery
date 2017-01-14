@@ -4,10 +4,11 @@ var mkdirp = require('mkdirp');
 var process = require("process");
 var gm = require('gm');
 var appRoot = require('app-root-path');
+var argv = require('minimist')(process.argv.slice(2));
 
 var sortFunction;
 var projectRoot = appRoot.path;
-var toConvertAbsoluteBasePath = projectRoot + "/images_to_convert";
+var toConvertAbsoluteBasePath;
 var assetsAbsoluteBasePath = projectRoot + "/src/assets/img/gallery/";
 var previewRelativePath = "assets/img/gallery/";
 var imageMetadataArray = [];
@@ -21,17 +22,36 @@ var resolutions = [
     {name: 'raw', height: undefined}
 ];
 
-if (process.argv[2]) {
-    toConvertAbsoluteBasePath = process.argv[2]
+function init() {
+    if (argv['_'].length == 0) {
+        toConvertAbsoluteBasePath = projectRoot + "/images_to_convert";
+        console.log('No path specified! Defaulting to ' + toConvertAbsoluteBasePath)
+    } else if (argv['_'].length > 1) {
+        console.log('Illegally specified more than one argument!')
+    }
+    else {
+        toConvertAbsoluteBasePath = argv._[0]
+    }
+    if (!argv['d'] && !argv['n']) {
+        console.log('No sorting mechanism specified! Default mode will be sorting by file name.');
+        sortFunction = sortByFileName;
+    }
+    if (argv['d']) {
+        sortFunction = sortByCreationDate;
+        console.log('Going to sort images by actual creation time (EXIF).');
+    }
+    if (argv['n']) {
+        sortFunction = sortByFileName;
+        console.log('Going to sort images by file name.');
+    }
+
+    convert();
 }
 
 function convert() {
     createFolderStructure();
 
     var files = fs.readdirSync(toConvertAbsoluteBasePath);
-
-    // sortFunction = sortByCreationDate;
-    sortFunction = sortByFileName;
 
     processFiles(files, 0);
 
@@ -207,4 +227,4 @@ function saveMetadataFile() {
     });
 }
 
-convert();
+init();
