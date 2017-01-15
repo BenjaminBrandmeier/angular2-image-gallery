@@ -20,7 +20,9 @@ import {DemoComponent} from "./demo/demo.component";
         HttpModule,
         MaterialModule.forRoot()
     ],
-    providers: [ImageService],
+    providers: [
+        ImageService
+    ],
     exports: [
         GalleryComponent,
         ViewerComponent

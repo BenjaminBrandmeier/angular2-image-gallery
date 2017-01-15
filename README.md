@@ -46,6 +46,7 @@ import 'hammerjs/hammer';
 
 ```javascript
 @import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+@import '~https://fonts.googleapis.com/icon?family=Material+Icons';
 ```
 
 #### 5. Run convert script
