@@ -60,6 +60,8 @@ Add a flag to define the order of the images inside the gallery
 
 `-d` sort chronologically by the original creation time (e.g. for coverages of a wedding)
 
+`-n` sort by primary image color
+
 #### 6. Embed gallery in your template
 
 ```javascript

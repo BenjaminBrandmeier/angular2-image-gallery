@@ -5,6 +5,7 @@ var process = require("process");
 var gm = require('gm');
 var appRoot = require('app-root-path');
 var argv = require('minimist')(process.argv.slice(2));
+var one = require('onecolor')
 
 var sortFunction;
 var projectRoot = appRoot.path;
@@ -32,7 +33,7 @@ function init() {
     else {
         toConvertAbsoluteBasePath = argv._[0]
     }
-    if (!argv['d'] && !argv['n']) {
+    if (!argv['d'] && !argv['n'] && !argv['c']) {
         console.log('No sorting mechanism specified! Default mode will be sorting by file name.');
         sortFunction = sortByFileName;
     }
@@ -43,6 +44,10 @@ function init() {
     if (argv['n']) {
         sortFunction = sortByFileName;
         console.log('Going to sort images by file name.');
+    }
+    if (argv['c']) {
+        sortFunction = sortByPrimaryColor;
+        console.log('Going to sort images by color (experimental).');
     }
 
     convert();
@@ -197,7 +202,7 @@ function sortByCreationDate() {
     });
     console.log('...done (sorting)');
 
-    saveMetadataFile();
+    saveMetadataFile(imageMetadataArray);
 }
 
 function sortByFileName() {
@@ -214,17 +219,61 @@ function sortByFileName() {
     });
     console.log('...done (sorting)');
 
-    saveMetadataFile();
+    saveMetadataFile(imageMetadataArray);
 }
 
-function saveMetadataFile() {
-    var metadataAsJSON = JSON.stringify(imageMetadataArray, null, null);
+function sortByPrimaryColor() {
+    console.log('\nSorting images by primary color...');
+
+    var iterations = 8;
+    var sortedColorsArray = [];
+    for (var i = 0; i < iterations; i++) {
+        var specificColorSpectrum = imageMetadataArray.filter(function(imageMetadata) {
+            var color = one(imageMetadata['dominantColor']);
+            var hue = color.hue();
+            return hue <= i * 0.125 && hue > ((i * 0.125) - 0.125)
+        });
+
+        specificColorSpectrum.sort(function (a, b) {
+            var colorA = one(a['dominantColor']);
+            var colorB = one(b['dominantColor']);
+            var luminanceA = calcRelativeLuminance(colorA);
+            var luminanceB = calcRelativeLuminance(colorB);
+            if (i % 2 == 1) {
+                return luminanceA - luminanceB;
+            } else {
+                return luminanceB - luminanceA;
+            }
+        });
+
+        sortedColorsArray[i] = specificColorSpectrum;
+    }
+    var sortedColorsArray = flatten(sortedColorsArray);
+
+    console.log('...done (sorting)');
+
+    saveMetadataFile(sortedColorsArray);
+}
+
+function saveMetadataFile(sortedMetadataArray) {
+    var metadataAsJSON = JSON.stringify(sortedMetadataArray, null, null);
     console.log('\nSaving metadata file...');
 
     fs.writeFile(assetsAbsoluteBasePath + 'data.json', metadataAsJSON, function (err) {
         if (err) throw err;
         console.log('...done (metadata)');
     });
+}
+
+function calcRelativeLuminance(color) {
+    return Math.sqrt(.299 * Math.pow(color.red(), 2) + .587 * Math.pow(color.green(), 2) + .114 * Math.pow(color.blue(), 2));
+};
+
+// http://stackoverflow.com/a/15030117/810595
+function flatten(arr) {
+    return arr.reduce(function (flat, toFlatten) {
+        return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+    }, []);
 }
 
 init();
