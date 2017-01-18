@@ -1,19 +1,22 @@
 import {
     Component, ViewChild, ElementRef, HostListener, ViewChildren,
-    ChangeDetectorRef, QueryList, OnInit, Input, SimpleChanges, OnChanges
+    ChangeDetectorRef, QueryList, OnInit, Input, SimpleChanges, OnChanges, Output, EventEmitter, OnDestroy
 } from "@angular/core"
 import {Http, Response} from "@angular/http"
 import "rxjs/Rx"
 import {ImageService} from "../services/image.service"
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: 'gallery',
     templateUrl: './gallery.component.html',
     styleUrls: ['./gallery.component.css']
 })
-export class GalleryComponent implements OnInit, OnChanges {
+export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     @Input('flexBorderSize') providedImageMargin: number = 3
     @Input('flexImageSize') providedImageSize: number = 7
+
+    @Output() viewerChange = new EventEmitter<boolean>()
 
     @ViewChild('galleryContainer') galleryContainer: ElementRef
     @ViewChildren('imageElement') imageElements: QueryList<any>
@@ -30,17 +33,26 @@ export class GalleryComponent implements OnInit, OnChanges {
     private images: any[] = []
     private gallery: any[] = []
     private minimalQualityCategory = 'preview_xxs'
+    private viewerSubscription: Subscription;
 
     constructor(private ImageService: ImageService, private http: Http, private ChangeDetectorRef: ChangeDetectorRef, elementRef: ElementRef) {
     }
 
     public ngOnInit() {
         this.fetchDataAndRender()
+        this.viewerSubscription = this.ImageService.showImageViewerChanged$
+            .subscribe( (visibility: boolean) => this.viewerChange.emit(visibility));
     }
 
     public ngOnChanges(changes: SimpleChanges) {
         // input params changed
         this.render()
+    }
+
+    public ngOnDestroy() {
+        if (this.viewerSubscription) {
+            this.viewerSubscription.unsubscribe();
+        }
     }
 
     public openImageViewer(img) {
