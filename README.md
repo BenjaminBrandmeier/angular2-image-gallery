@@ -65,12 +65,16 @@ Add a flag to define the order of the images inside the gallery
 #### 6. Embed gallery in your template
 
 ```javascript
-<gallery [flexBorderSize]="3" [flexImageSize]="7"></gallery>
+<gallery 
+    [flexBorderSize]="3" 
+    [flexImageSize]="7" 
+    (viewerChange)="yourNotificationFunction($event)">
+</gallery>
 ```
 
-The parameters flexBorderSize and flexImageSize are optional. 
+All parameters are optional. You may play around on the demo site to find out what parameters suit your needs.
 
-You may play around on the demo site to find out what parameters suit your needs.
+The viewerChange event notifies you when the viewer component gets opened or closed.
 
 That's it, start your application and have a look!
 
