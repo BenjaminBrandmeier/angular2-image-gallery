@@ -3,9 +3,8 @@ import {
     ChangeDetectorRef, QueryList, OnInit, Input, SimpleChanges, OnChanges, Output, EventEmitter, OnDestroy
 } from "@angular/core"
 import {Http, Response} from "@angular/http"
-import "rxjs/Rx"
 import {ImageService} from "../services/image.service"
-import {Subscription} from 'rxjs';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     selector: 'gallery',
@@ -35,7 +34,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     private minimalQualityCategory = 'preview_xxs'
     private viewerSubscription: Subscription;
 
-    constructor(private ImageService: ImageService, private http: Http, private ChangeDetectorRef: ChangeDetectorRef, elementRef: ElementRef) {
+    constructor(private ImageService: ImageService, private http: Http, private ChangeDetectorRef: ChangeDetectorRef) {
     }
 
     public ngOnInit() {

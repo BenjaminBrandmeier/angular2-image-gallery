@@ -6,7 +6,6 @@ import {
     transition,
     animate
 } from "@angular/core"
-import "rxjs/Rx"
 import {ImageService} from "../services/image.service"
 
 @Component({
