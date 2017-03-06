@@ -14,6 +14,7 @@ import {Subscription} from 'rxjs/Subscription';
 export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     @Input('flexBorderSize') providedImageMargin: number = 3
     @Input('flexImageSize') providedImageSize: number = 7
+    @Input('galleryName') providedGalleryName: string = '';
 
     @Output() viewerChange = new EventEmitter<boolean>()
 
@@ -28,7 +29,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         this.render()
     }
 
-    private imageDataFilePath: string = 'assets/img/gallery/data.json'
+    private imageDataFilePath: string = 'assets/img/gallery/'
+    private dataFileName: string = 'data.json'
     private images: any[] = []
     private gallery: any[] = []
     private minimalQualityCategory = 'preview_xxs'
@@ -60,6 +62,10 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     private fetchDataAndRender() {
+        this.imageDataFilePath = this.providedGalleryName != '' ? 
+            this.imageDataFilePath + this.providedGalleryName + '/' + this.dataFileName : 
+            this.imageDataFilePath + this.dataFileName
+
         this.http.get(this.imageDataFilePath)
             .map((res: Response) => res.json())
             .subscribe(
