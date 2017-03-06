@@ -63,7 +63,7 @@ Add a flag to define the order of the images inside the gallery
 
 `-c` sort by primary image color
 
-Additional optional parameter to support multiple galeries. Add it if you want to put your image in a separate gallery.
+Additional optional parameter to support multiple galleries. Add it if you want to put your images into a separate gallery.
 
 `--gName=yourGalleryName` 
 
