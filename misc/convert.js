@@ -24,6 +24,12 @@ var resolutions = [
 ];
 
 function init() {
+    if(argv["gName"]){
+        let galleryName = argv['gName']
+        console.log(`Gallery name provided - '${galleryName}'. Images to be created in the '${galleryName}' subfolder`);
+        assetsAbsoluteBasePath = assetsAbsoluteBasePath + argv['gName'] + "/";
+        previewRelativePath = previewRelativePath + argv['gName'] + "/";
+    }
     if (argv['_'].length == 0) {
         toConvertAbsoluteBasePath = projectRoot + "/images_to_convert";
         console.log('No path specified! Defaulting to ' + toConvertAbsoluteBasePath)

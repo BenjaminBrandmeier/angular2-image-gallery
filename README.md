@@ -63,12 +63,17 @@ Add a flag to define the order of the images inside the gallery
 
 `-c` sort by primary image color
 
+Additional optional parameter to support multiple galleries. Add it if you want to put your images into a separate gallery.
+
+`--gName=yourGalleryName` 
+
 #### 6. Embed gallery in your template
 
 ```javascript
 <gallery 
     [flexBorderSize]="3" 
-    [flexImageSize]="7" 
+    [flexImageSize]="7"
+    [galleryName]="yourGalleryName" 
     (viewerChange)="yourNotificationFunction($event)">
 </gallery>
 ```
