@@ -73,7 +73,7 @@ Additional optional parameter to support multiple galleries. Add it if you want 
 <gallery 
     [flexBorderSize]="3" 
     [flexImageSize]="7"
-    [galleryName]="yourGalleryName" 
+    [galleryName]="'yourGalleryName'" 
     (viewerChange)="yourNotificationFunction($event)">
 </gallery>
 ```
