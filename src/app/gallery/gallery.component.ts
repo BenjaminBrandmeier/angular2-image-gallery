@@ -29,7 +29,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         this.render()
     }
 
-    private imageDataFilePath: string = 'assets/img/gallery/'
+    private imageDataStaticPath: string = 'assets/img/gallery/'
+    private imageDataCompletePath: string = ''
     private dataFileName: string = 'data.json'
     private images: any[] = []
     private gallery: any[] = []
@@ -47,7 +48,11 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
     public ngOnChanges(changes: SimpleChanges) {
         // input params changed
-        this.render()
+        if(changes["providedGalleryName"] != null)
+            this.fetchDataAndRender();
+        else 
+            this.render()
+
     }
 
     public ngOnDestroy() {
@@ -62,11 +67,11 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     private fetchDataAndRender() {
-        this.imageDataFilePath = this.providedGalleryName != '' ? 
-            this.imageDataFilePath + this.providedGalleryName + '/' + this.dataFileName : 
-            this.imageDataFilePath + this.dataFileName
+        this.imageDataCompletePath = this.providedGalleryName != '' ? 
+            this.imageDataStaticPath + this.providedGalleryName + '/' + this.dataFileName : 
+            this.imageDataStaticPath + this.dataFileName
 
-        this.http.get(this.imageDataFilePath)
+        this.http.get(this.imageDataCompletePath)
             .map((res: Response) => res.json())
             .subscribe(
                 data => {
