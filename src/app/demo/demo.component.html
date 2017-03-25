@@ -9,8 +9,13 @@
     <md-input-container>
         <input mdInput [(ngModel)]="flexImageSize" type="number" min="0" max="50" placeholder="Image size">
     </md-input-container>
+    <md-input-container>
+        <input mdInput [(ngModel)]="galleryName" placeholder="Gallery name">
+    </md-input-container>
 
-    <gallery (viewerChange)="onViewerVisibilityChanged($event)" [flexBorderSize]="flexBorderSize" [flexImageSize]="flexImageSize"></gallery>
+    <gallery (viewerChange)="onViewerVisibilityChanged($event)" 
+    [flexBorderSize]="flexBorderSize" [flexImageSize]="flexImageSize"
+    [galleryName]="galleryName"></gallery>
 
     <br/><br/>
     <span>built with </span><a href="https://github.com/BenjaminBrandmeier/angular2-image-gallery">angular2-image-gallery</a>
