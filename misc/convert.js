@@ -87,7 +87,8 @@ function createFolderStructure() {
 function processFiles(files, fidx) {
     if (fidx < files.length) {
         var file = files[fidx];
-        if (file != '.gitignore') {
+        var extension = file.substring(file.indexOf(".")+1, file.length);
+        if (isSupportedExtension(extension)) {
             var filePath = path.join(toConvertAbsoluteBasePath, file);
             if (fs.lstatSync(filePath).isFile()) {
                 identifyImage(files, fidx, filePath, file);
@@ -280,6 +281,15 @@ function flatten(arr) {
     return arr.reduce(function (flat, toFlatten) {
         return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
     }, []);
+}
+
+function isSupportedExtension(format) {
+    var supportedFormats = ["3FR", "8BIM", "8BIMTEXT", "8BIMWTEXT", "APP1", "APP1JPEG", "ART", "ARW", "AVS", "BIE", "BMP", "BMP2", "BMP3", "CACHE", "CALS", "CAPTION", "CIN", "CMYK", "CMYKA", "CR2", "CRW", "CUR", "CUT", "DCM", "DCR", "DCX", "DNG", "DPS", "DPX", "EPDF", "EPI", "EPS", "EPS2", "EPS3", "EPSF", "EPSI", "EPT",
+        "EPT2", "EPT3", "EXIF", "FAX", "FITS", "FRACTAL", "FPX", "GIF", "GIF87", "GRADIENT", "GRAY", "HISTOGRAM", "HRZ", "HTML", "ICB", "ICC", "ICM", "ICO", "ICON", "IDENTITY", "IMAGE", "INFO", "IPTC", "IPTCTEXT", "IPTCWTEXT", "JBG", "JBIG", "JNG", "JP2", "JPC", "JPEG", "JPG", "K25", "KDC", "LABEL", "M2V", "MAP", "MAT",
+        "MATTE", "MIFF", "MNG", "MONO", "MPC", "MPEG", "MPG", "MRW", "MSL", "MTV", "MVG", "NEF", "NULL", "OTB", "P7", "PAL", "PALM", "PBM", "PCD", "PCDS", "PCL", "PCT", "PCX", "PDB", "PDF", "PEF", "PFA", "PFB", "PGM", "PGX", "PICON", "PICT", "PIX", "PLASMA", "PNG", "PNG24", "PNG32", "PNG8", "PNM", "PPM", "PREVIEW", "PS",
+        "PS2", "PS3", "PSD", "PTIF", "PWP", "RAF", "RAS", "RGB", "RGBA", "RLA", "RLE", "SCT", "SFW", "SGI", "SHTML", "STEGANO", "SUN", "SVG", "TEXT", "TGA", "TIFF", "TILE", "TIM", "TOPOL", "TTF", "UIL", "UYVY", "VDA", "VICAR", "VID", "VIFF", "VST", "WBMP", "WMF", "WPG", "X", "X3F", "XBM", "XC", "XCF", "XMP", "XPM", "XV", "XWD", "YUV"];
+
+    return supportedFormats.includes(format.toUpperCase());
 }
 
 init();
