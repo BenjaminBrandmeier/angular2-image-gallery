@@ -84,6 +84,9 @@ The viewerChange event notifies you when the viewer component gets opened or clo
 
 That's it, start your application and have a look!
 
+Hint: If you are using Angular-Cli 1.0.0 or above please consider the following:
+https://github.com/BenjaminBrandmeier/angular2-image-gallery/issues/31#issuecomment-289311369
+
 ## Currently used tools
 
 - Angular 2.3.1
