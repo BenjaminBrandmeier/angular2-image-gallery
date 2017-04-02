@@ -50,7 +50,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         // input params changed
         if(changes["providedGalleryName"] != null)
             this.fetchDataAndRender();
-        else 
+        else
             this.render()
 
     }
@@ -62,13 +62,14 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     public openImageViewer(img) {
+        this.ImageService.updateImages(this.images)
         this.ImageService.updateSelectedImageIndex(this.images.indexOf(img))
         this.ImageService.showImageViewer(true)
     }
 
     private fetchDataAndRender() {
-        this.imageDataCompletePath = this.providedGalleryName != '' ? 
-            this.imageDataStaticPath + this.providedGalleryName + '/' + this.dataFileName : 
+        this.imageDataCompletePath = this.providedGalleryName != '' ?
+            this.imageDataStaticPath + this.providedGalleryName + '/' + this.dataFileName :
             this.imageDataStaticPath + this.dataFileName
 
         this.http.get(this.imageDataCompletePath)
