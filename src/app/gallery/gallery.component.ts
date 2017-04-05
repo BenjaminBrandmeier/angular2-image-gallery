@@ -30,14 +30,14 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     public gallery: any[] = []
-    private imageDataStaticPath: string = 'assets/img/gallery/'
-    private imageDataCompletePath: string = ''
-    private dataFileName: string = 'data.json'
-    private images: any[] = []
-    private minimalQualityCategory = 'preview_xxs'
-    private viewerSubscription: Subscription;
+    public imageDataStaticPath: string = 'assets/img/gallery/'
+    public imageDataCompletePath: string = ''
+    public dataFileName: string = 'data.json'
+    public images: any[] = []
+    public minimalQualityCategory = 'preview_xxs'
+    public viewerSubscription: Subscription;
 
-    constructor(private ImageService: ImageService, private http: Http, private ChangeDetectorRef: ChangeDetectorRef) {
+    constructor(public ImageService: ImageService, public http: Http, public ChangeDetectorRef: ChangeDetectorRef) {
     }
 
     public ngOnInit() {
