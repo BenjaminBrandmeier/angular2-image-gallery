@@ -4,13 +4,13 @@
         <a class="github-button" href="https://github.com/benjaminbrandmeier/angular2-image-gallery" data-style="mega" data-count-href="/benjaminbrandmeier/angular2-image-gallery/stargazers" data-count-api="/repos/benjaminbrandmeier/angular2-image-gallery#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star benjaminbrandmeier/angular2-image-gallery on GitHub">Star</a>
     </div>
     <md-input-container>
-        <input md-input [(ngModel)]="flexBorderSize" type="number" min="1" max="50" placeholder="Space between images">
+        <input mdInput [(ngModel)]="flexBorderSize" type="number" min="1" max="50" placeholder="Space between images">
     </md-input-container>
     <md-input-container>
-        <input md-input [(ngModel)]="flexImageSize" type="number" min="0" max="50" placeholder="Image size">
+        <input mdInput [(ngModel)]="flexImageSize" type="number" min="0" max="50" placeholder="Image size">
     </md-input-container>
     <md-input-container>
-        <input md-input [(ngModel)]="galleryName" placeholder="Gallery name">
+        <input mdInput [(ngModel)]="galleryName" placeholder="Gallery name">
     </md-input-container>
 
     <gallery (viewerChange)="onViewerVisibilityChanged($event)" 

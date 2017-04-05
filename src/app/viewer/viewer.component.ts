@@ -84,9 +84,9 @@ import {ImageService} from "../services/image.service"
 })
 
 export class ViewerComponent {
+    public showViewer: boolean
     private images: any[] = [{}]
     private currentIdx: number = 0
-    private showViewer: boolean
     private leftArrowVisible: boolean = true
     private rightArrowVisible: boolean = true
     private qualitySelectorShown: boolean = false

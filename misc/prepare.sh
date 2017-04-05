@@ -4,18 +4,18 @@ set -eux
 
 rm -rf publish
 
-node node_modules/typescript/bin/tsc --project src --outDir publish
+node node_modules/typescript/bin/tsc --project src/tsconfig.app.json --outDir publish
 
 rm -r publish/environments
 rm -r publish/app/demo
-rm publish/main.d.ts
+#rm publish/main.d.ts
 rm publish/main.js
 rm publish/main.js.map
-rm publish/test.d.ts
-rm publish/test.js
-rm publish/test.js.map
-rm publish/app/**/**.spec.**
-rm publish/polyfills.d.ts
+#rm publish/test.d.ts
+#rm publish/test.js
+#rm publish/test.js.map
+#rm publish/app/**/**.spec.**
+#rm publish/polyfills.d.ts
 rm publish/polyfills.js
 rm publish/polyfills.js.map
 

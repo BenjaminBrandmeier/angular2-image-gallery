@@ -7,6 +7,7 @@ import {ViewerComponent} from "./viewer/viewer.component";
 import {MaterialModule} from "@angular/material";
 import {ImageService} from "./services/image.service";
 import {DemoComponent} from "./demo/demo.component";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -18,6 +19,7 @@ import {DemoComponent} from "./demo/demo.component";
         BrowserModule,
         FormsModule,
         HttpModule,
+        BrowserAnimationsModule,
         MaterialModule.forRoot()
     ],
     providers: [

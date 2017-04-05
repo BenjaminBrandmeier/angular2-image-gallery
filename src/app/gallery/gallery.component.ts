@@ -29,11 +29,11 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         this.render()
     }
 
+    public gallery: any[] = []
     private imageDataStaticPath: string = 'assets/img/gallery/'
     private imageDataCompletePath: string = ''
     private dataFileName: string = 'data.json'
     private images: any[] = []
-    private gallery: any[] = []
     private minimalQualityCategory = 'preview_xxs'
     private viewerSubscription: Subscription;
 
@@ -43,14 +43,14 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     public ngOnInit() {
         this.fetchDataAndRender()
         this.viewerSubscription = this.ImageService.showImageViewerChanged$
-            .subscribe( (visibility: boolean) => this.viewerChange.emit(visibility));
+            .subscribe((visibility: boolean) => this.viewerChange.emit(visibility));
     }
 
     public ngOnChanges(changes: SimpleChanges) {
         // input params changed
-        if(changes["providedGalleryName"] != null)
+        if (changes["providedGalleryName"] != null)
             this.fetchDataAndRender();
-        else 
+        else
             this.render()
 
     }
@@ -67,8 +67,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     private fetchDataAndRender() {
-        this.imageDataCompletePath = this.providedGalleryName != '' ? 
-            this.imageDataStaticPath + this.providedGalleryName + '/' + this.dataFileName : 
+        this.imageDataCompletePath = this.providedGalleryName != '' ?
+            this.imageDataStaticPath + this.providedGalleryName + '/' + this.dataFileName :
             this.imageDataStaticPath + this.dataFileName
 
         this.http.get(this.imageDataCompletePath)
