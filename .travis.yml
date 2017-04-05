@@ -11,7 +11,8 @@ branches:
   only:
   - master
 before_install:
- - npm install -g angular-cli
+ - npm uninstall -g angular-cli
+ - npm install -g @angular/cli@latest
 script:
  - ng build --prod
 notifications:
