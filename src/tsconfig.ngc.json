@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": false,
+    "noImplicitAny": true,
+    "declaration": true,
+    "outDir": "./lib",
+    "stripInternal": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "files": [
+    "app/index.ts"
+  ],
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true
+  },
+  "types": [
+    "core-js"
+  ]
+}
