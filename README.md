@@ -46,7 +46,7 @@ import 'hammerjs/hammer';
 #### 4. Import styles (when using angular-cli add this line in styles.css)
 
 ```javascript
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import '~https://fonts.googleapis.com/icon?family=Material+Icons';
 ```
 
