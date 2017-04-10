@@ -1,12 +1,10 @@
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-import {enableProdMode} from '@angular/core';
-import {environment} from './environments/environment';
-import {Angular2ImageGalleryModule} from './app/angular2imagegallery.module';
-
-export {Angular2ImageGalleryModule} from './app/angular2imagegallery.module';
+import {enableProdMode} from "@angular/core";
+import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
+import {Angular2ImageGalleryModule} from "./app/angular2imagegallery.module";
+import {environment} from "./environments/environment";
 
 if (environment.production) {
-    enableProdMode();
+  enableProdMode();
 }
 
 platformBrowserDynamic().bootstrapModule(Angular2ImageGalleryModule);

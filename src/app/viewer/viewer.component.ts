@@ -139,12 +139,12 @@ export class ViewerComponent {
         this.qualitySelectorShown = !this.qualitySelectorShown
     }
 
-    public qualityChanged(newQuality) {
+    public qualityChanged(newQuality : any) {
         this.qualitySelected = newQuality
         this.updateImage()
     }
 
-    public imageLoaded(image) {
+    public imageLoaded(image : any) {
         image['viewerImageLoaded'] = true
     }
 

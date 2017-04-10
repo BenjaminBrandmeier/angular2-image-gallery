@@ -3,16 +3,10 @@
 # compiled output
 /dist
 /tmp
-/publish
-/src/app/*.js
-/src/app/demo/*.js
-/src/app/gallery/*.js
-/src/app/services/*.js
-/src/app/viewer/*.js
+/out-tsc
 
 # dependencies
 /node_modules
-tools/node_modules
 
 # IDEs and editors
 /.idea
@@ -21,6 +15,7 @@ tools/node_modules
 .c9/
 *.launch
 .settings/
+*.sublime-workspace
 
 # IDE - VSCode
 .vscode/*
@@ -32,19 +27,16 @@ tools/node_modules
 # misc
 /.sass-cache
 /connect.lock
-/coverage/*
+/coverage
 /libpeerconnection.log
 npm-debug.log
 testem.log
 /typings
-upload-temp.sh
-upload-prod.sh
 
 # e2e
 /e2e/*.js
 /e2e/*.map
 
-#System Files
+# System Files
 .DS_Store
 Thumbs.db
-images_to_convert/

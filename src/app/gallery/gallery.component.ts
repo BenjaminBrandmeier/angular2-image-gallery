@@ -5,6 +5,7 @@ import {
 import {Http, Response} from "@angular/http"
 import {ImageService} from "../services/image.service"
 import {Subscription} from 'rxjs/Subscription';
+import 'rxjs/add/operator/map'
 
 @Component({
     selector: 'gallery',
@@ -21,11 +22,11 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     @ViewChild('galleryContainer') galleryContainer: ElementRef
     @ViewChildren('imageElement') imageElements: QueryList<any>
 
-    @HostListener('window:scroll', ['$event']) triggerCycle(event) {
+    @HostListener('window:scroll', ['$event']) triggerCycle(event : any) {
         this.scaleGallery()
     }
 
-    @HostListener('window:resize', ['$event']) windowResize(event) {
+    @HostListener('window:resize', ['$event']) windowResize(event : any) {
         this.render()
     }
 
@@ -61,7 +62,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
-    public openImageViewer(img) {
+    public openImageViewer(img  : any) {
         this.ImageService.updateSelectedImageIndex(this.images.indexOf(img))
         this.ImageService.showImageViewer(true)
     }
@@ -170,7 +171,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
             if (imgRow !== this.gallery[this.gallery.length - 1]) {
                 let ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
 
-                imgRow.forEach((img) => {
+                imgRow.forEach((img : any) => {
                     img['width'] = img[this.minimalQualityCategory]['width'] * ratio
                     img['height'] = img[this.minimalQualityCategory]['height'] * ratio
                     maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
@@ -178,7 +179,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                 })
             }
             else {
-                imgRow.forEach((img) => {
+                imgRow.forEach((img : any) => {
                     img.width = img[this.minimalQualityCategory]['width']
                     img.height = img[this.minimalQualityCategory]['height']
                     maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
@@ -196,7 +197,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         this.ChangeDetectorRef.detectChanges()
     }
 
-    private checkForAsyncLoading(image, imageCounter: number) {
+    private checkForAsyncLoading(image : any, imageCounter: number) {
         let imageElements = this.imageElements.toArray()
 
         if (image['galleryImageLoaded'] ||
@@ -209,7 +210,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
-    private isScrolledIntoView(element) {
+    private isScrolledIntoView(element : any) {
         let elementTop = element.getBoundingClientRect().top
         let elementBottom = element.getBoundingClientRect().bottom
 

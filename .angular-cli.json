@@ -1,8 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "version": "1.0.0-beta.24",
-    "name": "gallery"
+    "name": "angular2-image-gallery"
   },
   "apps": [
     {
@@ -19,7 +18,6 @@
       "tsconfig": "tsconfig.app.json",
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
-      "mobile": false,
       "styles": [
         "styles.css"
       ],
@@ -33,8 +31,6 @@
       }
     }
   ],
-  "addons": [],
-  "packages": [],
   "e2e": {
     "protractor": {
       "config": "./protractor.conf.js"
@@ -58,9 +54,6 @@
   },
   "defaults": {
     "styleExt": "css",
-    "component": {
-      "inlineTemplate": false,
-      "spec": true
-    }
+    "component": {}
   }
 }
