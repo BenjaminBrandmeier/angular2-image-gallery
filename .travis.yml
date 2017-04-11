@@ -3,7 +3,6 @@ sudo: false
 cache:
   directories:
     - node
-    - node_modules
 dist: trusty
 node_js:
   - '7.3.0'
@@ -11,9 +10,9 @@ branches:
   only:
   - master
 before_install:
- - npm install -g angular-cli
+ - npm install -g @angular/cli@latest
 script:
- - ng build --prod
+ - ng build
 notifications:
   webhooks:
     on_success: always

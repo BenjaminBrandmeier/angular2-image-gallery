@@ -43,14 +43,7 @@ import 'web-animations-js/web-animations.min';
 import 'hammerjs/hammer';
 ```
 
-#### 4. Import styles (when using angular-cli add this line in styles.css)
-
-```javascript
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
-@import '~https://fonts.googleapis.com/icon?family=Material+Icons';
-```
-
-#### 5. Run convert script
+#### 4. Run convert script
 
 ```bash
 node node_modules/angular2-image-gallery/convert.js <path/to/your/images>
@@ -67,7 +60,7 @@ Additional optional parameter to support multiple galleries. Add it if you want 
 
 `--gName=yourGalleryName` 
 
-#### 6. Embed gallery in your template
+#### 5. Embed gallery in your template
 
 ```javascript
 <gallery 
@@ -89,9 +82,9 @@ https://github.com/BenjaminBrandmeier/angular2-image-gallery/issues/31#issuecomm
 
 ## Currently used tools
 
-- Angular 2.3.1
+- Angular 4.0.0
 - NodeJS 7.3.0
-- Angular-CLI 1.0.0-beta.24
+- Angular-CLI 1.0.0
 - graphicsmagick
 
 ## Troubleshooting

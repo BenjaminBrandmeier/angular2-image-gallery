@@ -84,9 +84,9 @@ import {ImageService} from "../services/image.service"
 })
 
 export class ViewerComponent {
+    public showViewer: boolean
     private images: any[] = [{}]
     private currentIdx: number = 0
-    private showViewer: boolean
     private leftArrowVisible: boolean = true
     private rightArrowVisible: boolean = true
     private qualitySelectorShown: boolean = false
@@ -139,12 +139,12 @@ export class ViewerComponent {
         this.qualitySelectorShown = !this.qualitySelectorShown
     }
 
-    public qualityChanged(newQuality) {
+    public qualityChanged(newQuality : any) {
         this.qualitySelected = newQuality
         this.updateImage()
     }
 
-    public imageLoaded(image) {
+    public imageLoaded(image : any) {
         image['viewerImageLoaded'] = true
     }
 

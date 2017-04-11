@@ -9,9 +9,9 @@ export class DemoComponent implements OnInit {
 
   constructor() { }
 
-  private flexBorderSize: number = 3
-  private flexImageSize: number = 7
-  private galleryName: string = '';
+  public flexBorderSize: number = 3
+  public flexImageSize: number = 7
+  public galleryName: string = '';
 
   ngOnInit() {
   }
