@@ -7,6 +7,7 @@ import {ImageService} from "./services/image.service";
 import {GalleryComponent} from "./gallery/gallery.component";
 import {ViewerComponent} from "./viewer/viewer.component";
 import {DemoComponent} from "./demo/demo.component";
+import {CommonModule} from "@angular/common";
 
 
 @NgModule({
@@ -16,7 +17,7 @@ import {DemoComponent} from "./demo/demo.component";
     DemoComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     FormsModule,
     HttpModule,
     BrowserAnimationsModule
