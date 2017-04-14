@@ -36,11 +36,27 @@ imports: [
 ],
 ```
 
-#### 3. Import scripts (when using angular-cli add these lines in polyfills.ts)
+#### 3. Import scripts (when using angular-cli uncomment these lines in polyfills.ts)
 
 ```javascript
 import 'web-animations-js/web-animations.min';
 import 'hammerjs/hammer';
+
+import 'core-js/es6/symbol';
+import 'core-js/es6/object';
+import 'core-js/es6/function';
+import 'core-js/es6/parse-int';
+import 'core-js/es6/parse-float';
+import 'core-js/es6/number';
+import 'core-js/es6/math';
+import 'core-js/es6/string';
+import 'core-js/es6/date';
+import 'core-js/es6/array';
+import 'core-js/es6/regexp';
+import 'core-js/es6/map';
+import 'core-js/es6/set';
+
+import 'web-animations-js';
 ```
 
 #### 4. Run convert script
@@ -76,9 +92,6 @@ All parameters are optional. You may play around on the demo site to find out wh
 The viewerChange event notifies you when the viewer component gets opened or closed.
 
 That's it, start your application and have a look!
-
-Hint: If you are using Angular-Cli 1.0.0 or above please consider the following:
-https://github.com/BenjaminBrandmeier/angular2-image-gallery/issues/31#issuecomment-289311369
 
 ## Currently used tools
 
