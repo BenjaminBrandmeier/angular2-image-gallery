@@ -63,6 +63,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     public openImageViewer(img  : any) {
+        this.ImageService.updateImages(this.images)
         this.ImageService.updateSelectedImageIndex(this.images.indexOf(img))
         this.ImageService.showImageViewer(true)
     }
