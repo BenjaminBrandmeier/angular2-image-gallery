@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es5",
+    "lib": ["es2016", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -20,8 +21,5 @@
   ],
   "angularCompilerOptions": {
     "skipTemplateCodegen": true
-  },
-  "types": [
-    "core-js"
-  ]
+  }
 }
