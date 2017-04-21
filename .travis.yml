@@ -2,34 +2,37 @@ language: node_js
 sudo: false
 cache:
   directories:
-    - node_modules
+  - node_modules
 dist: trusty
 node_js:
-  - '7.3.0'
+- 7.3.0
 branches:
   only:
   - master
+env:
+  global:
+  - SELENIUM_HOST=hub-cloud.browserstack.com
+  - SELENIUM_PORT=80
+  - BS_AUTOMATE_PROJECT="$TRAVIS_REPO_SLUG"
+  - BS_AUTOMATE_BUILD="Travis build No. $TRAVIS_BUILD_NUMBER for $TRAVIS_REPO_SLUG"
+  - secure: MEP0KHzUxNCKER8XmJLZKmV1YFsY3zRDVdY67bllce+hLLPBKFjsdAURX5UAh6zREXh34p6iX3IncvGtFfIye3ZV5l+Tr0UCt62fFGKxA30rzbizvptceTldI4q8j8+p7K9N2uSzOuLRCL8pliFNUy9ruI9PyEwOF3O5LarKQcJPp44j2mAZLolpCvVbATSwNvR4ek6x+lBtxjQiNSXQq84KZvS+pgnDLh2DlZlWxNvxDclYFWR1h/J4NyVXPj86QbQ94IadT3pY9sy0Hhs5mCXZMNGwrhouH51fgpJGrYCQtVZbKXRpF4Yn37KKVYoju21QawV3cKg/Efh4w1MJofsq0bzCz7UNQ2zUbckzgKR3+ujWOcMvbGTlxYk6kbfhEbawOhOdkv92rHpeqG/ha7JKefgs24npA5yha1LIPpOiItdptybCFIuaRVs9ttlN3dZjuccvbOPeSOzLkywVSTDhYH4QXjk6cZM7zCFA53gV/RUQUxToBwM/xpkywH5j+CXjWrx6RVoxd1yzLttx1aX2P87bGyPeH0/qtfGE7dhaO19h9qayE9Q7TqKzMGiOzoRcXXdlSJOHNcBDvuOReBJ86W9prDVJSLPJIhjl8TSvOAGZ3sIGpV0ynxQygtlYkEdnljPJsm2k/UBtGDKQt+MHMLVtAxrs4nV/XM42b8Y=
+  - secure: pZx0gnKaBdIM3/Mf1uZImJqwVXMFdqrhwTGX1u9IFH/cDh76ysgHBkwhz4r8KpZJuFayJ5Xa0WfFljc3Jo4YAxloPLD1ONfTLYqPA38JU5IhCYOFtiHDnnn9VvRn6B4nvSw9G1rUazGY83ZJiCRSM9suoXUvgoc32WiCgu2/5H45Oal3c58yuo5Jz5n8+p6PSdz56iAoF+oMTgULnzIrZdyWWlj8ySl8BB8gXZQ+RMWEi+ENwOrQVWi2b2ExWAIVF/HZ34LypVo9LbU4OOtauH3jGQ6p3U2tAQRyCwtuEf3wLtRzPWAQShp3LdJ+lfwncfrbwne+wjoQ4SZWJY3XqZy1Q2Y30UwlXGIS50zMxEJhQAKoxDZtOJAetmgWahg9KRP8HnHxkWUfFUOM3WmgRZSvhKUyrH7A+YiUtzL6HyZtJdgVG/LZik/UBbH7HFXHmaoFLqiXB9pUnFJdb+Vl1qJpr+EoDs4xYmRC0NrwB1qXrm+wp67k2kP0vQ/jqHzxzvlUYnLG4r/PAmmvr1R7lQs72Rizf+sTZrz7G2JPa2kK2ERUzGTni9pL16FeTU3tHjfoFtvhpgtXu7v2BbfzHvYGhajnt6nbNCesokCWyvGZXpZt2XxzujaxAdVe2r7qU1JDJ5ZCeyHuSQpR733Rxg5/ZMnsniMuYlEGAoMFXEI=
 before_script:
- - wget http://oidamo.de/compact.tar
- - mkdir -p src/assets/img/gallery/
- - mv compact.tar src/assets/img/gallery/
- - pushd src/assets/img/gallery/ && tar xvf compact.tar --strip-components 1 && popd
- - export DISPLAY=:99.0
- - sh -e /etc/init.d/xvfb start
+- wget http://oidamo.de/compact.tar
+- mkdir -p src/assets/img/gallery/
+- mv compact.tar src/assets/img/gallery/
+- pushd src/assets/img/gallery/ && tar xvf compact.tar --strip-components 1 && popd
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
 script:
- - npm run e2e -- --config=browserstack.conf.js
+- npm run e2e -- --config=browserstack.conf.js
 notifications:
   webhooks:
     on_success: always
     on_failure: always
     on_start: false
 addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
   browserstack:
-    username: "benjaminbrandmei2"
+    username: benjaminbrandmei2
     access_key:
-      secure: "W+ld0kWbD7eO4mrBxX6LqWVjLl94qv1hioLNoFN9TY/N1Pxu0yfsI/RxYhQa4ae/gOMpDTiE94xrMrRVDVC84VllEfr8xihB/fomZaidJhPD6T3L1vw3BZrOqca4Nc+ZbxVOZg/eiftPqy7upwblh3dtWariwXjX07QGf1B1+dl6PUMp7n5JCeou4UVncQqnodvVwZPxXjO86AcAXF+DaKftN/utEW1LxQysxhfpPWBBLY3iLRO6xKbQnrpyqE8gzFi2Idro3n9Pqaa8k3Tu7RbBZOxvHEuUQdnt4gMqnJuTrNb5vbOt5aL32dld7Y8qpoLerP4cVVXC4PMvVo6y1J8CSm/wwq2obeUSCRoyztpM9bAl3f+Go8HB/CjNOeBeNuDxq3wtkltwVZRWzGwOko7H/n3R8K7+Vx3jW8Wt4vxGznhbtMZLRsaXvaeXDh8NivAlEGbmIvi0Q7dmuTGtQdDriY7uPwbMDiBhP22RaKx/7Dg5HmfguMAj/2yQPtZ3l1iRZz0Ih8X+UqCcGxwamZGfRzkT5oxJ8AcquTws/UDH+g3hIaZ1vseztupdWnjprI1XwgjPfkQkd02M4pYlAzWLTdQ8W/gvisAa6Iz0T+zO64V9E7RmeH20pvfKVHjEzAGGuTeaqHLRnqS4RqlmRMxpG+QE6XeY0PkTSk/uUzQ="
+      secure: W+ld0kWbD7eO4mrBxX6LqWVjLl94qv1hioLNoFN9TY/N1Pxu0yfsI/RxYhQa4ae/gOMpDTiE94xrMrRVDVC84VllEfr8xihB/fomZaidJhPD6T3L1vw3BZrOqca4Nc+ZbxVOZg/eiftPqy7upwblh3dtWariwXjX07QGf1B1+dl6PUMp7n5JCeou4UVncQqnodvVwZPxXjO86AcAXF+DaKftN/utEW1LxQysxhfpPWBBLY3iLRO6xKbQnrpyqE8gzFi2Idro3n9Pqaa8k3Tu7RbBZOxvHEuUQdnt4gMqnJuTrNb5vbOt5aL32dld7Y8qpoLerP4cVVXC4PMvVo6y1J8CSm/wwq2obeUSCRoyztpM9bAl3f+Go8HB/CjNOeBeNuDxq3wtkltwVZRWzGwOko7H/n3R8K7+Vx3jW8Wt4vxGznhbtMZLRsaXvaeXDh8NivAlEGbmIvi0Q7dmuTGtQdDriY7uPwbMDiBhP22RaKx/7Dg5HmfguMAj/2yQPtZ3l1iRZz0Ih8X+UqCcGxwamZGfRzkT5oxJ8AcquTws/UDH+g3hIaZ1vseztupdWnjprI1XwgjPfkQkd02M4pYlAzWLTdQ8W/gvisAa6Iz0T+zO64V9E7RmeH20pvfKVHjEzAGGuTeaqHLRnqS4RqlmRMxpG+QE6XeY0PkTSk/uUzQ=
