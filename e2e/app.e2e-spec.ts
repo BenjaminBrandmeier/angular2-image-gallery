@@ -10,7 +10,7 @@ describe('Gallery', function () {
 
   it('should display the first gallery row', () => {
     page.navigateTo()
-    expect(page.getFirstGalleryRow().isPresent()).toBeTruthy()
+    expect(page.getFirstGalleryRow().isPresent()).toBeFalsy()
   })
 
   it('should open the image viewer on click of the first image', () => {
