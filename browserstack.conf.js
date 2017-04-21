@@ -5,7 +5,7 @@ exports.config = {
   specs: [
     './e2e/**/*.e2e-spec.ts'
   ],
-  seleniumAddress: 'http://hub-cloud.browserstack.com/wd/hub',
+  seleniumAddress: 'https://'+process.env.BROWSERSTACK_USERNAME+':'+process.env.BROWSERSTACK_KEY+'@hub-cloud.browserstack.com/wd/hub',
   capabilities: {
     browserName: 'Chrome',
     browser_version: '57.0',
