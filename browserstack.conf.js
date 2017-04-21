@@ -16,7 +16,8 @@ exports.config = {
     project: process.env.BS_AUTOMATE_PROJECT,
     'browserstack.user': process.env.BROWSERSTACK_USERNAME,
     'browserstack.key': process.env.BROWSERSTACK_KEY,
-    'browserstack.local': true
+    'browserstack.local': true,
+    'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER
   },
   directConnect: false,
   baseUrl: 'http://localhost:4200/',
