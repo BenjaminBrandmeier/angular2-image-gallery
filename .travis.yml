@@ -2,7 +2,7 @@ language: node_js
 sudo: false
 cache:
   directories:
-    - node
+    - node_modules
 dist: trusty
 node_js:
   - '7.3.0'
