@@ -18,7 +18,7 @@ before_script:
  - sh -e /etc/init.d/xvfb start
 script:
  - npm run build -- --prod --aot
- - npm run e2e
+ - npm run e2e -- browserstack.conf.js
 notifications:
   webhooks:
     on_success: always
@@ -30,3 +30,7 @@ addons:
       - google-chrome
     packages:
       - google-chrome-stable
+  browserstack:
+    username: "benjaminbrandmei2"
+    access_key:
+      secure: "W+ld0kWbD7eO4mrBxX6LqWVjLl94qv1hioLNoFN9TY/N1Pxu0yfsI/RxYhQa4ae/gOMpDTiE94xrMrRVDVC84VllEfr8xihB/fomZaidJhPD6T3L1vw3BZrOqca4Nc+ZbxVOZg/eiftPqy7upwblh3dtWariwXjX07QGf1B1+dl6PUMp7n5JCeou4UVncQqnodvVwZPxXjO86AcAXF+DaKftN/utEW1LxQysxhfpPWBBLY3iLRO6xKbQnrpyqE8gzFi2Idro3n9Pqaa8k3Tu7RbBZOxvHEuUQdnt4gMqnJuTrNb5vbOt5aL32dld7Y8qpoLerP4cVVXC4PMvVo6y1J8CSm/wwq2obeUSCRoyztpM9bAl3f+Go8HB/CjNOeBeNuDxq3wtkltwVZRWzGwOko7H/n3R8K7+Vx3jW8Wt4vxGznhbtMZLRsaXvaeXDh8NivAlEGbmIvi0Q7dmuTGtQdDriY7uPwbMDiBhP22RaKx/7Dg5HmfguMAj/2yQPtZ3l1iRZz0Ih8X+UqCcGxwamZGfRzkT5oxJ8AcquTws/UDH+g3hIaZ1vseztupdWnjprI1XwgjPfkQkd02M4pYlAzWLTdQ8W/gvisAa6Iz0T+zO64V9E7RmeH20pvfKVHjEzAGGuTeaqHLRnqS4RqlmRMxpG+QE6XeY0PkTSk/uUzQ="
