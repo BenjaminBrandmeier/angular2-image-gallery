@@ -17,8 +17,7 @@ before_script:
  - export DISPLAY=:99.0
  - sh -e /etc/init.d/xvfb start
 script:
- - npm run build -- --prod --aot
- - npm run e2e -- browserstack.conf.js
+ - npm run e2e -- --config=browserstack.conf.js
 notifications:
   webhooks:
     on_success: always
