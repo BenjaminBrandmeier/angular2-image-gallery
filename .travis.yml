@@ -11,13 +11,13 @@ branches:
   - master
 before_script:
  - wget http://oidamo.de/compact.tar
- - mkdir -p /home/travis/build/BenjaminBrandmeier/angular2-image-gallery/src/assets/img/gallery/
- - mv compact.tar /home/travis/build/BenjaminBrandmeier/angular2-image-gallery/src/assets/img/gallery/
- - pushd /home/travis/build/BenjaminBrandmeier/angular2-image-gallery/src/assets/img/gallery/ && tar xvf compact.tar --strip-components 1 && popd
+ - mkdir -p src/assets/img/gallery/
+ - mv compact.tar src/assets/img/gallery/
+ - pushd src/assets/img/gallery/ && tar xvf compact.tar --strip-components 1 && popd
  - export DISPLAY=:99.0
  - sh -e /etc/init.d/xvfb start
 script:
- - npm run build --prod --aot
+ - npm run build -- --prod --aot
  - npm run e2e
 notifications:
   webhooks:
