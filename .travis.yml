@@ -26,6 +26,8 @@ before_script:
 - sh -e /etc/init.d/xvfb start
 script:
 - npm run e2e -- --config=browserstack.conf.js
+after_success:
+- node browserstack/setSessionStatus.js passed
 notifications:
   webhooks:
     on_success: always
