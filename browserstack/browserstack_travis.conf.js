@@ -6,7 +6,12 @@ exports.config = {
     '../e2e/**/*.e2e-spec.ts'
   ],
   seleniumAddress: 'http://hub-cloud.browserstack.com/wd/hub',
-  commonCapabilities: {
+  capabilities: {
+    browserName: 'Chrome',
+    browser_version: '57.0',
+    os: 'Windows',
+    os_version: '7',
+    resolution: '1920x1080',
     build: process.env.BS_AUTOMATE_BUILD,
     project: process.env.BS_AUTOMATE_PROJECT,
     'browserstack.user': process.env.BROWSERSTACK_USERNAME,
@@ -14,10 +19,6 @@ exports.config = {
     'browserstack.local': true,
     'browserstack.localIdentifier': process.env.BROWSERSTACK_LOCAL_IDENTIFIER
   },
-  multiCapabilities: [{
-    'browserName': 'Chrome',
-    'os': 'Windows'
-  }],
   directConnect: false,
   baseUrl: 'http://localhost:4200/',
   framework: 'jasmine',
