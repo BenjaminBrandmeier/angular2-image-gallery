@@ -1,18 +1,17 @@
 exports.config = {
   'seleniumAddress': 'https://' + process.env.BROWSERSTACK_USERNAME + ':' + process.env.BROWSERSTACK_KEY + '@hub-cloud.browserstack.com/wd/hub',
-  allScriptsTimeout: 11000,
+  allScriptsTimeout: 30000,
   specs: [
     '../e2e/**/*.e2e-spec.ts'
   ],
-  'capabilities': {
+  'commonCapabilities': {
     'browserstack.user': process.env.BROWSERSTACK_USERNAME,
-    'browserstack.key': process.env.BROWSERSTACK_KEY,
-    'os': 'Windows',
-    'os_version': '7',
-    'browserName': 'Chrome',
-    'browser_version': '57.0',
-    'resolution': '1920x1080'
+    'browserstack.key': process.env.BROWSERSTACK_KEY
   },
+  'multiCapabilities': [{
+    'browserName': 'Chrome',
+    'os': 'OSX'
+  }],
   baseUrl: 'http://oidamo.de/angular2-image-gallery',
   // Code to start browserstack local before start of test
   beforeLaunch: function () {
