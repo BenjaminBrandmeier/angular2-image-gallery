@@ -28,6 +28,8 @@ script:
 - npm run e2e -- --config=browserstack.conf.js
 after_success:
 - node browserstack/setSessionStatus.js passed
+after_failure:
+- node browserstack/setSessionStatus.js failed
 notifications:
   webhooks:
     on_success: always
