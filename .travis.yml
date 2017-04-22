@@ -25,7 +25,7 @@ before_script:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 script:
-- npm run e2e -- --config=browserstack.conf.js
+- npm run browserstack-travis
 after_success:
 - node browserstack/setSessionStatus.js passed
 after_failure:
