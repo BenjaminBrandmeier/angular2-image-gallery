@@ -40,3 +40,9 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+.editorconfig
+images_to_convert/
+misc/upload-prod.sh
+misc/upload-temp.sh
+src/lib/

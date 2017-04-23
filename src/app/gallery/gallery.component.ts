@@ -4,7 +4,7 @@ import {
 } from "@angular/core"
 import {Http, Response} from "@angular/http"
 import {ImageService} from "../services/image.service"
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs/Subscription'
 import 'rxjs/add/operator/map'
 
 @Component({
@@ -15,7 +15,7 @@ import 'rxjs/add/operator/map'
 export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     @Input('flexBorderSize') providedImageMargin: number = 3
     @Input('flexImageSize') providedImageSize: number = 7
-    @Input('galleryName') providedGalleryName: string = '';
+    @Input('galleryName') providedGalleryName: string = ''
 
     @Output() viewerChange = new EventEmitter<boolean>()
 
@@ -36,7 +36,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     public dataFileName: string = 'data.json'
     public images: any[] = []
     public minimalQualityCategory = 'preview_xxs'
-    public viewerSubscription: Subscription;
+    public viewerSubscription: Subscription
 
     constructor(public ImageService: ImageService, public http: Http, public ChangeDetectorRef: ChangeDetectorRef) {
     }
@@ -44,13 +44,13 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     public ngOnInit() {
         this.fetchDataAndRender()
         this.viewerSubscription = this.ImageService.showImageViewerChanged$
-            .subscribe((visibility: boolean) => this.viewerChange.emit(visibility));
+            .subscribe((visibility: boolean) => this.viewerChange.emit(visibility))
     }
 
     public ngOnChanges(changes: SimpleChanges) {
         // input params changed
         if (changes["providedGalleryName"] != null)
-            this.fetchDataAndRender();
+            this.fetchDataAndRender()
         else
             this.render()
 
@@ -58,7 +58,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
     public ngOnDestroy() {
         if (this.viewerSubscription) {
-            this.viewerSubscription.unsubscribe();
+            this.viewerSubscription.unsubscribe()
         }
     }
 

@@ -11,12 +11,12 @@ export class DemoComponent implements OnInit {
 
   public flexBorderSize: number = 3
   public flexImageSize: number = 7
-  public galleryName: string = '';
+  public galleryName: string = ''
 
   ngOnInit() {
   }
 
   onViewerVisibilityChanged(isVisible: boolean) {
-    console.log('viewer visible: ' + isVisible);
+    console.log('viewer visible: ' + isVisible)
   }
 }
