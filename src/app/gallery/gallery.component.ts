@@ -93,7 +93,9 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                     this.render()
                     this.render()
                 },
-                err => console.error("Did you run the convert script from angular2-image-gallery for your images first? Original error: " + err),
+                err => this.providedMetadataUri ?
+                  console.error("Provided endpoint '"+this.providedMetadataUri+"' did not serve metadata correctly or in the expected format. \n\nSee here for more information: https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md,\n\nOriginal error: " + err) :
+                  console.error("Did you run the convert script from angular2-image-gallery for your images first? Original error: " + err),
                 () => undefined)
     }
 
