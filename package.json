@@ -1,6 +1,6 @@
 {
   "name": "angular2-image-gallery",
-  "version": "0.7.4",
+  "version": "1.0.0",
   "description": "Responsive Angular 2 image gallery",
   "repository": {
     "type": "git",
@@ -99,6 +99,7 @@
     "photo",
     "ng2",
     "ng",
-    "angular"
+    "angular",
+    "angular4"
   ]
 }

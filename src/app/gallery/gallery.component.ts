@@ -16,6 +16,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     @Input('flexBorderSize') providedImageMargin: number = 3
     @Input('flexImageSize') providedImageSize: number = 7
     @Input('galleryName') providedGalleryName: string = ''
+    @Input('metadataUri') providedMetadataUri: string = undefined
 
     @Output() viewerChange = new EventEmitter<boolean>()
 
@@ -53,7 +54,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
             this.fetchDataAndRender()
         else
             this.render()
-
     }
 
     public ngOnDestroy() {
@@ -69,9 +69,13 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     private fetchDataAndRender() {
-        this.imageDataCompletePath = this.providedGalleryName != '' ?
+        this.imageDataCompletePath = this.providedMetadataUri
+
+        if (!this.providedMetadataUri) {
+            this.imageDataCompletePath = this.providedGalleryName != '' ?
             this.imageDataStaticPath + this.providedGalleryName + '/' + this.dataFileName :
             this.imageDataStaticPath + this.dataFileName
+        }
 
         this.http.get(this.imageDataCompletePath)
             .map((res: Response) => res.json())

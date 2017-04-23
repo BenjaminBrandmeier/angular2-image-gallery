@@ -12,7 +12,8 @@
   <input mdInput [(ngModel)]="galleryName" placeholder="Gallery name">
 
   <gallery (viewerChange)="onViewerVisibilityChanged($event)"
-           [flexBorderSize]="flexBorderSize" [flexImageSize]="flexImageSize"
+           [flexBorderSize]="flexBorderSize"
+           [flexImageSize]="flexImageSize"
            [galleryName]="galleryName"></gallery>
 
   <br/><br/>

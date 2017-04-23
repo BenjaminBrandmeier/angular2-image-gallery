@@ -4,11 +4,11 @@
 [![npm version](https://badge.fury.io/js/angular2-image-gallery.svg)](https://badge.fury.io/js/angular2-image-gallery)
 [![npm downloads](https://img.shields.io/npm/dt/angular2-image-gallery.svg)](https://www.npmjs.com/package/angular2-image-gallery)
 
-A responsive image gallery designed for high resolution images.
+Responsive image gallery designed for high resolution images.
 
 The project consists of a gallery, a viewer and a script for image preparation.
 
-Before using the gallery, you have to process all of your images that will be part of your gallery with the node.js script. The processed images will be stored to your applications assets. During runtime everything runs client-side and there is no separate server-side communication involved. The viewer takes care that an optimal image quality is served based on the device resolution.
+Before using the gallery, you have to process all of your images that will be part of your gallery with the node.js script. The processed images will be stored to your applications assets or, if you'd like to, at a remote location. During runtime everything runs client-side and there is no separate server-side communication involved. The viewer takes care that an optimal image quality is served based on the device resolution.
 
 ## Demo
 
@@ -93,6 +93,10 @@ All parameters are optional. You may play around on the demo site to find out wh
 The viewerChange event notifies you when the viewer component gets opened or closed.
 
 That's it, start your application and have a look!
+
+## Fetching images from an external data source
+
+If you'd like to know how you could fetch your images from an external data source [CLICK HERE](https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md).
 
 ## Currently used tools
 

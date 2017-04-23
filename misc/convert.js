@@ -24,21 +24,43 @@ var resolutions = [
 ];
 
 function init() {
-    if(argv["gName"]){
+    if (argv["gName"]) {
         var galleryName = argv['gName'];
-        console.log(`Gallery name provided - '${galleryName}'. Images to be created in the '${galleryName}' subfolder`);
+        console.log(`Gallery name provided - '${galleryName}'.`);
         assetsAbsoluteBasePath = assetsAbsoluteBasePath + argv['gName'] + "/";
         previewRelativePath = previewRelativePath + argv['gName'] + "/";
     }
+    if (argv["outputDir"]) {
+        var outputDirectory = argv["outputDir"];
+        if (outputDirectory.indexOf(outputDirectory.length) != '/') {
+          outputDirectory += '/';
+        }
+        assetsAbsoluteBasePath = outputDirectory;
+    }
+    if (argv["remoteBaseUrl"]) {
+        var remoteBaseUrl = argv["remoteBaseUrl"];
+        if (remoteBaseUrl.indexOf(remoteBaseUrl.length) != '/') {
+          remoteBaseUrl += '/';
+        }
+        previewRelativePath = remoteBaseUrl;
+    }
     if (argv['_'].length == 0) {
         toConvertAbsoluteBasePath = projectRoot + "/images_to_convert";
-        console.log('No path specified! Defaulting to ' + toConvertAbsoluteBasePath)
+        console.log('No path specified! Defaulting to ' + toConvertAbsoluteBasePath);
     } else if (argv['_'].length > 1) {
-        console.log('Illegally specified more than one argument!')
+        console.log('Illegally specified more than one argument!');
     }
     else {
-        toConvertAbsoluteBasePath = argv._[0]
+        toConvertAbsoluteBasePath = argv._[0];
+        if (toConvertAbsoluteBasePath.indexOf(toConvertAbsoluteBasePath.length) != '/') {
+            toConvertAbsoluteBasePath += '/';
+        }
     }
+
+    console.log(`\nImages will be scanned from this location:\n${toConvertAbsoluteBasePath}`);
+    console.log(`\nImages will be exported to this location:\n${assetsAbsoluteBasePath}`);
+    console.log(`\nImages will be expected during runtime at this location:\n${previewRelativePath}\n`);
+
     if (!argv['d'] && !argv['n'] && !argv['c']) {
         console.log('No sorting mechanism specified! Default mode will be sorting by file name.');
         sortFunction = sortByFileName;
@@ -274,7 +296,7 @@ function saveMetadataFile(sortedMetadataArray) {
 
 function calcRelativeLuminance(color) {
     return Math.sqrt(.299 * Math.pow(color.red(), 2) + .587 * Math.pow(color.green(), 2) + .114 * Math.pow(color.blue(), 2));
-};
+}
 
 // http://stackoverflow.com/a/15030117/810595
 function flatten(arr) {
