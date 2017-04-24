@@ -1,4 +1,4 @@
-## Provide your own metadata JSON
+# Provide your own metadata JSON
 
 You are able to do that, but it's not the original intent of this project. 
 
@@ -7,7 +7,7 @@ You are able to do that, but it's not the original intent of this project.
 Define the input parameter `[metadataUri]` to point to the remote endpoint where the images metadata JSON is stored.
 
 ```javascript
-  <gallery [metadataUri]="'http://oidamo.de/angular2-image-gallery/assets/img/gallery/data.json'"></gallery>
+<gallery [metadataUri]="'http://oidamo.de/angular2-image-gallery/assets/img/gallery/data.json'"></gallery>
 ```
 
 ## 2. Expected JSON format
