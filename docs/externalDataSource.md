@@ -20,8 +20,13 @@ node node_modules/angular2-image-gallery/convert.js <path/to/your/images>
 
 `--remoteBaseUrl` defines where the images will be fetched from during runtime, possibly a different host.
 
-## 3. Explain expected serving structure
-The created folder structure will look like this:
+## 3. Expected serving structure
+The convert script does two things. 
+
+1. It creates a metadata file (JSON) which describes the images and where they are stored.
+
+2. It renders your images to a folder structure like this:
+
 
     -- preview_xxs
       -- your_image01.jpg
@@ -45,60 +50,10 @@ The created folder structure will look like this:
       -- your_image01.jpg
          ...
 
-The gallery expects this exact folder structure served from your server specified via `--remoteBaseUrl`.
+The gallery expects this structure served from your server.
+
+If you'd like to create your individual structure and your own JSON please [CLICK HERE](https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/ownJSON.md)
 
 ## 4. CORS
 Please take into consideration to allow cross origin requests on your server 
 when trying to load images from a different origin.
-
-## 5. But I'd like to provide my own JSON
-
-You are able to do that, but it is not recommended. The currently expected JSON format looks like this:
-
-```javascript
-[
-  {
-    "preview_xxs": {
-      "path": "http://example.com/angular2-image-gallery/some_path/image001.jpg",
-      "width": 500,
-      "height": 375
-    },
-    "preview_xs": {
-      "path": "http://example.com/hello/some_other_path/image001.jpg",
-      "width": 1024,
-      "height": 768
-    },
-    "preview_s": {
-      "path": "http://example.com/angular2-image-gallery/but_you_probably/image001.jpg",
-      "width": 1440,
-      "height": 1080
-    },
-    "preview_m": {
-      "path": "http://example.com/angular2-image-gallery/might_want_to_have/image001.jpg",
-      "width": 2133,
-      "height": 1600
-    },
-    "preview_l": {
-      "path": "http://example.com/angular2-image-gallery/something_like/image001.jpg",
-      "width": 2880,
-      "height": 2160
-    },
-    "preview_xl": {
-      "path": "http://example.com/xl/image001.jpg",
-      "width": 3840,
-      "height": 2880
-    },
-    "raw": {
-      "path": "http://example.com/raw/image001.jpg",
-      "width": 1400,
-      "height": 1050
-    },
-    "dominantColor": "#a6a6a6"
-  },
-  ...
-]
-```
-
-This is an example for one image. So you define the ordering. The dimensions (preview_xxs, preview_xs, preview_s, etc.) are mandatory.
-
-The convert script creates this exact data structure plus additional metadata which will be consumed by the gallery in upcoming versions.

@@ -96,7 +96,12 @@ That's it, start your application and have a look!
 
 ## Fetching images from an external data source
 
-If you'd like to know how you could fetch your images from an external data source [CLICK HERE](https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md).
+If you'd like to know how you could fetch your images from an external data source [CLICK HERE](https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md)
+
+## I don't want to use the convert script and provide my own metadata JSON
+
+This is possible, but not the intent of this project. Please [CLICK HERE](https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/ownJSON.md)
+
 
 ## Currently used tools
 
