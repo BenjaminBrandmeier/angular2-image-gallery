@@ -7,7 +7,7 @@ Define the input parameter `[metadataUri]` to point to the remote endpoint where
 The images metadata will be created by the convert script.
 
 ```javascript
-  <gallery [metadataUri]="'http://oidamo.de/angular2-image-gallery/assets/img/gallery/data.json'"></gallery>
+<gallery [metadataUri]="'http://oidamo.de/angular2-image-gallery/assets/img/gallery/data.json'"></gallery>
 ```
 
 ## 2. Additional convert options
@@ -25,8 +25,9 @@ The convert script does two things.
 
 1. It creates a metadata file (JSON) which describes the images and where they are stored.
 
-2. It renders your images to a folder structure like this:
+2. It pre-renders your images to different dimensions and stores them in a created folder structure.
 
+The folder structure looks like this:
 
     -- preview_xxs
       -- your_image01.jpg
