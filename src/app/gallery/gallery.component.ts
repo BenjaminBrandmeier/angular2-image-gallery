@@ -1,5 +1,5 @@
 import {
-    Component, ViewChild, ElementRef, HostListener, ViewChildren,
+    Component, ViewChild, ElementRef, HostListener, ViewChildren, AfterViewInit,
     ChangeDetectorRef, QueryList, OnInit, Input, SimpleChanges, OnChanges, Output, EventEmitter, OnDestroy
 } from "@angular/core"
 import {Http, Response} from "@angular/http"
@@ -43,10 +43,19 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     public ngOnInit() {
-        this.fetchDataAndRender()
         this.viewerSubscription = this.ImageService.showImageViewerChanged$
             .subscribe((visibility: boolean) => this.viewerChange.emit(visibility))
     }
+
+    public ngAfterViewInit() {
+        this.imageElements.changes.subscribe(values => {
+            this.images.forEach((image, index) => {
+                this.checkForAsyncLoading(image, index);
+            });
+        });
+        this.fetchDataAndRender();
+    }
+    
 
     public ngOnChanges(changes: SimpleChanges) {
         // input params changed
@@ -89,9 +98,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                         image['viewerImageLoaded'] = false
                         image['srcAfterFocus'] = ''
                     })
-                    // twice, single leads to different strange browser behaviour
-                    this.render()
-                    this.render()
+                    this.render();
                 },
                 err => this.providedMetadataUri ?
                   console.error("Provided endpoint '"+this.providedMetadataUri+"' did not serve metadata correctly or in the expected format. \n\nSee here for more information: https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md,\n\nOriginal error: " + err) :
@@ -182,7 +189,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                     img['width'] = img[this.minimalQualityCategory]['width'] * ratio
                     img['height'] = img[this.minimalQualityCategory]['height'] * ratio
                     maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
-                    this.checkForAsyncLoading(img, imageCounter++)
                 })
             }
             else {
@@ -190,7 +196,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                     img.width = img[this.minimalQualityCategory]['width']
                     img.height = img[this.minimalQualityCategory]['height']
                     maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
-                    this.checkForAsyncLoading(img, imageCounter++)
                 })
             }
         })
