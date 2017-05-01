@@ -189,6 +189,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                     img['width'] = img[this.minimalQualityCategory]['width'] * ratio
                     img['height'] = img[this.minimalQualityCategory]['height'] * ratio
                     maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
+                    this.checkForAsyncLoading(img, imageCounter++);
                 })
             }
             else {
@@ -196,6 +197,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                     img.width = img[this.minimalQualityCategory]['width']
                     img.height = img[this.minimalQualityCategory]['height']
                     maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
+                    this.checkForAsyncLoading(img, imageCounter++);
                 })
             }
         })
