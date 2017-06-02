@@ -17,6 +17,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     @Input('flexImageSize') providedImageSize: number = 7
     @Input('galleryName') providedGalleryName: string = ''
     @Input('metadataUri') providedMetadataUri: string = undefined
+    @Input('startInViewer') providedStartInViewer: boolean = false;
+
 
     @Output() viewerChange = new EventEmitter<boolean>()
 
@@ -92,6 +94,10 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                     // twice, single leads to different strange browser behaviour
                     this.render()
                     this.render()
+                     if(this.providedStartInViewer ){
+                        this.openImageViewer(this.images[0]);
+                    }
+
                 },
                 err => this.providedMetadataUri ?
                   console.error("Provided endpoint '"+this.providedMetadataUri+"' did not serve metadata correctly or in the expected format. \n\nSee here for more information: https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md,\n\nOriginal error: " + err) :

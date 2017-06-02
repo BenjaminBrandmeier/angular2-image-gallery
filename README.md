@@ -84,7 +84,8 @@ Additional optional parameter to support multiple galleries. Add it if you want 
     [flexBorderSize]="3" 
     [flexImageSize]="7"
     [galleryName]="'yourGalleryName'" 
-    (viewerChange)="yourNotificationFunction($event)">
+    (viewerChange)="yourNotificationFunction($event)"
+    [startInViewer]=false>
 </gallery>
 ```
 
