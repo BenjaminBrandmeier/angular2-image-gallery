@@ -20,8 +20,7 @@
 }
 
 .imageContainer .image,
-.imageContainer .preloading-image
-{
+.imageContainer .preloading-image {
     visibility: hidden;
 }
 

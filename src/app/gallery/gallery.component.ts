@@ -1,9 +1,9 @@
 import {
     Component, ViewChild, ElementRef, HostListener, ViewChildren,
     ChangeDetectorRef, QueryList, OnInit, Input, SimpleChanges, OnChanges, Output, EventEmitter, OnDestroy
-} from "@angular/core"
-import {Http, Response} from "@angular/http"
-import {ImageService} from "../services/image.service"
+} from '@angular/core'
+import {Http, Response} from '@angular/http'
+import {ImageService} from '../services/image.service'
 import {Subscription} from 'rxjs/Subscription'
 import 'rxjs/add/operator/map'
 
@@ -24,11 +24,11 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     @ViewChild('galleryContainer') galleryContainer: ElementRef
     @ViewChildren('imageElement') imageElements: QueryList<any>
 
-    @HostListener('window:scroll', ['$event']) triggerCycle(event : any) {
+    @HostListener('window:scroll', ['$event']) triggerCycle(event: any) {
         this.scaleGallery()
     }
 
-    @HostListener('window:resize', ['$event']) windowResize(event : any) {
+    @HostListener('window:resize', ['$event']) windowResize(event: any) {
         this.render()
     }
 
@@ -54,7 +54,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
     public ngOnChanges(changes: SimpleChanges) {
         // input params changed
-        if (changes["providedGalleryName"] != null)
+        if (changes['providedGalleryName'] != null)
             this.fetchDataAndRender()
         else
             this.render()
@@ -66,7 +66,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
-    public openImageViewer(img  : any) {
+    public openImageViewer(img: any) {
         this.ImageService.updateImages(this.images)
         this.ImageService.updateSelectedImageIndex(this.images.indexOf(img))
         this.ImageService.showImageViewer(true)
@@ -77,8 +77,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
         if (!this.providedMetadataUri) {
             this.imageDataCompletePath = this.providedGalleryName != '' ?
-            this.imageDataStaticPath + this.providedGalleryName + '/' + this.dataFileName :
-            this.imageDataStaticPath + this.dataFileName
+                this.imageDataStaticPath + this.providedGalleryName + '/' + this.dataFileName :
+                this.imageDataStaticPath + this.dataFileName
         }
 
         this.http.get(this.imageDataCompletePath)
@@ -98,8 +98,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                     this.render()
                 },
                 err => this.providedMetadataUri ?
-                  console.error("Provided endpoint '"+this.providedMetadataUri+"' did not serve metadata correctly or in the expected format. \n\nSee here for more information: https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md,\n\nOriginal error: " + err) :
-                  console.error("Did you run the convert script from angular2-image-gallery for your images first? Original error: " + err),
+                    console.error('Provided endpoint \'' + this.providedMetadataUri + '\' did not serve metadata correctly or in the expected format. \n\nSee here for more information: https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md,\n\nOriginal error: ' + err) :
+                    console.error('Did you run the convert script from angular2-image-gallery for your images first? Original error: ' + err),
                 () => undefined)
     }
 
@@ -126,32 +126,32 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     private shouldAddCandidate(imgRow: any[], candidate: any): boolean {
-        let oldDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
+        const oldDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
         imgRow.push(candidate)
-        let newDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
+        const newDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
 
         return Math.abs(oldDifference) > Math.abs(newDifference)
     }
 
     private calcRowHeight(imgRow: any[]) {
-        let originalRowWidth = this.calcOriginalRowWidth(imgRow)
+        const originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
-        let ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
-        let rowHeight = imgRow[0][this.minimalQualityCategory]['height'] * ratio
+        const ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
+        const rowHeight = imgRow[0][this.minimalQualityCategory]['height'] * ratio
 
         return rowHeight
     }
 
     private calcImageMargin() {
-        let galleryWidth = this.getGalleryWidth()
-        let ratio = galleryWidth / 1920
+        const galleryWidth = this.getGalleryWidth()
+        const ratio = galleryWidth / 1920
         return Math.round(Math.max(1, this.providedImageMargin * ratio))
     }
 
     private calcOriginalRowWidth(imgRow: any[]) {
         let originalRowWidth = 0
         imgRow.forEach((img) => {
-            let individualRatio = this.calcIdealHeight() / img[this.minimalQualityCategory]['height']
+            const individualRatio = this.calcIdealHeight() / img[this.minimalQualityCategory]['height']
             img[this.minimalQualityCategory]['width'] = img[this.minimalQualityCategory]['width'] * individualRatio
             img[this.minimalQualityCategory]['height'] = this.calcIdealHeight()
             originalRowWidth += img[this.minimalQualityCategory]['width']
@@ -177,12 +177,12 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         let maximumGalleryImageHeight = 0
 
         this.gallery.slice(this.rowIndex, this.rowIndex + this.rowsPerPage).forEach((imgRow) => {
-            let originalRowWidth = this.calcOriginalRowWidth(imgRow)
+            const originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
             if (imgRow !== this.gallery[this.gallery.length - 1]) {
-                let ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
+                const ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
 
-                imgRow.forEach((img : any) => {
+                imgRow.forEach((img: any) => {
                     img['width'] = img[this.minimalQualityCategory]['width'] * ratio
                     img['height'] = img[this.minimalQualityCategory]['height'] * ratio
                     maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
@@ -190,7 +190,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
                 })
             }
             else {
-                imgRow.forEach((img : any) => {
+                imgRow.forEach((img: any) => {
                     img.width = img[this.minimalQualityCategory]['width']
                     img.height = img[this.minimalQualityCategory]['height']
                     maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
@@ -210,8 +210,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         this.ChangeDetectorRef.detectChanges()
     }
 
-    private checkForAsyncLoading(image : any, imageCounter: number) {
-        let imageElements = this.imageElements.toArray()
+    private checkForAsyncLoading(image: any, imageCounter: number) {
+        const imageElements = this.imageElements.toArray()
 
         if (image['galleryImageLoaded'] ||
             (imageElements.length > 0 && this.isScrolledIntoView(imageElements[imageCounter].nativeElement))) {
@@ -223,9 +223,9 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         }
     }
 
-    private isScrolledIntoView(element : any) {
-        let elementTop = element.getBoundingClientRect().top
-        let elementBottom = element.getBoundingClientRect().bottom
+    private isScrolledIntoView(element: any) {
+        const elementTop = element.getBoundingClientRect().top
+        const elementBottom = element.getBoundingClientRect().bottom
 
         return elementTop < window.innerHeight && elementBottom >= 0 && (elementBottom > 0 || elementTop > 0)
     }
@@ -236,13 +236,13 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     public navigate(direction: number) {
         if ((direction === 1 && this.rowIndex < this.gallery.length - this.rowsPerPage)
             || (direction === -1 && this.rowIndex > 0)) {
-                this.rowIndex += (this.rowsPerPage * direction)
+            this.rowIndex += (this.rowsPerPage * direction)
         }
         this.refreshNavigationErrorState()
     }
 
     private refreshNavigationErrorState() {
-        this.leftArrowInactive =  this.rowIndex == 0
+        this.leftArrowInactive = this.rowIndex == 0
         this.rightArrowInactive = this.rowIndex > (this.gallery.length - this.rowsPerPage)
     }
 }

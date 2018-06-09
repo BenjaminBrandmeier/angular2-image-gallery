@@ -46,7 +46,7 @@
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-inferrable-types": [true, "ignore-params"],
+    "no-inferrable-types": [false, "ignore-params"],
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
@@ -70,7 +70,7 @@
     ],
     "radix": true,
     "semicolon": [
-      "always"
+      true, "never"
     ],
     "triple-equals": [
       true,
