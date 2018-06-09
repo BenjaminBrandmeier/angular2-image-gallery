@@ -17,6 +17,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     @Input('flexImageSize') providedImageSize: number = 7
     @Input('galleryName') providedGalleryName: string = ''
     @Input('metadataUri') providedMetadataUri: string = undefined
+    @Input('maxRowsPerPage') rowsPerPage: number = 200
 
     @Output() viewerChange = new EventEmitter<boolean>()
 
@@ -38,6 +39,9 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     public images: any[] = []
     public minimalQualityCategory = 'preview_xxs'
     public viewerSubscription: Subscription
+    public rowIndex: number = 0
+    public rightArrowInactive: boolean = false
+    public leftArrowInactive: boolean = false
 
     constructor(public ImageService: ImageService, public http: Http, public ChangeDetectorRef: ChangeDetectorRef) {
     }
@@ -103,7 +107,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         this.gallery = []
 
         let tempRow = [this.images[0]]
-        let rowIndex = 0
+        let currentRowIndex = 0
         let i = 0
 
         for (i; i < this.images.length; i++) {
@@ -113,7 +117,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
             if (this.images[i + 1]) {
                 tempRow.pop()
             }
-            this.gallery[rowIndex++] = tempRow
+            this.gallery[currentRowIndex++] = tempRow
 
             tempRow = [this.images[i + 1]]
         }
@@ -172,7 +176,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         let imageCounter = 0
         let maximumGalleryImageHeight = 0
 
-        this.gallery.forEach((imgRow) => {
+        this.gallery.slice(this.rowIndex, this.rowIndex + this.rowsPerPage).forEach((imgRow) => {
             let originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
             if (imgRow !== this.gallery[this.gallery.length - 1]) {
@@ -201,6 +205,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
             this.minimalQualityCategory = 'preview_xxs'
         }
 
+        this.refreshNavigationErrorState()
+
         this.ChangeDetectorRef.detectChanges()
     }
 
@@ -222,5 +228,21 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         let elementBottom = element.getBoundingClientRect().bottom
 
         return elementTop < window.innerHeight && elementBottom >= 0 && (elementBottom > 0 || elementTop > 0)
+    }
+
+    /**
+     * direction (-1: left, 1: right)
+     */
+    public navigate(direction: number) {
+        if ((direction === 1 && this.rowIndex < this.gallery.length - this.rowsPerPage)
+            || (direction === -1 && this.rowIndex > 0)) {
+                this.rowIndex += (this.rowsPerPage * direction)
+        }
+        this.refreshNavigationErrorState()
+    }
+
+    private refreshNavigationErrorState() {
+        this.leftArrowInactive =  this.rowIndex == 0
+        this.rightArrowInactive = this.rowIndex > (this.gallery.length - this.rowsPerPage)
     }
 }
