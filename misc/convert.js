@@ -162,6 +162,7 @@ function createPreviewImage(files, fidx, filePath, file, index) {
 
     gm(filePath)
         .resize(null, resolutions[index].height)
+        .autoOrient()
         .quality(95)
         .write(assetsAbsoluteBasePath + resolutions[index].name + '/' + file, function (err) {
             if (err) throw err;
