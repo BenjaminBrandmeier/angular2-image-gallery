@@ -10,7 +10,7 @@
     overflow: hidden;
 }
 
-.galleryContainer img:last-child {
+.innerGalleryContainer img:last-child {
     /* important to overwrite inline css and prevent chrome flickering bug */
     margin-right: -1px !important;
 }
@@ -39,3 +39,40 @@
     width: 0px;
     bottom: 120px;
 }
+
+.pagerContainer {
+    margin: 40px auto;
+    width: 180px;
+}
+
+@media (max-width: 700px) {
+    .pagerContainer {
+        margin: 40px auto;
+        width: 150px;
+    }
+}
+
+.pager {
+    display: block;
+    height: 60px;
+}
+
+@media (max-width: 700px) {
+    .pager {
+        display: block;
+        height: 45px;
+    }
+}
+
+.pager.inactive {
+    opacity: 0.15;
+}
+
+.pager.left {
+    float: left;
+}
+
+.pager.right {
+    float: right;
+}
+
