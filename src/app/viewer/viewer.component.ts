@@ -5,8 +5,8 @@ import {
     style,
     transition,
     animate
-} from "@angular/core"
-import {ImageService} from "../services/image.service"
+} from '@angular/core'
+import {ImageService} from '../services/image.service'
 
 @Component({
     selector: 'viewer',
@@ -139,12 +139,12 @@ export class ViewerComponent {
         this.qualitySelectorShown = !this.qualitySelectorShown
     }
 
-    public qualityChanged(newQuality : any) {
+    public qualityChanged(newQuality: any) {
         this.qualitySelected = newQuality
         this.updateImage()
     }
 
-    public imageLoaded(image : any) {
+    public imageLoaded(image: any) {
         image['viewerImageLoaded'] = true
     }
 
@@ -206,8 +206,8 @@ export class ViewerComponent {
     }
 
     private updateQuality() {
-        let screenWidth = window.innerWidth
-        let screenHeight = window.innerHeight
+        const screenWidth = window.innerWidth
+        const screenHeight = window.innerHeight
 
         switch (this.qualitySelected) {
             case 'auto': {
@@ -255,7 +255,7 @@ export class ViewerComponent {
     }
 
     private onKeydown(event: KeyboardEvent) {
-        let prevent = [37, 39, 27, 36, 35]
+        const prevent = [37, 39, 27, 36, 35]
             .find(no => no === event.keyCode)
         if (prevent) {
             event.preventDefault()
