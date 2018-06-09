@@ -109,7 +109,7 @@ function createFolderStructure() {
 function processFiles(files, fidx) {
     if (fidx < files.length) {
         var file = files[fidx];
-        var extension = file.substring(file.indexOf(".")+1, file.length);
+        var extension = file.substring(file.lastIndexOf(".")+1, file.length);
         if (isSupportedExtension(extension)) {
             var filePath = path.join(toConvertAbsoluteBasePath, file);
             if (fs.lstatSync(filePath).isFile()) {
