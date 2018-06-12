@@ -30,19 +30,12 @@
 /coverage
 /libpeerconnection.log
 npm-debug.log
+yarn-error.log
 testem.log
 /typings
-
-# e2e
-/e2e/*.js
-/e2e/*.map
 
 # System Files
 .DS_Store
 Thumbs.db
 
-.editorconfig
-images_to_convert/
-misc/upload-prod.sh
-misc/upload-temp.sh
-src/lib/
+/projects/angular2-image-gallery/node_modules
