@@ -1,10 +1,14 @@
-import {enableProdMode} from "@angular/core";
-import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
-import {Angular2ImageGalleryModule} from "./app/angular2imagegallery.module";
-import {environment} from "./environments/environment";
+import {enableProdMode} from '@angular/core';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+
+import {environment} from './environments/environment';
+import {GalleryDemoModule} from './app/demo.module';
+
+import 'hammerjs';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(Angular2ImageGalleryModule);
+platformBrowserDynamic().bootstrapModule(GalleryDemoModule)
+  .catch(err => console.log(err));
