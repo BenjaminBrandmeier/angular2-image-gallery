@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 
 @Component({
     selector: 'app-demo',
@@ -7,17 +7,17 @@ import {Component, OnInit} from '@angular/core'
 })
 export class DemoComponent implements OnInit {
 
-    public flexBorderSize: number = 3
-    public flexImageSize: number = 7
-    public galleryName: string = ''
+    flexBorderSize: number = 3
+    flexImageSize: number = 7
+    galleryName: string = ''
 
     constructor() {
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
     }
 
-    onViewerVisibilityChanged(isVisible: boolean) {
-        console.log('viewer visible: ' + isVisible)
+    onViewerVisibilityChanged(isVisible: boolean): void {
+        console.log(`viewer visible: ${isVisible}`)
     }
 }
