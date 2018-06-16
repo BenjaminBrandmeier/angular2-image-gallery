@@ -104,13 +104,7 @@
     height: 26px;
 }
 
-md-button-toggle-group {
-    display: table;
-    top: 70px;
-    margin: 0 auto;
-    background-color: #fff;
-    z-index: 500;
-}
+
 
 md-button-toggle.checked {
     background-color: #a0a0a0;
@@ -126,9 +120,7 @@ md-button-toggle.checked {
     transition: all ease-out 0.5s;
 }
 
-[md-fab], [md-mini-fab] {
-    background-color: #aaaaaa;
-}
+
 
 /* fallback */
 @font-face {
