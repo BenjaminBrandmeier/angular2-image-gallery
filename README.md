@@ -4,15 +4,17 @@
 [![npm version](https://badge.fury.io/js/angular2-image-gallery.svg)](https://badge.fury.io/js/angular2-image-gallery)
 [![npm downloads](https://img.shields.io/npm/dt/angular2-image-gallery.svg)](https://www.npmjs.com/package/angular2-image-gallery)
 
+----> **compatible with Angular 6+** <----
+
 Responsive image gallery designed for high resolution images.
 
 The project consists of a gallery, a viewer and a script for image preparation.
 
-Before using the gallery, you have to process all of your images that will be part of your gallery with the node.js script. The processed images will be stored to your applications assets or, if you'd like to, at a remote location. During runtime everything runs client-side and there is no separate server-side communication involved. The viewer takes care that an optimal image quality is served based on the device resolution.
+Before using the gallery, you have to process all of your images that will be part of your gallery with the **convert** script. The processed images will be stored to your applications assets or, if you wish, at a remote location. During runtime everything runs client-side and there is no separate server-side communication involved. The viewer takes care an optimal image quality is served based on the screen resolution.
 
 ## Demo
 
-http://oidamo.de/angular2-image-gallery/
+https://oidamo.de/angular2-image-gallery/
 
 ## How to use the gallery in your project
 ### Pre-requirements
@@ -24,40 +26,22 @@ Install **node (>= 4.2.2)** and **graphicsmagick**: http://www.graphicsmagick.or
 
 ```bash
 npm install angular2-image-gallery --save
+npm install hammerjs --save
 ```
 
-#### 2. Import angular2-image-gallery in your Angular 2 module
+#### 2. Import angular2-image-gallery in your Angular module
 
 ```javascript
 imports: [
-  BrowserModule,
-  FormsModule,
-  HttpModule,
-  Angular2ImageGalleryModule <-----
+  Angular2ImageGalleryModule
 ],
 ```
 
-#### 3. Import scripts (when using angular-cli uncomment these lines in polyfills.ts)
+#### 3. Add hammer.js for support of mobile devices
 
+Add the following line to your **main.ts** file:
 ```javascript
-import 'web-animations-js/web-animations.min';
-import 'hammerjs/hammer';
-
-import 'core-js/es6/symbol';
-import 'core-js/es6/object';
-import 'core-js/es6/function';
-import 'core-js/es6/parse-int';
-import 'core-js/es6/parse-float';
-import 'core-js/es6/number';
-import 'core-js/es6/math';
-import 'core-js/es6/string';
-import 'core-js/es6/date';
-import 'core-js/es6/array';
-import 'core-js/es6/regexp';
-import 'core-js/es6/map';
-import 'core-js/es6/set';
-
-import 'web-animations-js';
+import 'hammerjs';
 ```
 
 #### 4. Run convert script
@@ -84,6 +68,7 @@ Additional optional parameter to support multiple galleries. Add it if you want 
     [flexBorderSize]="3" 
     [flexImageSize]="7"
     [galleryName]="'yourGalleryName'" 
+    [maxRowsPerPage]="100"
     (viewerChange)="yourNotificationFunction($event)">
 </gallery>
 ```
@@ -105,9 +90,9 @@ This is possible, but not the intent of this project. Please [CLICK HERE](https:
 
 ## Currently used tools
 
-- Angular 4.0.0
-- NodeJS 7.3.0
-- Angular-CLI 1.0.0
+- Angular 6.0.0
+- NodeJS 8.11.2
+- Angular-CLI 6.0.0
 - graphicsmagick
 
 ## Troubleshooting
