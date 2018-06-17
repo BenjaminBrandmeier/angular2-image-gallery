@@ -5,7 +5,7 @@ cache:
     - node
 dist: trusty
 node_js:
-  - '7.3.0'
+  - '8.9.4'
 branches:
   only:
   - master
