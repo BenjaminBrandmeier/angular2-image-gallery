@@ -8,6 +8,7 @@
     position: fixed;
     background-color: rgba(0, 0, 0, 0.95);
     font-family: sans-serif;
+    z-index: 1031;
 }
 
 .imageContainer {
