@@ -10,7 +10,7 @@ branches:
   only:
   - master
 before_install:
- - npm install -g @angular/cli@latest
+ - npm install @angular/cli
  - npm run lib
 before_script:
  - export DISPLAY=:99.0
