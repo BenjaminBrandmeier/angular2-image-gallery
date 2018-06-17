@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "lib": "ng build --prod angular2-image-gallery && cp misc/convert.js dist/angular2-image-gallery"
+    "lib": "ng build --prod angular2-image-gallery && cp misc/convert.js dist/angular2-image-gallery/ && cp README.md dist/angular2-image-gallery/"
   },
   "private": true,
   "dependencies": {
