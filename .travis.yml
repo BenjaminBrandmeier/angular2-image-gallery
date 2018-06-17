@@ -11,6 +11,7 @@ branches:
   - master
 before_install:
  - npm install -g @angular/cli@latest
+ - npm run lib
 before_script:
  - export DISPLAY=:99.0
  - sh -e /etc/init.d/xvfb start
