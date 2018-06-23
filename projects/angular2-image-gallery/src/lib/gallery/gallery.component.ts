@@ -93,7 +93,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         this.imageDataCompletePath = this.providedMetadataUri
 
         if (!this.providedMetadataUri) {
-            this.imageDataCompletePath = this.providedGalleryName != '' ?
+            this.imageDataCompletePath = this.providedGalleryName !== '' ?
                 `${this.imageDataStaticPath + this.providedGalleryName}/${this.dataFileName}` :
                 this.imageDataStaticPath + this.dataFileName
         }
