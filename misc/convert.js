@@ -24,7 +24,7 @@ var resolutions = [
 ];
 
 function init() {
-    if (argv["gName"]) {
+    if (argv["gName"] !== undefined) {
         var galleryName = argv['gName'];
         console.log(`Gallery name provided - '${galleryName}'.`);
         assetsAbsoluteBasePath = assetsAbsoluteBasePath + argv['gName'] + "/";
