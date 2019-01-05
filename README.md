@@ -4,7 +4,7 @@
 [![npm version](https://badge.fury.io/js/angular2-image-gallery.svg)](https://badge.fury.io/js/angular2-image-gallery)
 [![npm downloads](https://img.shields.io/npm/dt/angular2-image-gallery.svg)](https://www.npmjs.com/package/angular2-image-gallery)
 
-----> **compatible with Angular 6+** <----
+----> **compatible with Angular 7+** <----
 
 Responsive image gallery designed for high resolution images.
 
@@ -90,9 +90,8 @@ This is possible, but not the intent of this project. Please [CLICK HERE](https:
 
 ## Currently used tools
 
-- Angular 6.0.0
+- Angular 7.0.0
 - NodeJS 8.11.2
-- Angular-CLI 6.0.0
 - graphicsmagick
 
 ## Troubleshooting
