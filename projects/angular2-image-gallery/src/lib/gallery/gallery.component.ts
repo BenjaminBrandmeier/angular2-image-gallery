@@ -31,7 +31,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
     @Output() viewerChange = new EventEmitter<boolean>()
 
-    @ViewChild('galleryContainer') galleryContainer: ElementRef
+    @ViewChild('galleryContainer', { static: true }) galleryContainer: ElementRef
     @ViewChildren('imageElement') imageElements: QueryList<any>
 
     @HostListener('window:scroll', ['$event']) triggerCycle(event: any): void {

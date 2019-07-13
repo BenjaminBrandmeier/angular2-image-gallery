@@ -4,7 +4,7 @@
 [![npm version](https://badge.fury.io/js/angular2-image-gallery.svg)](https://badge.fury.io/js/angular2-image-gallery)
 [![npm downloads](https://img.shields.io/npm/dt/angular2-image-gallery.svg)](https://www.npmjs.com/package/angular2-image-gallery)
 
-----> **compatible with Angular 7+** <----
+----> **compatible with Angular 8+** <----
 
 Responsive image gallery designed for high resolution images.
 
@@ -18,7 +18,7 @@ https://oidamo.de/gallery-demo.html
 
 ## How to use the gallery in your project
 ### Pre-requirements
-Install **node (>= 4.2.2)** and **graphicsmagick**: http://www.graphicsmagick.org/README.html#installation
+Install **graphicsmagick**: http://www.graphicsmagick.org/README.html#installation
 
 ### Embed in your project
 
