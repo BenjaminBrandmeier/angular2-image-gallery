@@ -80,6 +80,10 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
             || (direction === -1 && this.rowIndex > 0)) {
             this.rowIndex += (this.rowsPerPage * direction)
         }
+        console.log('navigate '+ direction)
+        console.log('rowIndex '+ this.rowIndex)
+        console.log('gallery.length'+ this.gallery.length)
+        console.log('rowsPerPage'+ this.rowsPerPage)
         this.refreshNavigationErrorState()
     }
 
@@ -244,6 +248,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
     private refreshNavigationErrorState(): void {
         this.leftArrowInactive = this.rowIndex == 0
-        this.rightArrowInactive = this.rowIndex > (this.gallery.length - this.rowsPerPage)
+        this.rightArrowInactive = this.rowIndex >= (this.gallery.length - this.rowsPerPage)
     }
 }
