@@ -23,14 +23,14 @@
         <div *ngFor='let img of images; let j = index'
              class="image"
              [class.active]="img['active']"
-             [style.background-image]="img['viewerImageLoaded'] ? 'url('+img[categorySelected]['path']+')' : math.abs(currentIdx-j) <=1 ? 'url('+img['preview_xxs']['path']+')' : ''"
+             [style.background-image]="img['viewerImageLoaded'] && img[categorySelected]!=undefined ? 'url('+img[categorySelected]['path']+')' : ''"
              [style.left]="transform+'px'"
              [@imageTransition]="img['transition']"></div>
 
         <img *ngFor='let img of images; let j = index'
              class="preloading-image"
              (load)="imageLoaded(img)"
-             src="{{ math.abs(currentIdx-j) <=1 ? img[categorySelected]['path'] : ''}}"/>
+             src="{{ img[categorySelected]!=undefined ? img[categorySelected]['path'] : '' }}"/>
     </div>
 </div>
 

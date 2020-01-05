@@ -98,12 +98,13 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
     private fetchDataAndRender(): void {
         this.imageDataCompletePath = this.providedMetadataUri
-
+        console.log('fetchData ' +this.imageDataCompletePath)
         if (!this.providedMetadataUri) {
             this.imageDataCompletePath = this.providedGalleryName !== '' ?
                 `${this.imageDataStaticPath + this.providedGalleryName}/${this.dataFileName}` :
                 this.imageDataStaticPath + this.dataFileName
         }
+        console.log('fetchData2 ' +this.imageDataCompletePath)
 
         this.http.get(this.imageDataCompletePath)
           .subscribe(
