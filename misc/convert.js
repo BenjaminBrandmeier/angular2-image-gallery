@@ -153,35 +153,51 @@ function identifyImage(files, fidx, filePath, file) {
             // copy raw image to assets folder
             fs.createReadStream(filePath).pipe(fs.createWriteStream(assetsAbsoluteBasePath + 'raw/' + file));
 
-            createPreviewImage(files, fidx, filePath, file, 0);
+            createPreviewImage(files, fidx, filePath, file);
         });
 }
 
-function createPreviewImage(files, fidx, filePath, file, index) {
+/**
+ * Makes smaller preview images from the orginal image
+ * @param {*} files 
+ * @param {*} fidx 
+ * @param {*} filePath 
+ * @param {*} file 
+ */
+function createPreviewImage( files, fidx, filePath, file) {
     // create various preview images
+    gm(filePath).size(function (err, size) {
+        if (err) throw err;
+        let height = size.height;
+        let index=0;
 
-    gm(filePath)
-        .resize(null, resolutions[index].height)
-        .autoOrient()
-        .quality(95)
-        .write(assetsAbsoluteBasePath + resolutions[index].name + '/' + file, function (err) {
-            if (err) throw err;
-            if (index !== resolutions.length - 2) {
-                // don't resize raw images
-                createPreviewImage(files, fidx, filePath, file, ++index);
-            } else {
-                process.stdout.write('\rConverted ' + (fidx) + " images.");
-                processFiles(files, ++fidx);
-            }
-        });
+        while(height > resolutions[index].height){
+            console.log(file +'->' +resolutions[index].name)
+            gm(filePath)
+            .resize(null, resolutions[index].height)
+            .autoOrient()
+            .quality(100)
+            .write(assetsAbsoluteBasePath + resolutions[index].name + '/' + file, function (err) {
+                if (err) throw err;
+            });
+            index++;
+        }    
+    process.stdout.write('\rConverted ' + (++fidx) + " images.");
+    processFiles(files, fidx);
+    });
 }
-
+  
 function provideImageInformation(imageMetadataArray, imgMetadataIdx, resolutions, resolutionIdx) {
     var imgMetadata = imageMetadataArray[imgMetadataIdx];
     var resolution = resolutions[resolutionIdx];
 
     var filePath = assetsAbsoluteBasePath + resolution.name + '/' + imgMetadata.name;
 
+   // console.log(imageMetadataArray);
+    //console.log(resolutions)
+    console.log('filpath '+ filePath)
+
+    if (fs.existsSync(filePath)) {
     gm(filePath)
         .size(function (err, size) {
             if (err) {
@@ -216,6 +232,17 @@ function provideImageInformation(imageMetadataArray, imgMetadataIdx, resolutions
                 provideImageInformation(imageMetadataArray, imgMetadataIdx, resolutions, ++resolutionIdx);
             }
         });
+    }
+    else {
+        console.log('file doesnt exist')
+        if (imageMetadataArray.length - 1 == imgMetadataIdx) {
+            console.log('...done (information)');
+            sortFunction();
+        }
+        else {
+            provideImageInformation(imageMetadataArray, ++imgMetadataIdx, resolutions, 0);
+        }
+    }
 }
 
 function sortByCreationDate() {

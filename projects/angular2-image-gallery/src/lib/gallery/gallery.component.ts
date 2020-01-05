@@ -82,8 +82,11 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         }
         console.log('navigate '+ direction)
         console.log('rowIndex '+ this.rowIndex)
-        console.log('gallery.length'+ this.gallery.length)
-        console.log('rowsPerPage'+ this.rowsPerPage)
+        console.log('gallery.length '+ this.gallery.length)
+        console.log(this.gallery)
+        console.log('rowsPerPage '+ this.rowsPerPage)
+        console.log( this.gallery.slice(this.rowIndex,this.rowIndex+this.rowsPerPage))
+
         this.refreshNavigationErrorState()
     }
 
@@ -135,17 +138,25 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         let tempRow = [this.images[0]]
         let currentRowIndex = 0
         let i = 0
-
+        console.log('tempRow')
+        console.log(tempRow)
+        console.log('images '+this.images.length)
+        console.log(this.images)
+        console.log('image[0]')
+        console.log(this.images[0])
         for (i; i < this.images.length; i++) {
             while (this.images[i + 1] && this.shouldAddCandidate(tempRow, this.images[i + 1])) {
                 i++
             }
             if (this.images[i + 1]) {
+                console.log(tempRow)
                 tempRow.pop()
+                console.log(tempRow)
             }
             this.gallery[currentRowIndex++] = tempRow
 
             tempRow = [this.images[i + 1]]
+            
         }
 
         this.scaleGallery()
@@ -156,6 +167,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         imgRow.push(candidate)
         const newDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
 
+        console.log(Math.abs(oldDifference) > Math.abs(newDifference))
         return Math.abs(oldDifference) > Math.abs(newDifference)
     }
 
@@ -171,12 +183,15 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     private calcOriginalRowWidth(imgRow: Array<any>): number {
         let originalRowWidth = 0
         imgRow.forEach(img => {
+            console.log(img )
             const individualRatio = this.calcIdealHeight() / img[this.minimalQualityCategory]['height']
+            console.log(this.calcIdealHeight())
+            console.log(img[this.minimalQualityCategory]['height'])
             img[this.minimalQualityCategory]['width'] = img[this.minimalQualityCategory]['width'] * individualRatio
             img[this.minimalQualityCategory]['height'] = this.calcIdealHeight()
             originalRowWidth += img[this.minimalQualityCategory]['width']
         })
-
+        console.log(originalRowWidth)
         return originalRowWidth
     }
 

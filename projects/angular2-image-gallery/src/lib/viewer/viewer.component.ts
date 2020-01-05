@@ -240,7 +240,21 @@ export class ViewerComponent {
     private updateQuality(): void {
         const screenWidth = window.innerWidth
         const screenHeight = window.innerHeight
-
+        console.log('height ' + screenHeight)
+        console.log('width ' + screenWidth)
+        console.log(this.images)
+        console.log('width pic xxs'+ this.images[this.currentIdx]['preview_xxs'].width);
+        console.log('height pic xxs'+ this.images[this.currentIdx]['preview_xxs'].height);
+        console.log('width pic xs'+ this.images[this.currentIdx]['preview_xs'].width);
+        console.log('height pic xs'+ this.images[this.currentIdx]['preview_xs'].height);
+        console.log('width pic s'+ this.images[this.currentIdx]['preview_s'].width);
+        console.log('height pic s'+ this.images[this.currentIdx]['preview_s'].height);
+        console.log('width pic m'+ this.images[this.currentIdx]['preview_m'].width);
+        console.log('height pic m'+ this.images[this.currentIdx]['preview_m'].height);
+        console.log('width pic l'+ this.images[this.currentIdx]['preview_l'].width);
+        console.log('height pic l'+ this.images[this.currentIdx]['preview_l'].height);
+        console.log('width pic xl'+ this.images[this.currentIdx]['preview_xl'].width);
+        console.log('height pic xl'+ this.images[this.currentIdx]['preview_xl'].height);
         switch (this.qualitySelected) {
             case 'auto': {
                 this.categorySelected = 'preview_xxs'
@@ -287,5 +301,6 @@ export class ViewerComponent {
               this.categorySelected = 'preview_m'
             }
         }
+        console.log(this.categorySelected)
     }
 }
