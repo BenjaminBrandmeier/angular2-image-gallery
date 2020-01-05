@@ -98,13 +98,11 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
     private fetchDataAndRender(): void {
         this.imageDataCompletePath = this.providedMetadataUri
-        console.log('fetchData ' +this.imageDataCompletePath)
         if (!this.providedMetadataUri) {
             this.imageDataCompletePath = this.providedGalleryName !== '' ?
                 `${this.imageDataStaticPath + this.providedGalleryName}/${this.dataFileName}` :
                 this.imageDataStaticPath + this.dataFileName
         }
-        console.log('fetchData2 ' +this.imageDataCompletePath)
 
         this.http.get(this.imageDataCompletePath)
           .subscribe(
@@ -139,20 +137,13 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         let tempRow = [this.images[0]]
         let currentRowIndex = 0
         let i = 0
-        console.log('tempRow')
-        console.log(tempRow)
-        console.log('images '+this.images.length)
-        console.log(this.images)
-        console.log('image[0]')
-        console.log(this.images[0])
+
         for (i; i < this.images.length; i++) {
             while (this.images[i + 1] && this.shouldAddCandidate(tempRow, this.images[i + 1])) {
                 i++
             }
             if (this.images[i + 1]) {
-                console.log(tempRow)
                 tempRow.pop()
-                console.log(tempRow)
             }
             this.gallery[currentRowIndex++] = tempRow
 

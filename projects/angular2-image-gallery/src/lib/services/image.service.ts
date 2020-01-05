@@ -12,17 +12,14 @@ export class ImageService {
     showImageViewerChanged$: Observable<boolean> = this.showImageViewerSource.asObservable()
 
     updateImages(images: Array<any>): void {
-        console.log("updateImages")
         this.imagesUpdatedSource.next(images)
     }
 
     updateSelectedImageIndex(newIndex: number): void {
-        console.log(newIndex)
         this.imageSelectedIndexUpdatedSource.next(newIndex)
     }
 
     showImageViewer(show: boolean): void {
-        console.log(this.showImageViewerSource)
         this.showImageViewerSource.next(show)
     }
 }

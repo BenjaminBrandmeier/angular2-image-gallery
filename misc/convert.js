@@ -193,10 +193,6 @@ function provideImageInformation(imageMetadataArray, imgMetadataIdx, resolutions
 
     var filePath = assetsAbsoluteBasePath + resolution.name + '/' + imgMetadata.name;
 
-   // console.log(imageMetadataArray);
-    //console.log(resolutions)
-    console.log('filpath '+ filePath)
-
     if (fs.existsSync(filePath)) {
     gm(filePath)
         .size(function (err, size) {
