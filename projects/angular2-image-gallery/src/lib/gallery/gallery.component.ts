@@ -80,7 +80,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
             || (direction === -1 && this.rowIndex > 0)) {
             this.rowIndex += (this.rowsPerPage * direction)
         }
-
         this.refreshNavigationErrorState()
     }
 
@@ -173,6 +172,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
             img[this.minimalQualityCategory]['height'] = this.calcIdealHeight()
             originalRowWidth += img[this.minimalQualityCategory]['width']
         })
+        
         return originalRowWidth
     }
 
