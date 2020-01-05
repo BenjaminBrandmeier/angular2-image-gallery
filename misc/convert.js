@@ -159,10 +159,6 @@ function identifyImage(files, fidx, filePath, file) {
 
 /**
  * Makes smaller preview images from the orginal image
- * @param {*} files 
- * @param {*} fidx 
- * @param {*} filePath 
- * @param {*} file 
  */
 function createPreviewImage( files, fidx, filePath, file) {
     // create various preview images
