@@ -80,12 +80,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
             || (direction === -1 && this.rowIndex > 0)) {
             this.rowIndex += (this.rowsPerPage * direction)
         }
-        console.log('navigate '+ direction)
-        console.log('rowIndex '+ this.rowIndex)
-        console.log('gallery.length '+ this.gallery.length)
-        console.log(this.gallery)
-        console.log('rowsPerPage '+ this.rowsPerPage)
-        console.log( this.gallery.slice(this.rowIndex,this.rowIndex+this.rowsPerPage))
 
         this.refreshNavigationErrorState()
     }
@@ -159,7 +153,6 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         imgRow.push(candidate)
         const newDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
 
-        console.log(Math.abs(oldDifference) > Math.abs(newDifference))
         return Math.abs(oldDifference) > Math.abs(newDifference)
     }
 
@@ -175,15 +168,11 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     private calcOriginalRowWidth(imgRow: Array<any>): number {
         let originalRowWidth = 0
         imgRow.forEach(img => {
-            console.log(img )
             const individualRatio = this.calcIdealHeight() / img[this.minimalQualityCategory]['height']
-            console.log(this.calcIdealHeight())
-            console.log(img[this.minimalQualityCategory]['height'])
             img[this.minimalQualityCategory]['width'] = img[this.minimalQualityCategory]['width'] * individualRatio
             img[this.minimalQualityCategory]['height'] = this.calcIdealHeight()
             originalRowWidth += img[this.minimalQualityCategory]['width']
         })
-        console.log(originalRowWidth)
         return originalRowWidth
     }
 

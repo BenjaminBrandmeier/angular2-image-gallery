@@ -172,7 +172,6 @@ function createPreviewImage( files, fidx, filePath, file) {
         let index=0;
 
         while(height > resolutions[index].height){
-            console.log(file +'->' +resolutions[index].name)
             gm(filePath)
             .resize(null, resolutions[index].height)
             .autoOrient()
@@ -230,7 +229,6 @@ function provideImageInformation(imageMetadataArray, imgMetadataIdx, resolutions
         });
     }
     else {
-        console.log('file doesnt exist')
         if (imageMetadataArray.length - 1 == imgMetadataIdx) {
             console.log('...done (information)');
             sortFunction();
