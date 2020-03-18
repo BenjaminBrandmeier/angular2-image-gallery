@@ -23,7 +23,7 @@
         <div *ngFor='let img of images; let j = index'
              class="image"
              [class.active]="img['active']"
-             [style.background-image]="img['viewerImageLoaded'] ? 'url('+img[categorySelected]['path']+')' : math.abs(currentIdx-j) <=1 ? 'url('+img['preview_xxs']['path']+')' : ''"
+             [style.background-image]="sanitizedImageUrl(img, j)"
              [style.left]="transform+'px'"
              [@imageTransition]="img['transition']"></div>
 
