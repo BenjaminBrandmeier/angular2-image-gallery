@@ -6,7 +6,7 @@ import {DomSanitizer} from '@angular/platform-browser'
 @Component({
     selector: 'viewer',
     templateUrl: './viewer.component.html',
-    styleUrls: ['./viewer.component.css'],
+    styleUrls: ['./viewer.component.sass'],
     host: {
         '(document:keydown)': 'onKeydown($event)'
     },

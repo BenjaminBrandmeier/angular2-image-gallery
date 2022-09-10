@@ -129,7 +129,7 @@
       "prefix": "lib",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/angular2-image-gallery/tsconfig.lib.json",
             "project": "projects/angular2-image-gallery/ng-package.json"
