@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http'
 @Component({
     selector: 'gallery',
     templateUrl: './gallery.component.html',
-    styleUrls: ['./gallery.component.css']
+    styleUrls: ['./gallery.component.sass']
 })
 export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     gallery: Array<any> = []
