@@ -1,6 +1,7 @@
 import { ImageService } from '../services/image.service'
 import { Component } from '@angular/core'
 import { animate, state, style, transition, trigger } from '@angular/animations'
+import {DomSanitizer} from '@angular/platform-browser'
 
 @Component({
     selector: 'viewer',
@@ -89,7 +90,7 @@ export class ViewerComponent {
     private qualitySelectorShown: boolean = false
     private qualitySelected: string = 'auto'
 
-    constructor(private imageService: ImageService) {
+    constructor(private imageService: ImageService, private sanitizer: DomSanitizer) {
         imageService.imagesUpdated$.subscribe(
             images => {
                 this.images = images
@@ -216,6 +217,19 @@ export class ViewerComponent {
             default:
                 break
         }
+    }
+
+    sanitizedImageUrl(img: any, index: number) {
+        return this.sanitizer.bypassSecurityTrustStyle(this.rawImageUrl(img, index))
+    }
+
+    private rawImageUrl(img: any, index: number) {
+        if (img['viewerImageLoaded']) {
+            return `url('${img[this.categorySelected]['path']}')`
+        } else if (Math.abs(this.currentIdx - index) <= 1) {
+            return `url('${img['preview_xxs']['path']}')`
+        }
+        return ''
     }
 
     private hideNavigationArrows(): void {
