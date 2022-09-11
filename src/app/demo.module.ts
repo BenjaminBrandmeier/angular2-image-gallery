@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { Angular2ImageGalleryModule } from 'angular2-image-gallery'
 import { HttpClientModule } from '@angular/common/http'
-import { Ng5SliderModule } from 'ng5-slider';
+import { NgxSliderModule } from '@angular-slider/ngx-slider'
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { Ng5SliderModule } from 'ng5-slider';
     HttpClientModule,
     BrowserAnimationsModule,
     Angular2ImageGalleryModule,
-    Ng5SliderModule
+    NgxSliderModule
   ],
   providers: [
   ],
