@@ -1,4 +1,5 @@
 # Angular 2 Image Gallery
+
 [![Build Status](https://travis-ci.org/BenjaminBrandmeier/angular2-image-gallery.svg?branch=master)](https://travis-ci.org/BenjaminBrandmeier/angular2-image-gallery)
 ![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=RGhGVlA1TFRTM3NybzNLUktwZjdpNmI2NEo3Qkp4S2pqaVc3a3BqM1MyOD0tLVRUVml3MnI4bUhGWWxuY25hUmREV3c9PQ==--8e070941683e3c345b75213325bedb26be4c93c4)
 [![npm version](https://badge.fury.io/js/angular2-image-gallery.svg)](https://badge.fury.io/js/angular2-image-gallery)
@@ -17,7 +18,9 @@ Before using the gallery, you have to process all of your images that will be pa
 https://oidamo.de/gallery-demo.html
 
 ## How to use the gallery in your project
+
 ### Pre-requirements
+
 Install **graphicsmagick**: http://www.graphicsmagick.org/README.html#installation
 
 ### Embed in your project
@@ -40,8 +43,9 @@ imports: [
 #### 3. Add hammer.js for support of mobile devices
 
 Add the following line to your **main.ts** file:
+
 ```javascript
-import 'hammerjs';
+import 'hammerjs'
 ```
 
 #### 4. Run convert script
@@ -49,6 +53,7 @@ import 'hammerjs';
 ```bash
 node node_modules/angular2-image-gallery/convert.js <path/to/your/images>
 ```
+
 Add a flag to define the order of the images inside the gallery
 
 `-n` sort by file name (default)
@@ -59,15 +64,15 @@ Add a flag to define the order of the images inside the gallery
 
 Additional optional parameter to support multiple galleries. Add it if you want to put your images into a separate gallery.
 
-`--gName=yourGalleryName` 
+`--gName=yourGalleryName`
 
 #### 5. Embed gallery in your template
 
 ```javascript
-<gallery 
-    [flexBorderSize]="3" 
+<gallery
+    [flexBorderSize]="3"
     [flexImageSize]="7"
-    [galleryName]="'yourGalleryName'" 
+    [galleryName]="'yourGalleryName'"
     [maxRowsPerPage]="100"
     (viewerChange)="yourNotificationFunction($event)">
 </gallery>
@@ -86,7 +91,6 @@ If you'd like to know how you could fetch your images from an external data sour
 ## I don't want to use the convert script and provide my own metadata JSON
 
 This is possible, but not the intent of this project. Please [CLICK HERE](https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/ownJSON.md)
-
 
 ## Currently used tools
 

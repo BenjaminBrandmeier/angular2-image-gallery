@@ -5,20 +5,9 @@ import { ViewerComponent } from './viewer/viewer.component'
 import { CommonModule } from '@angular/common'
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [
-    GalleryComponent,
-    ViewerComponent
-  ],
-  providers: [
-    ImageService
-  ],
-  exports: [
-    GalleryComponent,
-    ViewerComponent
-  ]
+  imports: [CommonModule],
+  declarations: [GalleryComponent, ViewerComponent],
+  providers: [ImageService],
+  exports: [GalleryComponent, ViewerComponent],
 })
-export class Angular2ImageGalleryModule {
-}
+export class Angular2ImageGalleryModule {}

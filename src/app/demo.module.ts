@@ -8,24 +8,17 @@ import { HttpClientModule } from '@angular/common/http'
 import { NgxSliderModule } from '@angular-slider/ngx-slider'
 
 @NgModule({
-  declarations: [
-    DemoComponent
-  ],
+  declarations: [DemoComponent],
   imports: [
     CommonModule,
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     Angular2ImageGalleryModule,
-    NgxSliderModule
+    NgxSliderModule,
   ],
-  providers: [
-  ],
-  bootstrap: [
-    DemoComponent
-  ],
-  exports: [
-  ]
+  providers: [],
+  bootstrap: [DemoComponent],
+  exports: [],
 })
-export class GalleryDemoModule {
-}
+export class GalleryDemoModule {}

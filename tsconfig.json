@@ -9,20 +9,11 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "ES2015",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["es2017", "dom"],
     "paths": {
-      "angular2-image-gallery": [
-        "dist/angular2-image-gallery"
-      ],
-      "angular2-image-gallery/*": [
-        "dist/angular2-image-gallery/*"
-      ]
+      "angular2-image-gallery": ["dist/angular2-image-gallery"],
+      "angular2-image-gallery/*": ["dist/angular2-image-gallery/*"]
     }
   }
 }
