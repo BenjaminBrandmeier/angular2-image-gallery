@@ -40,7 +40,9 @@ imports: [
 ],
 ```
 
-#### 3. Add hammer.js for support of mobile devices
+#### 3. For swipe/pan gesture support add hammer.js to your project
+
+Import **HammerModule** in your module.ts.
 
 Add the following line to your **main.ts** file:
 
