@@ -93,14 +93,10 @@ function convert() {
 
 function createFolderStructure() {
     console.log('\nCreating folder structure...');
-    mkdirp.sync(assetsAbsoluteBasePath + 'raw', function (err) {
-        if (err) throw err;
-    });
+    mkdirp.sync(assetsAbsoluteBasePath + 'raw');
 
     for (var i in resolutions) {
-        mkdirp.sync(assetsAbsoluteBasePath + resolutions[i].name, function (err) {
-            if (err) throw err;
-        });
+        mkdirp.sync(assetsAbsoluteBasePath + resolutions[i].name);
     }
 
     console.log('...done (folder structure)');
