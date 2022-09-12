@@ -5,7 +5,7 @@
 [![npm version](https://badge.fury.io/js/angular2-image-gallery.svg)](https://badge.fury.io/js/angular2-image-gallery)
 [![npm downloads](https://img.shields.io/npm/dt/angular2-image-gallery.svg)](https://www.npmjs.com/package/angular2-image-gallery)
 
-----> **compatible with Angular 8+** <----
+----> **compatible with Angular 14+** <----
 
 Responsive image gallery designed for high resolution images.
 
@@ -86,19 +86,14 @@ The viewerChange event notifies you when the viewer component gets opened or clo
 
 That's it, start your application and have a look!
 
-## Fetching images from an external data source
+## Additional use cases
+### Fetching images from an external data source
 
 If you'd like to know how you could fetch your images from an external data source [CLICK HERE](https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md)
 
-## I don't want to use the convert script and provide my own metadata JSON
+### I don't want to use the convert script and provide my own metadata JSON
 
 This is possible, but not the intent of this project. Please [CLICK HERE](https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/ownJSON.md)
-
-## Currently used tools
-
-- Angular 7.0.0
-- NodeJS 8.11.2
-- graphicsmagick
 
 ## Troubleshooting
 

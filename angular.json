@@ -119,7 +119,7 @@
           },
           "configurations": {
             "production": {
-              "project": "projects/angular2-image-gallery/ng-package.prod.json"
+              "tsConfig": "projects/angular2-image-gallery/tsconfig.lib.prod.json"
             }
           }
         },
