@@ -1,5 +1,5 @@
-import {GalleryPage} from './app.po'
-import {browser, protractor} from "protractor"
+import { GalleryPage } from './app.po'
+import { browser, protractor } from 'protractor'
 
 describe('Gallery', function () {
   let page: GalleryPage
@@ -33,9 +33,10 @@ describe('Gallery', function () {
   })
 
   it('should support swiping images', () => {
-    browser.actions()
+    browser
+      .actions()
       .mouseDown(page.getImageInsideViewerIfActive(2))
-      .mouseMove({x: -150, y: 0})
+      .mouseMove({ x: -150, y: 0 })
       .mouseUp()
       .perform()
 
@@ -45,7 +46,10 @@ describe('Gallery', function () {
   it('should close the viewer on exit', () => {
     page.getExitButton().click()
 
-    browser.wait(protractor.ExpectedConditions.stalenessOf(page.getImageInsideViewerIfActive(3)), 1000)
+    browser.wait(
+      protractor.ExpectedConditions.stalenessOf(page.getImageInsideViewerIfActive(3)),
+      1000
+    )
     browser.wait(protractor.ExpectedConditions.stalenessOf(page.getExitButton()), 1000)
   })
 })

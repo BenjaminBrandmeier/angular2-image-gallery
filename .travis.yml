@@ -8,16 +8,16 @@ node_js:
   - '8.9.4'
 branches:
   only:
-  - master
+    - master
 before_install:
- - npm install @angular/cli
- - npm run lib
+  - npm install @angular/cli
+  - npm run lib
 before_script:
- - export DISPLAY=:99.0
- - sh -e /etc/init.d/xvfb start
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 script:
- - npm run build
- - npm run e2e
+  - npm run build
+  - npm run e2e
 notifications:
   webhooks:
     on_success: always

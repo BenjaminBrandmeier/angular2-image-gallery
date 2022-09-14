@@ -8,8 +8,5 @@
     "inlineSources": true,
     "types": []
   },
-  "exclude": [
-    "../angular2-image-gallery/src/test.ts",
-    "**/*.spec.ts"
-  ]
+  "exclude": ["../angular2-image-gallery/src/test.ts", "**/*.spec.ts"]
 }

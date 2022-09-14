@@ -1,18 +1,27 @@
-    angular2-image-gallery <a class="github-button" href="https://github.com/benjaminbrandmeier/angular2-image-gallery"
-                             data-icon="octicon-star" aria-label="Star benjaminbrandmeier/angular2-image-gallery on GitHub">Star</a>
-    <br><br><br>
+angular2-image-gallery
+<a
+  class="github-button"
+  href="https://github.com/benjaminbrandmeier/angular2-image-gallery"
+  data-icon="octicon-star"
+  aria-label="Star benjaminbrandmeier/angular2-image-gallery on GitHub"
+  >Star</a
+>
+<br /><br /><br />
 
-    <div class="slider-wrapper">
-      <strong>Space between images </strong><ngx-slider [(value)]="flexBorderSize" [options]="{floor: 1, ceil: 50}"></ngx-slider>
-      <br><br>
-      <strong>Image size </strong><ngx-slider [(value)]="flexImageSize" [options]="{floor: 0, ceil: 50}"></ngx-slider>
-    </div>
+<div class="slider-wrapper">
+  <strong>Space between images </strong
+  ><ngx-slider [(value)]="flexBorderSize" [options]="{ floor: 1, ceil: 50 }"></ngx-slider>
+  <br /><br />
+  <strong>Image size </strong
+  ><ngx-slider [(value)]="flexImageSize" [options]="{ floor: 0, ceil: 50 }"></ngx-slider>
+</div>
 
-    <br><br>
+<br /><br />
 
-    <gallery (viewerChange)="onViewerVisibilityChanged($event)"
-             [flexBorderSize]="flexBorderSize"
-             [flexImageSize]="flexImageSize"
-             [maxRowsPerPage]="15"
-             [galleryName]="galleryName"></gallery>
-    <br/><br/>
+<gallery
+  (viewerChange)="onViewerVisibilityChanged($event)"
+  [flexBorderSize]="flexBorderSize"
+  [flexImageSize]="flexImageSize"
+  [maxRowsPerPage]="15"
+  [galleryName]="galleryName"></gallery>
+<br /><br />
