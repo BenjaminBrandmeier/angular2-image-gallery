@@ -1,6 +1,6 @@
 {
   "name": "angular2-image-gallery",
-  "version": "14.0.1",
+  "version": "14.0.3",
   "description": "Responsive Angular 14 image gallery",
   "repository": {
     "type": "git",
@@ -21,11 +21,12 @@
   },
   "private": false,
   "peerDependencies": {
-    "@angular/common": "^14.2.1",
-    "@angular/core": "^14.2.1",
-    "gm": "^1.23.1",
-    "hammerjs": "^2.0.8",
-    "onecolor": "^3.0.5"
+    "@angular/common": "~14.x.x",
+    "@angular/core": "~14.x.x",
+    "gm": "~1.23.1",
+    "hammerjs": "~2.0.x",
+    "onecolor": "~3.0.x",
+    "app-root-path": "~3.1.x"
   },
   "keywords": [
     "angular",
