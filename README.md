@@ -1,53 +1,45 @@
 # Angular 2 Image Gallery
 
-[![Build Status](https://travis-ci.org/BenjaminBrandmeier/angular2-image-gallery.svg?branch=master)](https://travis-ci.org/BenjaminBrandmeier/angular2-image-gallery)
-![BrowserStack Status](https://www.browserstack.com/automate/badge.svg?badge_key=RGhGVlA1TFRTM3NybzNLUktwZjdpNmI2NEo3Qkp4S2pqaVc3a3BqM1MyOD0tLVRUVml3MnI4bUhGWWxuY25hUmREV3c9PQ==--8e070941683e3c345b75213325bedb26be4c93c4)
-[![npm version](https://badge.fury.io/js/angular2-image-gallery.svg)](https://badge.fury.io/js/angular2-image-gallery)
-[![npm downloads](https://img.shields.io/npm/dt/angular2-image-gallery.svg)](https://www.npmjs.com/package/angular2-image-gallery)
+[![npm version](https://img.shields.io/npm/v/angular2-image-gallery?style=for-the-badge)](https://img.shields.io/npm/v/angular2-image-gallery?style=for-the-badge)
+[![npm downloads](https://img.shields.io/npm/dm/angular2-image-gallery?style=for-the-badge)](https://www.npmjs.com/package/angular2-image-gallery)
 
 ----> **compatible with Angular 14+** <----
 
 Responsive image gallery designed for high resolution images.
 
-The project consists of a gallery, a viewer and a script for image preparation.
+The project consists of a gallery (+ viewer) and a script for image preparation.
 
-Before using the gallery, you have to process all of your images that will be part of your gallery with the **convert** script. The processed images will be stored to your applications assets or, if you wish, at a remote location. During runtime everything runs client-side and there is no separate server-side communication involved. The viewer takes care an optimal image quality is served based on the screen resolution.
+### Demo
 
-## Demo
+[https://oidamo.de/gallery-demo.html](https://oidamo.de/gallery-demo.html)
 
-https://oidamo.de/gallery-demo.html
+### Fundamentals
+Before using the gallery, you have to process all of your images with the **convert** script. 
 
-## How to use the gallery in your project
+The processed images will be stored to your applications assets.
 
-### Pre-requirements
+The viewer takes care of an optimal image quality being served based on the users screen resolution.
 
-Install **graphicsmagick**: http://www.graphicsmagick.org/README.html#installation
+### Installation
 
-### Embed in your project
+#### 1. Install graphicsmagick
 
-#### 1. Install angular2-image-gallery
+Follow the instructions: [http://www.graphicsmagick.org/README.html#installation](http://www.graphicsmagick.org/README.html#installation)
+
+#### 2. Install dependencies
 
 ```bash
-npm install angular2-image-gallery --save
-npm install hammerjs --save
+npm install angular2-image-gallery hammerjs --save
 ```
 
-#### 2. Import angular2-image-gallery in your Angular module
+#### 3. Import modules
 
 ```javascript
 imports: [
-  Angular2ImageGalleryModule
+  ...,
+  Angular2ImageGalleryModule,
+  HammerModule
 ],
-```
-
-#### 3. For swipe/pan gesture support add hammer.js to your project
-
-Import **HammerModule** in your module.ts.
-
-Add the following line to your **main.ts** file:
-
-```javascript
-import 'hammerjs'
 ```
 
 #### 4. Run convert script
@@ -68,7 +60,7 @@ Additional optional parameter to support multiple galleries. Add it if you want 
 
 `--gName=yourGalleryName`
 
-#### 5. Embed gallery in your template
+#### 4. Embed gallery in your template
 
 ```javascript
 <gallery
@@ -82,14 +74,12 @@ Additional optional parameter to support multiple galleries. Add it if you want 
 
 All parameters are optional. You may play around on the demo site to find out what parameters suit your needs.
 
-The viewerChange event notifies you when the viewer component gets opened or closed.
+The viewerChange event fires once the viewer component gets opened or closed.
 
-That's it, start your application and have a look!
-
-## Additional use cases
+## Different use cases
 ### Fetching images from an external data source
 
-If you'd like to know how you could fetch your images from an external data source [CLICK HERE](https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md)
+Fetching your images from an external data source: [CLICK HERE](https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md)
 
 ### I don't want to use the convert script and provide my own metadata JSON
 

@@ -4,6 +4,8 @@ import { GalleryComponent } from './gallery/gallery.component'
 import { ViewerComponent } from './viewer/viewer.component'
 import { CommonModule } from '@angular/common'
 
+import 'hammerjs'
+
 @NgModule({
   imports: [CommonModule],
   declarations: [GalleryComponent, ViewerComponent],
