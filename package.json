@@ -12,6 +12,7 @@
     "lib": "ng build angular2-image-gallery --configuration production && cp misc/convert.js dist/angular2-image-gallery/ && cp README.md dist/angular2-image-gallery/"
   },
   "private": true,
+  "type": "module",
   "dependencies": {
     "@angular-slider/ngx-slider": "~2.0.4",
     "@angular/animations": "~14.2.1",
