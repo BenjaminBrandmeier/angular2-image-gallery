@@ -4,3 +4,5 @@
 /projects/angular2-image-gallery/node_modules
 .angular
 /tmp
+/backup
+/scripts/build
