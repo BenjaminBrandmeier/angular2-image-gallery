@@ -1,19 +1,25 @@
-import * as fs from 'fs'
-import * as path from 'path'
+import fs from 'fs'
+import path from 'path'
 import minimist from 'minimist'
-import * as process from 'process'
+import process from 'process'
 import appRoot from 'app-root-path'
 import gm from 'gm'
 import mkdirp from 'mkdirp'
 import one from 'onecolor'
 
-const argv = minimist(process.argv.slice(2))
-let sortFunction
-const projectRoot = appRoot.path
-let toConvertAbsoluteBasePath
-let assetsAbsoluteBasePath = projectRoot + '/src/assets/img/gallery/'
-let previewRelativePath = 'assets/img/gallery/'
-const imageMetadataArray = []
+type ImageMetadata = {
+  name: string
+  date: string
+  dominantColor?: string
+  resolutions: {
+    [resolution: string]: {
+      path: string
+      width: string
+      height: string
+    }
+  }
+}
+
 const resolutions = [
   { name: 'preview_xxs', height: 375 },
   { name: 'preview_xs', height: 768 },
@@ -24,30 +30,53 @@ const resolutions = [
   { name: 'raw', height: undefined },
 ]
 
-async function parseArguments(): Promise<void> {
+async function execute() {
+  const argv = minimist(process.argv.slice(2))
+  const [webPath, targetDirectory, sourceDirectory, sortFunction] = await parseArguments(argv)
+  let imageMetadata = await convert(targetDirectory, sourceDirectory)
+  imageMetadata = await provideImageInformation(webPath, imageMetadata, targetDirectory)
+  imageMetadata = await sortFunction(imageMetadata)
+  await saveMetadataFile(imageMetadata, targetDirectory)
+}
+
+async function parseArguments(argv: minimist.ParsedArgs): Promise<any[]> {
+  let webPath = 'assets/img/gallery/'
+  let targetDirectory = appRoot.path + '/src/assets/img/gallery/'
+
   if (argv['gName'] !== undefined) {
-    var galleryName = argv['gName']
+    let galleryName = argv['gName']
     console.log(`Gallery name provided - '${galleryName}'.`)
-    assetsAbsoluteBasePath = assetsAbsoluteBasePath + argv['gName'] + '/'
-    previewRelativePath = previewRelativePath + argv['gName'] + '/'
+    targetDirectory = targetDirectory + argv['gName'] + '/'
+    webPath = webPath + argv['gName'] + '/'
   }
 
   if (argv['outputDir']) {
-    var outputDirectory = argv['outputDir']
+    let outputDirectory = argv['outputDir']
     if (outputDirectory.indexOf(outputDirectory.length) != '/') {
       outputDirectory += '/'
     }
-    assetsAbsoluteBasePath = outputDirectory
+    targetDirectory = outputDirectory
   }
 
   if (argv['remoteBaseUrl']) {
-    var remoteBaseUrl = argv['remoteBaseUrl']
+    let remoteBaseUrl = argv['remoteBaseUrl']
     if (remoteBaseUrl.indexOf(remoteBaseUrl.length) != '/') {
       remoteBaseUrl += '/'
     }
-    previewRelativePath = remoteBaseUrl
+    webPath = remoteBaseUrl
   }
+  const sourceDirectory = determineSourceDirectory(argv)
 
+  await logInfo(`\nImages will be scanned from this location:\n${sourceDirectory}`)
+  await logInfo(`\nImages will be exported to this location:\n${targetDirectory}`)
+  await logInfo(`\nImages will be expected during runtime at this location:\n${webPath}\n`)
+
+  const sortFunction = await determineSortFunction(argv)
+
+  return [webPath, targetDirectory, sourceDirectory, sortFunction]
+}
+
+function determineSourceDirectory(argv: minimist.ParsedArgs) {
   if (argv['_'].length == 0) {
     exitWithError('No path specified!', 'Usage: node node_modules/angular2-image-gallery/convert.js <path/to/your/images>')
   } else if (argv['_'].length > 1) {
@@ -55,39 +84,14 @@ async function parseArguments(): Promise<void> {
       'Illegally specified more than one argument!',
       'Usage: node node_modules/angular2-image-gallery/convert.js <path/to/your/images>'
     )
-  } else {
-    toConvertAbsoluteBasePath = argv._[0]
-    if (!toConvertAbsoluteBasePath.endsWith('/')) {
-      toConvertAbsoluteBasePath += '/'
-    }
   }
-
-  await logInfo(`\nImages will be scanned from this location:\n${toConvertAbsoluteBasePath}`)
-  await logInfo(`\nImages will be exported to this location:\n${assetsAbsoluteBasePath}`)
-  await logInfo(`\nImages will be expected during runtime at this location:\n${previewRelativePath}\n`)
-
-  if (!argv['d'] && !argv['n'] && !argv['c']) {
-    await logInfo('No sorting mechanism specified! Default mode will be sorting by file name.')
-    sortFunction = sortByFileName
-  }
-  if (argv['d']) {
-    sortFunction = sortByCreationDate
-    await logInfo('Going to sort images by actual creation time (EXIF).')
-  }
-  if (argv['n']) {
-    sortFunction = sortByFileName
-    await logInfo('Going to sort images by file name.')
-  }
-  if (argv['c']) {
-    sortFunction = sortByPrimaryColor
-    await logInfo('Going to sort images by color (experimental).')
-  }
+  return path.join(argv._[0], '/')
 }
 
 async function logInfo(message: string) {
   await new Promise((resolve) => setTimeout(resolve, 1000))
   console.log(message)
-  await new Promise((resolve) => setTimeout(resolve, 2000))
+  await new Promise((resolve) => setTimeout(resolve, 0))
 }
 
 function exitWithError(shortMessage: string, longMessage: string) {
@@ -96,206 +100,161 @@ function exitWithError(shortMessage: string, longMessage: string) {
   process.exit(1)
 }
 
-function convert(): void {
-  createFolderStructure()
+async function convert(targetDirectory: string, sourceDirectory: string): Promise<ImageMetadata[]> {
+  createFolderStructure(targetDirectory)
 
-  var files = fs.readdirSync(toConvertAbsoluteBasePath)
+  let files = fs.readdirSync(sourceDirectory)
 
-  processFiles(files, 0)
-
+  let allImagesMetadata = []
   console.log('\nConverting images...')
+  for (const file of files) {
+    const filePath = path.join(sourceDirectory, file)
+    if (isConvertableImage(filePath)) {
+      allImagesMetadata = await identifyAndConvertImage(filePath, file, targetDirectory, allImagesMetadata)
+    }
+  }
+  console.log('...done.')
+  return allImagesMetadata
 }
 
-function createFolderStructure(): void {
+function isConvertableImage(filePath: string): boolean {
+  const extension = filePath.substring(filePath.lastIndexOf('.') + 1, filePath.length)
+  return fs.lstatSync(filePath).isFile() && isSupportedExtension(extension)
+}
+
+function createFolderStructure(targetDirectory: string): void {
   console.log('\nCreating folder structure...')
-  mkdirp.sync(assetsAbsoluteBasePath + 'raw')
+  mkdirp.sync(targetDirectory + 'raw')
 
-  for (let i in resolutions) {
-    mkdirp.sync(assetsAbsoluteBasePath + resolutions[i].name)
+  for (let resolution of resolutions) {
+    mkdirp.sync(targetDirectory + resolution.name)
   }
 
-  console.log('...done (folder structure)')
+  console.log('...done.')
 }
 
-function processFiles(files, fidx): void {
-  if (fidx < files.length) {
-    var file = files[fidx]
-    var extension = file.substring(file.lastIndexOf('.') + 1, file.length)
-    if (isSupportedExtension(extension)) {
-      var filePath = path.join(toConvertAbsoluteBasePath, file)
-      if (fs.lstatSync(filePath).isFile()) {
-        identifyImage(files, fidx, filePath, file)
-      } else {
-        processFiles(files, ++fidx)
-      }
-    } else {
-      processFiles(files, ++fidx)
-    }
-  } else {
-    console.log('\n\nProviding image information...')
-    provideImageInformation(imageMetadataArray, 0, resolutions, 0)
+function copyRawImageToAssetFolder(filePath: string, targetDirectory: string, fileName: string) {
+  fs.createReadStream(filePath).pipe(fs.createWriteStream(targetDirectory + 'raw/' + fileName))
+}
+
+function initializeBasicImageMetadata(features, allImagesMetadata: ImageMetadata[], fileName: string) {
+  let dateTimeOriginal = undefined
+  if (features['Profile-EXIF']) {
+    dateTimeOriginal = features['Profile-EXIF']['Date Time Original']
   }
-}
 
-function identifyImage(files, fidx, filePath, file): void {
-  gm(filePath).identify(function (err, features) {
-    if (err) {
-      console.log(filePath)
-      console.log(err)
-      throw err
-    }
-
-    var dateTimeOriginal = undefined
-    if (features['Profile-EXIF']) {
-      dateTimeOriginal = features['Profile-EXIF']['Date Time Original']
-    }
-
-    var imageMetadata = {
-      name: file,
-      date: dateTimeOriginal,
-    }
-
-    imageMetadataArray.push(imageMetadata)
-
-    // copy raw image to assets folder
-    fs.createReadStream(filePath).pipe(fs.createWriteStream(assetsAbsoluteBasePath + 'raw/' + file))
-
-    createPreviewImage(files, fidx, filePath, file, 0)
+  return allImagesMetadata.concat({
+    name: fileName,
+    date: dateTimeOriginal,
+    resolutions: {},
   })
 }
 
-function createPreviewImage(files, fidx, filePath, file, index): void {
-  // create various preview images
-
-  gm(filePath)
-    .resize(null, resolutions[index].height)
-    .autoOrient()
-    .quality(95)
-    .write(assetsAbsoluteBasePath + resolutions[index].name + '/' + file, function (err) {
-      if (err) throw err
-      if (index !== resolutions.length - 2) {
-        // don't resize raw images
-        createPreviewImage(files, fidx, filePath, file, ++index)
-      } else {
-        process.stdout.write('\rConverted ' + fidx + ' images.')
-        processFiles(files, ++fidx)
-      }
-    })
+async function identifyAndConvertImage(
+  filePath: string,
+  fileName: string,
+  targetDirectory: string,
+  allImagesMetadata: ImageMetadata[]
+): Promise<ImageMetadata[]> {
+  return new Promise((resolve, reject) => {
+    try {
+      gm(filePath).identify(function (err, features) {
+        if (err) throw err
+        allImagesMetadata = initializeBasicImageMetadata(features, allImagesMetadata, fileName)
+        copyRawImageToAssetFolder(filePath, targetDirectory, fileName)
+        createVariousImageResolutions(filePath, fileName, targetDirectory, resolve, reject, allImagesMetadata)
+      })
+    } catch (err) {
+      console.log('error when identifying', err)
+      reject(err)
+    }
+  })
 }
 
-function provideImageInformation(imageMetadataArray, imgMetadataIdx, resolutions, resolutionIdx): void {
-  var imgMetadata = imageMetadataArray[imgMetadataIdx]
-  var resolution = resolutions[resolutionIdx]
+async function createVariousImageResolutions(
+  filePath: string,
+  fileName: string,
+  targetDirectory: string,
+  overallResolve: (value: PromiseLike<unknown> | unknown) => void,
+  overallReject: (reason?: any) => void,
+  allImagesMetadata: ImageMetadata[]
+): Promise<void> {
+  for (const resolution of resolutions.filter((r) => r.name !== 'raw')) {
+    await new Promise<void>((resolve, reject) => {
+      try {
+        gm(filePath)
+          .resize(null, resolution.height)
+          .autoOrient()
+          .quality(95)
+          .write(targetDirectory + resolution.name + '/' + fileName, (err) => {
+            if (err) {
+              console.log('error when resizing image', err)
+              reject()
+              overallReject()
+              throw err
+            }
+            resolve()
+          })
+      } catch {
+        reject()
+        overallReject()
+      }
+    })
+  }
+  console.log('Converted', filePath)
+  overallResolve(allImagesMetadata)
+}
 
-  var filePath = assetsAbsoluteBasePath + resolution.name + '/' + imgMetadata.name
+async function provideImageInformation(
+  webPath: string,
+  allImagesMetadata: ImageMetadata[],
+  targetDirectory: string
+): Promise<ImageMetadata[]> {
+  console.log('\nProviding image information...')
 
-  gm(filePath).size(function (err, size) {
-    if (err) {
-      console.log(filePath)
-      console.log(err)
-      throw err
-    }
+  for (let imgMetadata of allImagesMetadata) {
+    for (let resolution of resolutions) {
+      let filePath = targetDirectory + resolution.name + '/' + imgMetadata.name
 
-    imgMetadata[resolution.name] = {}
-    imgMetadata[resolution.name]['path'] = previewRelativePath + resolution.name + '/' + imgMetadata.name
-    imgMetadata[resolution.name]['width'] = size.width
-    imgMetadata[resolution.name]['height'] = size.height
-
-    if (resolutions.length - 1 == resolutionIdx) {
-      gm(filePath)
-        .resize(250, 250)
-        .colors(1)
-        .toBuffer('RGB', function (err, buffer) {
+      await new Promise<void>((resolve, reject) => {
+        gm(filePath).size(function (err, size) {
           if (err) throw err
-          imgMetadata['dominantColor'] = '#' + buffer.slice(0, 3).toString('hex')
 
-          if (imageMetadataArray.length - 1 == imgMetadataIdx) {
-            console.log('...done (information)')
-            sortFunction()
-          } else {
-            provideImageInformation(imageMetadataArray, ++imgMetadataIdx, resolutions, 0)
+          imgMetadata.resolutions[resolution.name] = {
+            path: webPath + resolution.name + '/' + imgMetadata.name,
+            width: size.width,
+            height: size.height,
           }
+
+          gm(filePath)
+            .resize(250, 250)
+            .colors(1)
+            .toBuffer('RGB', function (err, buffer) {
+              if (err) {
+                reject()
+                throw err
+              }
+
+              imgMetadata['dominantColor'] = '#' + buffer.slice(0, 3).toString('hex')
+
+              resolve()
+            })
         })
-    } else {
-      provideImageInformation(imageMetadataArray, imgMetadataIdx, resolutions, ++resolutionIdx)
+      })
     }
-  })
-}
-
-async function sortByCreationDate(): Promise<void> {
-  await logInfo('\nSorting images by actual creation time...')
-
-  imageMetadataArray.sort(function (a, b) {
-    if (a.date > b.date) {
-      return 1
-    } else if (a.date == b.date) {
-      return 0
-    } else {
-      return -1
-    }
-  })
-  console.log('...done (sorting)')
-
-  saveMetadataFile(imageMetadataArray)
-}
-
-function sortByFileName(): void {
-  console.log('\nSorting images by file name...')
-
-  imageMetadataArray.sort(function (a, b) {
-    if (a.name > b.name) {
-      return 1
-    } else if (a.name == b.name) {
-      return 0
-    } else {
-      return -1
-    }
-  })
-  console.log('...done (sorting)')
-
-  saveMetadataFile(imageMetadataArray)
-}
-
-function sortByPrimaryColor(): void {
-  console.log('\nSorting images by primary color...')
-
-  var iterations = 8
-  var sortedColorsArray = []
-  for (var i = 0; i < iterations; i++) {
-    var specificColorSpectrum = imageMetadataArray.filter(function (imageMetadata) {
-      var color = one(imageMetadata['dominantColor'])
-      var hue = color.hue()
-      return hue <= i * 0.125 && hue > i * 0.125 - 0.125
-    })
-
-    specificColorSpectrum.sort(function (a, b) {
-      var colorA = one(a['dominantColor'])
-      var colorB = one(b['dominantColor'])
-      var luminanceA = calcRelativeLuminance(colorA)
-      var luminanceB = calcRelativeLuminance(colorB)
-      if (i % 2 == 1) {
-        return luminanceA - luminanceB
-      } else {
-        return luminanceB - luminanceA
-      }
-    })
-
-    sortedColorsArray[i] = specificColorSpectrum
   }
-  const sortedColorsArrayFlat = flatten(sortedColorsArray)
 
-  console.log('...done (sorting)')
-
-  saveMetadataFile(sortedColorsArrayFlat)
+  console.log('...done.')
+  return allImagesMetadata
 }
 
-function saveMetadataFile(sortedMetadataArray): void {
-  var metadataAsJSON = JSON.stringify(sortedMetadataArray, null, null)
+async function saveMetadataFile(sortedMetadataArray, targetDirectory: string): Promise<void> {
+  let metadataAsJSON = JSON.stringify(sortedMetadataArray, null, null)
   console.log('\nSaving metadata file...')
 
-  fs.writeFile(assetsAbsoluteBasePath + 'data.json', metadataAsJSON, function (err) {
+  await fs.writeFile(targetDirectory + 'data.json', metadataAsJSON, function (err) {
     if (err) throw err
-    console.log('...done (metadata)')
+    console.log('...done.\n')
   })
 }
 
@@ -316,5 +275,78 @@ function flatten(arr) {
   }, [])
 }
 
-await parseArguments()
-await convert()
+async function sortByCreationDate(imageMetadata: ImageMetadata[]): Promise<ImageMetadata[]> {
+  console.log('\nSorting images by actual creation time...')
+
+  imageMetadata.sort(function (a, b) {
+    if (a.date > b.date) {
+      return 1
+    } else if (a.date == b.date) {
+      return 0
+    } else {
+      return -1
+    }
+  })
+
+  console.log('...done.')
+  return imageMetadata
+}
+
+async function sortByFileName(imageMetadata: ImageMetadata[]): Promise<ImageMetadata[]> {
+  console.log('\nSorting images by file name...')
+  imageMetadata.sort((a, b) => a.name.localeCompare(b.name))
+  console.log('...done.')
+  return imageMetadata
+}
+
+async function sortByPrimaryColor(imageMetadata: ImageMetadata[]): Promise<ImageMetadata[]> {
+  console.log('\nSorting images by primary color...')
+
+  let iterations = 8
+  let sortedColorsArray = []
+  for (let i = 0; i < iterations; i++) {
+    let specificColorSpectrum = imageMetadata.filter(function (imageMetadata) {
+      let color = one(imageMetadata['dominantColor'])
+      let hue = color.hue()
+      return hue <= i * 0.125 && hue > i * 0.125 - 0.125
+    })
+
+    specificColorSpectrum.sort(function (a, b) {
+      let colorA = one(a['dominantColor'])
+      let colorB = one(b['dominantColor'])
+      let luminanceA = calcRelativeLuminance(colorA)
+      let luminanceB = calcRelativeLuminance(colorB)
+      if (i % 2 == 1) {
+        return luminanceA - luminanceB
+      } else {
+        return luminanceB - luminanceA
+      }
+    })
+
+    sortedColorsArray[i] = specificColorSpectrum
+  }
+  const sortedByColors = flatten(sortedColorsArray)
+
+  console.log('...done.')
+
+  return sortedByColors
+}
+
+async function determineSortFunction(argv: minimist.ParsedArgs) {
+  switch (true) {
+    case argv['d']:
+      await logInfo('Going to sort images by actual creation time (EXIF).')
+      return sortByCreationDate
+    case argv['n']:
+      await logInfo('Going to sort images by file name.')
+      return sortByFileName
+    case argv['c']:
+      await logInfo('Going to sort images by color (experimental).')
+      return sortByPrimaryColor
+    default:
+      await logInfo('No sorting mechanism specified! Default mode will be sorting by file name.')
+      return sortByFileName
+  }
+}
+
+await execute()

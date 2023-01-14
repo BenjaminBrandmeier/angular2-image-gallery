@@ -41,6 +41,6 @@
       *ngFor="let img of images; let j = index"
       class="preloading-image"
       (load)="imageLoaded(img)"
-      src="{{ math.abs(currentIdx - j) <= 1 ? img[categorySelected]['path'] : '' }}" />
+      src="{{ math.abs(currentIdx - j) <= 1 ? img['resolutions'][categorySelected]['path'] : '' }}" />
   </div>
 </div>

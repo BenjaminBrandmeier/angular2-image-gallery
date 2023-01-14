@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "lib": "ng build angular2-image-gallery --configuration production && cp scripts/convert.js dist/angular2-image-gallery/ && cp README.md dist/angular2-image-gallery/"
+    "lib": "ng build angular2-image-gallery --configuration production && cp scripts/build/convert.js dist/angular2-image-gallery/ && cp README.md dist/angular2-image-gallery/"
   },
   "private": true,
   "type": "module",

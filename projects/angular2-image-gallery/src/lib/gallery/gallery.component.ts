@@ -54,16 +54,12 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     this.render()
   }
 
-  constructor(
-    public imageService: ImageService,
-    public http: HttpClient,
-    public changeDetectorRef: ChangeDetectorRef
-  ) {}
+  constructor(public imageService: ImageService, public http: HttpClient, public changeDetectorRef: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.fetchDataAndRender()
-    this.viewerSubscription = this.imageService.showImageViewerChanged$.subscribe(
-      (visibility: boolean) => this.viewerChange.emit(visibility)
+    this.viewerSubscription = this.imageService.showImageViewerChanged$.subscribe((visibility: boolean) =>
+      this.viewerChange.emit(visibility)
     )
   }
 
@@ -92,10 +88,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
    * direction (-1: left, 1: right)
    */
   navigate(direction: number): void {
-    if (
-      (direction === 1 && this.rowIndex < this.gallery.length - this.rowsPerPage) ||
-      (direction === -1 && this.rowIndex > 0)
-    ) {
+    if ((direction === 1 && this.rowIndex < this.gallery.length - this.rowsPerPage) || (direction === -1 && this.rowIndex > 0)) {
       this.rowIndex += this.rowsPerPage * direction
     }
     this.refreshNavigationErrorState()
@@ -137,9 +130,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       See here for more information: https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md,
       Original error: ${err}`)
         } else {
-          console.error(
-            `Did you run the convert script from angular2-image-gallery for your images first? Original error: ${err}`
-          )
+          console.error(`Did you run the convert script from angular2-image-gallery for your images first? Original error: ${err}`)
         }
       },
       () => undefined
@@ -179,9 +170,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   private calcRowHeight(imgRow: Array<any>): number {
     const originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
-    const ratio =
-      (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
-    const rowHeight = imgRow[0][this.minimalQualityCategory]['height'] * ratio
+    const ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
+    const rowHeight = imgRow[0]['resolutions'][this.minimalQualityCategory]['height'] * ratio
 
     return rowHeight
   }
@@ -189,11 +179,10 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   private calcOriginalRowWidth(imgRow: Array<any>): number {
     let originalRowWidth = 0
     imgRow.forEach((img) => {
-      const individualRatio = this.calcIdealHeight() / img[this.minimalQualityCategory]['height']
-      img[this.minimalQualityCategory]['width'] =
-        img[this.minimalQualityCategory]['width'] * individualRatio
-      img[this.minimalQualityCategory]['height'] = this.calcIdealHeight()
-      originalRowWidth += img[this.minimalQualityCategory]['width']
+      const individualRatio = this.calcIdealHeight() / img['resolutions'][this.minimalQualityCategory]['height']
+      img['resolutions'][this.minimalQualityCategory]['width'] = img['resolutions'][this.minimalQualityCategory]['width'] * individualRatio
+      img['resolutions'][this.minimalQualityCategory]['height'] = this.calcIdealHeight()
+      originalRowWidth += img['resolutions'][this.minimalQualityCategory]['width']
     })
 
     return originalRowWidth
@@ -219,19 +208,18 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       const originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
       if (imgRow !== this.gallery[this.gallery.length - 1]) {
-        const ratio =
-          (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
+        const ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
 
         imgRow.forEach((img: any) => {
-          img['width'] = img[this.minimalQualityCategory]['width'] * ratio
-          img['height'] = img[this.minimalQualityCategory]['height'] * ratio
+          img['width'] = img['resolutions'][this.minimalQualityCategory]['width'] * ratio
+          img['height'] = img['resolutions'][this.minimalQualityCategory]['height'] * ratio
           maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
           this.checkForAsyncLoading(img, imageCounter++)
         })
       } else {
         imgRow.forEach((img: any) => {
-          img.width = img[this.minimalQualityCategory]['width']
-          img.height = img[this.minimalQualityCategory]['height']
+          img.width = img['resolutions'][this.minimalQualityCategory]['width']
+          img.height = img['resolutions'][this.minimalQualityCategory]['height']
           maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
           this.checkForAsyncLoading(img, imageCounter++)
         })
@@ -249,12 +237,10 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
     if (
       image['galleryImageLoaded'] ||
-      (imageElements.length > 0 &&
-        imageElements[imageCounter] &&
-        this.isScrolledIntoView(imageElements[imageCounter].nativeElement))
+      (imageElements.length > 0 && imageElements[imageCounter] && this.isScrolledIntoView(imageElements[imageCounter].nativeElement))
     ) {
       image['galleryImageLoaded'] = true
-      image['srcAfterFocus'] = image[this.minimalQualityCategory]['path']
+      image['srcAfterFocus'] = image['resolutions'][this.minimalQualityCategory]['path']
     } else {
       image['srcAfterFocus'] = ''
     }
@@ -264,9 +250,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     const elementTop = element.getBoundingClientRect().top
     const elementBottom = element.getBoundingClientRect().bottom
 
-    return (
-      elementTop < window.innerHeight && elementBottom >= 0 && (elementBottom > 0 || elementTop > 0)
-    )
+    return elementTop < window.innerHeight && elementBottom >= 0 && (elementBottom > 0 || elementTop > 0)
   }
 
   private refreshNavigationErrorState(): void {

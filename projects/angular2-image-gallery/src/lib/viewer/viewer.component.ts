@@ -162,10 +162,7 @@ export class ViewerComponent {
    * swipe (user swiped)
    */
   navigate(direction: number, swipe: any): void {
-    if (
-      (direction === 1 && this.currentIdx < this.images.length - 1) ||
-      (direction === -1 && this.currentIdx > 0)
-    ) {
+    if ((direction === 1 && this.currentIdx < this.images.length - 1) || (direction === -1 && this.currentIdx > 0)) {
       if (direction == -1) {
         this.images[this.currentIdx]['transition'] = 'leaveToRight'
         this.images[this.currentIdx - 1]['transition'] = 'enterFromLeft'
@@ -239,9 +236,9 @@ export class ViewerComponent {
 
   private rawImageUrl(img: any, index: number) {
     if (img['viewerImageLoaded']) {
-      return `url('${img[this.categorySelected]['path']}')`
+      return `url('${img['resolutions'][this.categorySelected]['path']}')`
     } else if (Math.abs(this.currentIdx - index) <= 1) {
-      return `url('${img['preview_xxs']['path']}')`
+      return `url('${img['resolutions']['preview_xxs']['path']}')`
     }
     return ''
   }
@@ -274,38 +271,38 @@ export class ViewerComponent {
         this.categorySelected = 'preview_xxs'
 
         if (
-          screenWidth > this.images[this.currentIdx]['preview_xxs'].width &&
-          screenHeight > this.images[this.currentIdx]['preview_xxs'].height
+          screenWidth > this.images[this.currentIdx]['resolutions']['preview_xxs'].width &&
+          screenHeight > this.images[this.currentIdx]['resolutions']['preview_xxs'].height
         ) {
           this.categorySelected = 'preview_xs'
         }
         if (
-          screenWidth > this.images[this.currentIdx]['preview_xs'].width &&
-          screenHeight > this.images[this.currentIdx]['preview_xs'].height
+          screenWidth > this.images[this.currentIdx]['resolutions']['preview_xs'].width &&
+          screenHeight > this.images[this.currentIdx]['resolutions']['preview_xs'].height
         ) {
           this.categorySelected = 'preview_s'
         }
         if (
-          screenWidth > this.images[this.currentIdx]['preview_s'].width &&
-          screenHeight > this.images[this.currentIdx]['preview_s'].height
+          screenWidth > this.images[this.currentIdx]['resolutions']['preview_s'].width &&
+          screenHeight > this.images[this.currentIdx]['resolutions']['preview_s'].height
         ) {
           this.categorySelected = 'preview_m'
         }
         if (
-          screenWidth > this.images[this.currentIdx]['preview_m'].width &&
-          screenHeight > this.images[this.currentIdx]['preview_m'].height
+          screenWidth > this.images[this.currentIdx]['resolutions']['preview_m'].width &&
+          screenHeight > this.images[this.currentIdx]['resolutions']['preview_m'].height
         ) {
           this.categorySelected = 'preview_l'
         }
         if (
-          screenWidth > this.images[this.currentIdx]['preview_l'].width &&
-          screenHeight > this.images[this.currentIdx]['preview_l'].height
+          screenWidth > this.images[this.currentIdx]['resolutions']['preview_l'].width &&
+          screenHeight > this.images[this.currentIdx]['resolutions']['preview_l'].height
         ) {
           this.categorySelected = 'preview_xl'
         }
         if (
-          screenWidth > this.images[this.currentIdx]['preview_xl'].width &&
-          screenHeight > this.images[this.currentIdx]['preview_xl'].height
+          screenWidth > this.images[this.currentIdx]['resolutions']['preview_xl'].width &&
+          screenHeight > this.images[this.currentIdx]['resolutions']['preview_xl'].height
         ) {
           this.categorySelected = 'raw'
         }
