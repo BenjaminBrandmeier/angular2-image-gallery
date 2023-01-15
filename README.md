@@ -52,7 +52,7 @@ Add a flag to define the order of the images inside the gallery
 
 `-n` sort by file name (default)
 
-`-d` sort chronologically by the original creation time (e.g. for coverages of a wedding)
+`-d` sort chronologically by the original creation time
 
 `-c` sort by primary image color
 
@@ -60,7 +60,7 @@ Additional optional parameter to support multiple galleries. Add it if you want 
 
 `--gName=yourGalleryName`
 
-#### 4. Embed gallery in your template
+#### 5. Embed gallery in your template
 
 ```javascript
 <gallery

@@ -1,11 +1,12 @@
 {
   "name": "angular2-image-gallery",
-  "version": "14.0.3",
+  "version": "14.1.0",
   "description": "Responsive Angular 14 image gallery",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BenjaminBrandmeier/angular2-image-gallery.git"
   },
+  "type": "module",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/BenjaminBrandmeier/angular2-image-gallery/issues"
