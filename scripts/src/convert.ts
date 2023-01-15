@@ -91,7 +91,7 @@ function determineSourceDirectory(argv: minimist.ParsedArgs) {
 async function logInfo(message: string) {
   await new Promise((resolve) => setTimeout(resolve, 1000))
   console.log(message)
-  await new Promise((resolve) => setTimeout(resolve, 0))
+  await new Promise((resolve) => setTimeout(resolve, 1000))
 }
 
 function exitWithError(shortMessage: string, longMessage: string) {
@@ -101,12 +101,12 @@ function exitWithError(shortMessage: string, longMessage: string) {
 }
 
 async function convert(targetDirectory: string, sourceDirectory: string): Promise<ImageMetadata[]> {
-  createFolderStructure(targetDirectory)
+  await createFolderStructure(targetDirectory)
 
   let files = fs.readdirSync(sourceDirectory)
 
   let allImagesMetadata = []
-  console.log('\nConverting images...')
+  await logInfo('\nConverting images...')
   for (const file of files) {
     const filePath = path.join(sourceDirectory, file)
     if (isConvertableImage(filePath)) {
@@ -122,12 +122,12 @@ function isConvertableImage(filePath: string): boolean {
   return fs.lstatSync(filePath).isFile() && isSupportedExtension(extension)
 }
 
-function createFolderStructure(targetDirectory: string): void {
-  console.log('\nCreating folder structure...')
-  mkdirp.sync(targetDirectory + 'raw')
+async function createFolderStructure(targetDirectory: string): Promise<void> {
+  await logInfo('\nCreating folder structure...')
+  await mkdirp(targetDirectory + 'raw')
 
   for (let resolution of resolutions) {
-    mkdirp.sync(targetDirectory + resolution.name)
+    await mkdirp(targetDirectory + resolution.name)
   }
 
   console.log('...done.')
@@ -137,17 +137,9 @@ function copyRawImageToAssetFolder(filePath: string, targetDirectory: string, fi
   fs.createReadStream(filePath).pipe(fs.createWriteStream(targetDirectory + 'raw/' + fileName))
 }
 
-function initializeBasicImageMetadata(features, allImagesMetadata: ImageMetadata[], fileName: string) {
-  let dateTimeOriginal = undefined
-  if (features['Profile-EXIF']) {
-    dateTimeOriginal = features['Profile-EXIF']['Date Time Original']
-  }
-
-  return allImagesMetadata.concat({
-    name: fileName,
-    date: dateTimeOriginal,
-    resolutions: {},
-  })
+function initializeBasicImageMetadata(features, allImagesMetadata, fileName) {
+  const dateTaken = features['Profile-EXIF']?.['Date Time Original']
+  return allImagesMetadata.concat({ name: fileName, date: dateTaken, resolutions: {} })
 }
 
 async function identifyAndConvertImage(
@@ -210,7 +202,7 @@ async function provideImageInformation(
   allImagesMetadata: ImageMetadata[],
   targetDirectory: string
 ): Promise<ImageMetadata[]> {
-  console.log('\nProviding image information...')
+  await logInfo('\nProviding image information...')
 
   for (let imgMetadata of allImagesMetadata) {
     for (let resolution of resolutions) {
@@ -250,7 +242,7 @@ async function provideImageInformation(
 
 async function saveMetadataFile(sortedMetadataArray, targetDirectory: string): Promise<void> {
   let metadataAsJSON = JSON.stringify(sortedMetadataArray, null, null)
-  console.log('\nSaving metadata file...')
+  await logInfo('\nSaving metadata file...')
 
   await fs.writeFile(targetDirectory + 'data.json', metadataAsJSON, function (err) {
     if (err) throw err
@@ -276,9 +268,9 @@ function flatten(arr) {
 }
 
 async function sortByCreationDate(imageMetadata: ImageMetadata[]): Promise<ImageMetadata[]> {
-  console.log('\nSorting images by actual creation time...')
+  await logInfo('\nSorting images by actual creation time...')
 
-  imageMetadata.sort(function (a, b) {
+  imageMetadata.sort((a, b) => {
     if (a.date > b.date) {
       return 1
     } else if (a.date == b.date) {
