@@ -14,8 +14,8 @@ type ImageMetadata = {
   resolutions: {
     [resolution: string]: {
       path: string
-      width: string
-      height: string
+      width: number
+      height: number
     }
   }
 }

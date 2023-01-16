@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core'
 import { Observable, Subject } from 'rxjs'
+import { ImageMetadata } from '../data/ImageMetadata'
 
 @Injectable()
 export class ImageService {
-  private imagesUpdatedSource = new Subject<Array<any>>()
+  private imagesUpdatedSource = new Subject<ImageMetadata[]>()
   private imageSelectedIndexUpdatedSource = new Subject<number>()
   private showImageViewerSource = new Subject<boolean>()
 
-  imagesUpdated$: Observable<Array<any>> = this.imagesUpdatedSource.asObservable()
-  imageSelectedIndexUpdated$: Observable<number> =
-    this.imageSelectedIndexUpdatedSource.asObservable()
+  imagesUpdated$: Observable<ImageMetadata[]> = this.imagesUpdatedSource.asObservable()
+  imageSelectedIndexUpdated$: Observable<number> = this.imageSelectedIndexUpdatedSource.asObservable()
   showImageViewerChanged$: Observable<boolean> = this.showImageViewerSource.asObservable()
 
-  updateImages(images: Array<any>): void {
+  updateImages(images: ImageMetadata[]): void {
     this.imagesUpdatedSource.next(images)
   }
 

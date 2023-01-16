@@ -2,6 +2,7 @@ import { ImageService } from '../services/image.service'
 import { Component } from '@angular/core'
 import { animate, state, style, transition, trigger } from '@angular/animations'
 import { DomSanitizer } from '@angular/platform-browser'
+import { ImageMetadata } from '../data/ImageMetadata'
 
 @Component({
   selector: 'viewer',
@@ -97,7 +98,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 })
 export class ViewerComponent {
   showViewer: boolean
-  images: Array<any> = [{}]
+  images: Array<ImageMetadata> = []
   currentIdx: number = 0
   leftArrowVisible: boolean = true
   rightArrowVisible: boolean = true
@@ -236,9 +237,9 @@ export class ViewerComponent {
 
   private rawImageUrl(img: any, index: number) {
     if (img['viewerImageLoaded']) {
-      return `url('${img['resolutions'][this.categorySelected]['path']}')`
+      return `url('${img.resolutions[this.categorySelected].path}')`
     } else if (Math.abs(this.currentIdx - index) <= 1) {
-      return `url('${img['resolutions']['preview_xxs']['path']}')`
+      return `url('${img.resolutions['preview_xxs'].path}')`
     }
     return ''
   }
@@ -271,38 +272,38 @@ export class ViewerComponent {
         this.categorySelected = 'preview_xxs'
 
         if (
-          screenWidth > this.images[this.currentIdx]['resolutions']['preview_xxs'].width &&
-          screenHeight > this.images[this.currentIdx]['resolutions']['preview_xxs'].height
+          screenWidth > this.images[this.currentIdx].resolutions['preview_xxs'].width &&
+          screenHeight > this.images[this.currentIdx].resolutions['preview_xxs'].height
         ) {
           this.categorySelected = 'preview_xs'
         }
         if (
-          screenWidth > this.images[this.currentIdx]['resolutions']['preview_xs'].width &&
-          screenHeight > this.images[this.currentIdx]['resolutions']['preview_xs'].height
+          screenWidth > this.images[this.currentIdx].resolutions['preview_xs'].width &&
+          screenHeight > this.images[this.currentIdx].resolutions['preview_xs'].height
         ) {
           this.categorySelected = 'preview_s'
         }
         if (
-          screenWidth > this.images[this.currentIdx]['resolutions']['preview_s'].width &&
-          screenHeight > this.images[this.currentIdx]['resolutions']['preview_s'].height
+          screenWidth > this.images[this.currentIdx].resolutions['preview_s'].width &&
+          screenHeight > this.images[this.currentIdx].resolutions['preview_s'].height
         ) {
           this.categorySelected = 'preview_m'
         }
         if (
-          screenWidth > this.images[this.currentIdx]['resolutions']['preview_m'].width &&
-          screenHeight > this.images[this.currentIdx]['resolutions']['preview_m'].height
+          screenWidth > this.images[this.currentIdx].resolutions['preview_m'].width &&
+          screenHeight > this.images[this.currentIdx].resolutions['preview_m'].height
         ) {
           this.categorySelected = 'preview_l'
         }
         if (
-          screenWidth > this.images[this.currentIdx]['resolutions']['preview_l'].width &&
-          screenHeight > this.images[this.currentIdx]['resolutions']['preview_l'].height
+          screenWidth > this.images[this.currentIdx].resolutions['preview_l'].width &&
+          screenHeight > this.images[this.currentIdx].resolutions['preview_l'].height
         ) {
           this.categorySelected = 'preview_xl'
         }
         if (
-          screenWidth > this.images[this.currentIdx]['resolutions']['preview_xl'].width &&
-          screenHeight > this.images[this.currentIdx]['resolutions']['preview_xl'].height
+          screenWidth > this.images[this.currentIdx].resolutions['preview_xl'].width &&
+          screenHeight > this.images[this.currentIdx].resolutions['preview_xl'].height
         ) {
           this.categorySelected = 'raw'
         }

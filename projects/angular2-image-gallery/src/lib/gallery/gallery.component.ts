@@ -17,6 +17,7 @@ import {
 import { ImageService } from '../services/image.service'
 import { Subscription } from 'rxjs/internal/Subscription'
 import { HttpClient } from '@angular/common/http'
+import { ImageMetadata } from '../data/ImageMetadata'
 
 @Component({
   selector: 'gallery',
@@ -24,11 +25,11 @@ import { HttpClient } from '@angular/common/http'
   styleUrls: ['./gallery.component.sass'],
 })
 export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
-  gallery: Array<any> = []
+  gallery: any[] = []
   imageDataStaticPath: string = 'assets/img/gallery/'
   imageDataCompletePath: string = ''
   dataFileName: string = 'data.json'
-  images: Array<any> = []
+  images: ImageMetadata[] = []
   minimalQualityCategory = 'preview_xxs'
   viewerSubscription: Subscription
   rowIndex: number = 0
@@ -111,7 +112,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     this.http.get(this.imageDataCompletePath).subscribe(
-      (data: Array<any>) => {
+      (data: ImageMetadata[]) => {
         this.images = data
         this.imageService.updateImages(this.images)
 
@@ -159,7 +160,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     this.scaleGallery()
   }
 
-  private shouldAddCandidate(imgRow: Array<any>, candidate: any): boolean {
+  private shouldAddCandidate(imgRow: any[], candidate: any): boolean {
     const oldDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
     imgRow.push(candidate)
     const newDifference = this.calcIdealHeight() - this.calcRowHeight(imgRow)
@@ -167,22 +168,22 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     return Math.abs(oldDifference) > Math.abs(newDifference)
   }
 
-  private calcRowHeight(imgRow: Array<any>): number {
+  private calcRowHeight(imgRow: any[]): number {
     const originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
     const ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
-    const rowHeight = imgRow[0]['resolutions'][this.minimalQualityCategory]['height'] * ratio
+    const rowHeight = imgRow[0].resolutions[this.minimalQualityCategory].height * ratio
 
     return rowHeight
   }
 
-  private calcOriginalRowWidth(imgRow: Array<any>): number {
+  private calcOriginalRowWidth(imgRow: any[]): number {
     let originalRowWidth = 0
     imgRow.forEach((img) => {
-      const individualRatio = this.calcIdealHeight() / img['resolutions'][this.minimalQualityCategory]['height']
-      img['resolutions'][this.minimalQualityCategory]['width'] = img['resolutions'][this.minimalQualityCategory]['width'] * individualRatio
-      img['resolutions'][this.minimalQualityCategory]['height'] = this.calcIdealHeight()
-      originalRowWidth += img['resolutions'][this.minimalQualityCategory]['width']
+      const individualRatio = this.calcIdealHeight() / img.resolutions[this.minimalQualityCategory].height
+      img.resolutions[this.minimalQualityCategory].width = img.resolutions[this.minimalQualityCategory].width * individualRatio
+      img.resolutions[this.minimalQualityCategory].height = this.calcIdealHeight()
+      originalRowWidth += img.resolutions[this.minimalQualityCategory].width
     })
 
     return originalRowWidth
@@ -211,16 +212,16 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
         const ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
 
         imgRow.forEach((img: any) => {
-          img['width'] = img['resolutions'][this.minimalQualityCategory]['width'] * ratio
-          img['height'] = img['resolutions'][this.minimalQualityCategory]['height'] * ratio
-          maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
+          img.width = img.resolutions[this.minimalQualityCategory].width * ratio
+          img.height = img.resolutions[this.minimalQualityCategory].height * ratio
+          maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img.height)
           this.checkForAsyncLoading(img, imageCounter++)
         })
       } else {
         imgRow.forEach((img: any) => {
-          img.width = img['resolutions'][this.minimalQualityCategory]['width']
-          img.height = img['resolutions'][this.minimalQualityCategory]['height']
-          maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img['height'])
+          img.width = img.resolutions[this.minimalQualityCategory].width
+          img.height = img.resolutions[this.minimalQualityCategory].height
+          maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img.height)
           this.checkForAsyncLoading(img, imageCounter++)
         })
       }
@@ -240,7 +241,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       (imageElements.length > 0 && imageElements[imageCounter] && this.isScrolledIntoView(imageElements[imageCounter].nativeElement))
     ) {
       image['galleryImageLoaded'] = true
-      image['srcAfterFocus'] = image['resolutions'][this.minimalQualityCategory]['path']
+      image['srcAfterFocus'] = image.resolutions[this.minimalQualityCategory].path
     } else {
       image['srcAfterFocus'] = ''
     }
