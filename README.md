@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/angular2-image-gallery?style=for-the-badge)](https://img.shields.io/npm/v/angular2-image-gallery?style=for-the-badge)
 [![npm downloads](https://img.shields.io/npm/dm/angular2-image-gallery?style=for-the-badge)](https://www.npmjs.com/package/angular2-image-gallery)
 
-----> **compatible with Angular 14+** <----
+----> **compatible with Angular 15+** <----
 
 Responsive image gallery designed for high resolution images.
 
