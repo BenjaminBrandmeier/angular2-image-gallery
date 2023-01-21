@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable, Subject } from 'rxjs'
-import { ImageMetadata } from '../data/ImageMetadata'
+import { ImageMetadata } from '../data/image-metadata'
 
 @Injectable()
 export class ImageService {

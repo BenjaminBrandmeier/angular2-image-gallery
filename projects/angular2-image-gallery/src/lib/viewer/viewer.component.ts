@@ -2,7 +2,7 @@ import { ImageService } from '../services/image.service'
 import { Component } from '@angular/core'
 import { animate, state, style, transition, trigger } from '@angular/animations'
 import { DomSanitizer } from '@angular/platform-browser'
-import { ImageMetadata } from '../data/ImageMetadata'
+import { ImageMetadata } from '../data/image-metadata'
 
 @Component({
   selector: 'viewer',

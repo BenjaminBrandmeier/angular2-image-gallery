@@ -17,7 +17,7 @@ import {
 import { ImageService } from '../services/image.service'
 import { Subscription } from 'rxjs/internal/Subscription'
 import { HttpClient } from '@angular/common/http'
-import { ImageMetadata } from '../data/ImageMetadata'
+import { ImageMetadata } from '../data/image-metadata'
 
 @Component({
   selector: 'gallery',
