@@ -27,7 +27,7 @@ import { ImageMetadata } from '../data/image-metadata'
 export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   gallery: any[] = []
   imageDataStaticPath: string = 'assets/img/gallery/'
-  imageDataCompletePath: string = ''
+  imageMetadataUri: string = ''
   dataFileName: string = 'data.json'
   images: ImageMetadata[] = []
   minimalQualityCategory = 'preview_xxs'
@@ -48,7 +48,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   @ViewChildren('imageElement') imageElements: QueryList<any>
 
   @HostListener('window:scroll', ['$event']) triggerCycle(event: any): void {
-    this.scaleGallery()
+    this.loadImagesInsideView()
   }
 
   @HostListener('window:resize', ['$event']) windowResize(event: any): void {
@@ -66,11 +66,13 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     // input params changed
-    if (changes['providedGalleryName'] != undefined) {
+    this.imageMetadataUri = this.determineMetadataPath()
+
+    if (!changes['providedGalleryName']?.isFirstChange()) {
       this.fetchDataAndRender()
-    } else {
-      this.render()
     }
+
+    this.render()
   }
 
   ngOnDestroy(): void {
@@ -92,7 +94,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     if ((direction === 1 && this.rowIndex < this.gallery.length - this.rowsPerPage) || (direction === -1 && this.rowIndex > 0)) {
       this.rowIndex += this.rowsPerPage * direction
     }
-    this.refreshNavigationErrorState()
+    this.refreshArrowState()
+    this.render()
   }
 
   calcImageMargin(): number {
@@ -102,40 +105,40 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private fetchDataAndRender(): void {
-    this.imageDataCompletePath = this.providedMetadataUri
+    this.http.get(this.imageMetadataUri).subscribe((data: ImageMetadata[]) => {
+      this.images = data
+      this.imageService.updateImages(this.images)
+
+      this.images.forEach((image) => {
+        image['viewerImageLoaded'] = false
+        image['srcAfterFocus'] = ''
+      })
+
+      this.render()
+    }, this.handleErrorWhenLoadingImages)
+  }
+
+  private handleErrorWhenLoadingImages = (err) => {
+    if (this.providedMetadataUri) {
+      console.error(`Provided endpoint '${this.providedMetadataUri}' did not serve metadata correctly or in the expected format.
+      See here for more information: https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md,
+      Original error: ${err}`)
+    } else {
+      console.error(`Did you run the convert script from angular2-image-gallery for your images first? Original error: ${err}`)
+    }
+  }
+
+  private determineMetadataPath() {
+    let imageMetadataUri = this.providedMetadataUri
 
     if (!this.providedMetadataUri) {
-      this.imageDataCompletePath =
+      imageMetadataUri =
         this.providedGalleryName !== ''
           ? `${this.imageDataStaticPath + this.providedGalleryName}/${this.dataFileName}`
           : this.imageDataStaticPath + this.dataFileName
     }
 
-    this.http.get(this.imageDataCompletePath).subscribe(
-      (data: ImageMetadata[]) => {
-        this.images = data
-        this.imageService.updateImages(this.images)
-
-        this.images.forEach((image) => {
-          image['galleryImageLoaded'] = false
-          image['viewerImageLoaded'] = false
-          image['srcAfterFocus'] = ''
-        })
-        // twice, single leads to different strange browser behaviour
-        this.render()
-        this.render()
-      },
-      (err) => {
-        if (this.providedMetadataUri) {
-          console.error(`Provided endpoint '${this.providedMetadataUri}' did not serve metadata correctly or in the expected format.
-      See here for more information: https://github.com/BenjaminBrandmeier/angular2-image-gallery/blob/master/docs/externalDataSource.md,
-      Original error: ${err}`)
-        } else {
-          console.error(`Did you run the convert script from angular2-image-gallery for your images first? Original error: ${err}`)
-        }
-      },
-      () => undefined
-    )
+    return imageMetadataUri
   }
 
   private render(): void {
@@ -189,73 +192,58 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     return originalRowWidth
   }
 
-  private calcIdealHeight(): number {
-    return this.getGalleryWidth() / (80 / this.providedImageSize) + 100
-  }
-
-  private getGalleryWidth(): number {
-    if (this.galleryContainer.nativeElement.clientWidth === 0) {
-      // for IE11
-      return this.galleryContainer.nativeElement.scrollWidth
-    }
-    return this.galleryContainer.nativeElement.clientWidth
-  }
+  private isPaginationActive = () => !this.rightArrowInactive || !this.leftArrowInactive
+  private calcIdealHeight = (): number => this.getGalleryWidth() / (80 / this.providedImageSize) + 100
+  private getGalleryWidth = (): number => this.galleryContainer.nativeElement.clientWidth
+  private isLastRow = (imgRow) => imgRow === this.gallery[this.gallery.length - 1]
 
   private scaleGallery(): void {
-    let imageCounter = 0
     let maximumGalleryImageHeight = 0
 
     this.gallery.slice(this.rowIndex, this.rowIndex + this.rowsPerPage).forEach((imgRow) => {
       const originalRowWidth = this.calcOriginalRowWidth(imgRow)
+      const calculatedRowWidth = this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()
 
-      if (imgRow !== this.gallery[this.gallery.length - 1]) {
-        const ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
+      const ratio = this.isLastRow(imgRow) ? 1 : calculatedRowWidth / originalRowWidth
 
-        imgRow.forEach((img: any) => {
-          img.width = img.resolutions[this.minimalQualityCategory].width * ratio
-          img.height = img.resolutions[this.minimalQualityCategory].height * ratio
-          maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img.height)
-          this.checkForAsyncLoading(img, imageCounter++)
-        })
-      } else {
-        imgRow.forEach((img: any) => {
-          img.width = img.resolutions[this.minimalQualityCategory].width
-          img.height = img.resolutions[this.minimalQualityCategory].height
-          maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img.height)
-          this.checkForAsyncLoading(img, imageCounter++)
-        })
-      }
+      imgRow.forEach((img) => {
+        img.width = img.resolutions[this.minimalQualityCategory].width * ratio
+        img.height = img.resolutions[this.minimalQualityCategory].height * ratio
+        maximumGalleryImageHeight = Math.max(maximumGalleryImageHeight, img.height)
+      })
     })
 
     this.minimalQualityCategory = maximumGalleryImageHeight > 375 ? 'preview_xs' : 'preview_xxs'
-    this.refreshNavigationErrorState()
 
+    this.refreshArrowState()
+    this.loadImagesInsideView()
+  }
+
+  private loadImagesInsideView() {
     this.changeDetectorRef.detectChanges()
+
+    this.images.forEach((image: ImageMetadata, index: number) => {
+      const imageElements = this.imageElements.toArray()
+
+      if (this.isPaginationActive() || this.isScrolledIntoView(imageElements[index]?.nativeElement)) {
+        image['srcAfterFocus'] = image.resolutions[this.minimalQualityCategory].path
+      }
+    })
   }
 
-  private checkForAsyncLoading(image: any, imageCounter: number): void {
-    const imageElements = this.imageElements.toArray()
-
-    if (
-      image['galleryImageLoaded'] ||
-      (imageElements.length > 0 && imageElements[imageCounter] && this.isScrolledIntoView(imageElements[imageCounter].nativeElement))
-    ) {
-      image['galleryImageLoaded'] = true
-      image['srcAfterFocus'] = image.resolutions[this.minimalQualityCategory].path
-    } else {
-      image['srcAfterFocus'] = ''
+  private isScrolledIntoView(element: HTMLElement): boolean {
+    if (!element) {
+      return false
     }
-  }
-
-  private isScrolledIntoView(element: any): boolean {
     const elementTop = element.getBoundingClientRect().top
     const elementBottom = element.getBoundingClientRect().bottom
+    const viewableHeight = document.documentElement.clientHeight
 
-    return elementTop < window.innerHeight && elementBottom >= 0 && (elementBottom > 0 || elementTop > 0)
+    return elementTop < viewableHeight && elementBottom >= 0
   }
 
-  private refreshNavigationErrorState(): void {
+  private refreshArrowState(): void {
     this.leftArrowInactive = this.rowIndex == 0
-    this.rightArrowInactive = this.rowIndex > this.gallery.length - this.rowsPerPage
+    this.rightArrowInactive = this.rowIndex >= this.gallery.length - this.rowsPerPage
   }
 }
