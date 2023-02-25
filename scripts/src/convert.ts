@@ -6,6 +6,7 @@ import appRoot from 'app-root-path'
 import gm from 'gm'
 import mkdirp from 'mkdirp'
 import one from 'onecolor'
+import {supportedFormats} from "./constants";
 
 type ImageMetadata = {
   name: string
@@ -254,11 +255,9 @@ function calcRelativeLuminance(color): number {
   return Math.sqrt(0.299 * Math.pow(color.red(), 2) + 0.587 * Math.pow(color.green(), 2) + 0.114 * Math.pow(color.blue(), 2))
 }
 
-// http://stackoverflow.com/a/15030117/810595
 function isSupportedExtension(format) {
-  // prettier-ignore
-  return ["3FR", "8BIM", "8BIMTEXT", "8BIMWTEXT", "APP1", "APP1JPEG", "ART", "ARW", "AVS", "BIE", "BMP", "BMP2", "BMP3", "CACHE", "CALS", "CAPTION", "CIN", "CMYK", "CMYKA", "CR2", "CRW", "CUR", "CUT", "DCM", "DCR", "DCX", "DNG", "DPS", "DPX", "EPDF", "EPI", "EPS", "EPS2", "EPS3", "EPSF", "EPSI", "EPT", "EPT2", "EPT3", "EXIF", "FAX", "FITS", "FRACTAL", "FPX", "GIF", "GIF87", "GRADIENT", "GRAY", "HISTOGRAM", "HRZ", "HTML", "ICB", "ICC", "ICM", "ICO", "ICON", "IDENTITY", "IMAGE", "INFO", "IPTC", "IPTCTEXT", "IPTCWTEXT", "JBG", "JBIG", "JNG", "JP2", "JPC", "JPEG", "JPG", "K25", "KDC", "LABEL", "M2V", "MAP", "MAT", "MATTE", "MIFF", "MNG", "MONO", "MPC", "MPEG", "MPG", "MRW", "MSL", "MTV", "MVG", "NEF", "NULL", "OTB", "P7", "PAL", "PALM", "PBM", "PCD", "PCDS", "PCL", "PCT", "PCX", "PDB", "PDF", "PEF", "PFA", "PFB", "PGM", "PGX", "PICON", "PICT", "PIX", "PLASMA", "PNG", "PNG24", "PNG32", "PNG8", "PNM", "PPM", "PREVIEW", "PS", "PS2", "PS3", "PSD", "PTIF", "PWP", "RAF", "RAS", "RGB", "RGBA", "RLA", "RLE", "SCT", "SFW", "SGI", "SHTML", "STEGANO", "SUN", "SVG", "TEXT", "TGA", "TIFF", "TILE", "TIM", "TOPOL", "TTF", "UIL", "UYVY", "VDA", "VICAR", "VID", "VIFF", "VST", "WBMP", "WMF", "WPG", "X", "X3F", "XBM", "XC", "XCF", "XMP", "XPM", "XV", "XWD", "YUV"]
-    .includes(format.toUpperCase());
+  // http://stackoverflow.com/a/15030117/810595
+  return supportedFormats.includes(format.toUpperCase());
 }
 
 function flatten(arr) {
