@@ -1,10 +1,10 @@
 {
-  "name": "angular2-image-gallery",
-  "version": "15.0.0",
+  "name": "@martapanc/angular2-image-gallery",
+  "version": "15.1.0",
   "description": "Responsive Angular 15 image gallery",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BenjaminBrandmeier/angular2-image-gallery.git"
+    "url": "git+https://github.com/martapanc/angular2-image-gallery.git"
   },
   "type": "module",
   "license": "MIT",
