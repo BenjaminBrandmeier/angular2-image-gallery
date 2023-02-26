@@ -76,4 +76,26 @@
 .pager.right
     float: right
 
+.thumbnail
+    display: block
 
+.image-thumbnail
+    position: relative
+
+.image-thumbnail__text
+    transition: 0.3s ease
+    opacity: 0
+    float: left
+    position: absolute
+    left: 15px
+    bottom: 10px
+    z-index: 10
+    background-color: rgba(52, 51, 51, 0.5)
+    color: #fff
+    font-weight: bold
+    font-size: 16px
+    padding: 10px 24px
+    text-align: center
+
+.image-thumbnail:hover .image-thumbnail__text
+    opacity: 1
