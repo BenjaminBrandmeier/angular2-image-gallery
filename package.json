@@ -9,7 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "lib": "ng build angular2-image-gallery --configuration production && cp scripts/src/*.js dist/angular2-image-gallery/ && cp README.md dist/angular2-image-gallery/"
+    "lib": "ng build angular2-image-gallery --configuration production && cp scripts/src/*.js dist/angular2-image-gallery/ && cp README.md dist/angular2-image-gallery/",
+    "publish": "npm run lib && cd dist/angular2-image-gallery/ && npm publish --registry=https://npm.pkg.github.com  --scope=@martapanc"
   },
   "type": "module",
   "dependencies": {
