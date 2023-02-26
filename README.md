@@ -90,3 +90,12 @@ This is possible, but not the intent of this project. Please [CLICK HERE](https:
 If the conversion process fails, make sure you have enough swap space provided.
 
 If you experience any other issues, please raise an issue on GitHub.
+
+## Publishing NPM package
+
+https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry
+
+```bash
+npm login --scope=@martapanc --auth-type=legacy --registry=https://npm.pkg.github.com
+npm publish --registry=https://npm.pkg.github.com  --scope=@martapanc
+```
