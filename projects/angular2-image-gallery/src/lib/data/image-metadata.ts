@@ -1,5 +1,6 @@
 export type ImageMetadata = {
   name: string
+  alt: string
   date: string
   dominantColor?: string
   resolutions: {

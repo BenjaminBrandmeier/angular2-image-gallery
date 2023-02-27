@@ -7,6 +7,7 @@
       <div class="image-thumbnail" *ngFor="let img of imgrow; let j = index">
         <img #imageElement
              class="thumbnail"
+             [alt]="img['alt']"
              [style.width.px]="img['width']"
              [style.height.px]="img['height']"
              (click)="openImageViewer(img)"
@@ -15,7 +16,7 @@
              [style.margin-right.px]="calcImageMargin()" />
 
         <div class="image-thumbnail__text">
-          {{img['width']}}
+          {{img['alt']}}
         </div>
       </div>
     </div>
