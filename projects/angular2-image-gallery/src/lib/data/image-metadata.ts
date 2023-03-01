@@ -9,5 +9,7 @@ export type ImageMetadata = {
       width: number
       height: number
     }
-  }
+  },
+  viewerImageLoaded?: boolean
+  srcAfterFocus?: string
 }

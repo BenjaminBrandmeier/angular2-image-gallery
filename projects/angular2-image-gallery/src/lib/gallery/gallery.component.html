@@ -1,22 +1,23 @@
 <div #galleryContainer class="galleryContainer">
   <div class="innerGalleryContainer">
-    <div class="imagerow"
-         *ngFor="let imgrow of gallery | slice: rowIndex:rowIndex + rowsPerPage; let i = index"
+    <div class="image-row"
+         *ngFor="let imageRow of gallery | slice: rowIndex:rowIndex + rowsPerPage"
          [style.margin-bottom.px]="calcImageMargin()">
 
-      <div class="image-thumbnail" *ngFor="let img of imgrow; let j = index">
+      <div class="image-thumbnail" *ngFor="let image of imageRow">
         <img #imageElement
              class="thumbnail"
-             [alt]="img['alt']"
-             [style.width.px]="img['width']"
-             [style.height.px]="img['height']"
-             (click)="openImageViewer(img)"
-             [src]="img['srcAfterFocus']"
-             [style.background]="img.dominantColor"
+             [alt]="image.alt"
+             [style.width.px]="image.width"
+             [style.height.px]="image.height"
+             (click)="openImageViewer(image)"
+             [src]="image.srcAfterFocus"
+             [style.background]="image.dominantColor"
              [style.margin-right.px]="calcImageMargin()" />
 
-        <div class="image-thumbnail__text">
-          {{img['alt']}}
+        <div class="image-thumbnail__text"
+             [style.font-size]="image.alt.length > 45 ? '15px' : '16px'">
+          {{ image.alt }}
         </div>
       </div>
     </div>
@@ -26,11 +27,13 @@
     <img
       [ngClass]="{ inactive: leftArrowInactive }"
       class="pager left"
+      alt="Go to previous page"
       src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4IDQ4OyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNDggNDgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwYXRoIGQ9Ik0yNCw0NkMxMS45LDQ2LDIsMzYuMSwyLDI0UzExLjksMiwyNCwyczIyLDkuOSwyMiwyMlMzNi4xLDQ2LDI0LDQ2eiBNMjQsNEMxMyw0LDQsMTMsNCwyNGMwLDExLDksMjAsMjAsMjAgICBjMTEsMCwyMC05LDIwLTIwQzQ0LDEzLDM1LDQsMjQsNHoiLz48L2c+PGc+PHBvbHlnb24gcG9pbnRzPSIyNy42LDM2LjcgMTQuOSwyNCAyNy42LDExLjMgMjkuMSwxMi43IDE3LjgsMjQgMjkuMSwzNS4zICAiLz48L2c+PC9zdmc+"
       (click)="navigate(-1)" />
     <img
       [ngClass]="{ inactive: rightArrowInactive }"
       class="pager right"
+      alt="Go to next page"
       src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgaWQ9IkxheWVyXzEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ4IDQ4OyIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIwIDAgNDggNDgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwYXRoIGQ9Ik0yNCw0NkMxMS45LDQ2LDIsMzYuMSwyLDI0UzExLjksMiwyNCwyczIyLDkuOSwyMiwyMlMzNi4xLDQ2LDI0LDQ2eiBNMjQsNEMxMyw0LDQsMTMsNCwyNHM5LDIwLDIwLDIwczIwLTksMjAtMjAgICBTMzUsNCwyNCw0eiIvPjwvZz48Zz48cG9seWdvbiBwb2ludHM9IjIxLjQsMzYuNyAxOS45LDM1LjMgMzEuMiwyNCAxOS45LDEyLjcgMjEuNCwxMS4zIDM0LjEsMjQgICIvPjwvZz48L3N2Zz4="
       (click)="navigate(1)" />
   </div>

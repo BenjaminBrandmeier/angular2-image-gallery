@@ -110,8 +110,8 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       this.imageService.updateImages(this.images)
 
       this.images.forEach((image) => {
-        image['viewerImageLoaded'] = false
-        image['srcAfterFocus'] = ''
+        image.viewerImageLoaded = false
+        image.srcAfterFocus = ''
       })
 
       this.render()
@@ -175,9 +175,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     const originalRowWidth = this.calcOriginalRowWidth(imgRow)
 
     const ratio = (this.getGalleryWidth() - (imgRow.length - 1) * this.calcImageMargin()) / originalRowWidth
-    const rowHeight = imgRow[0].resolutions[this.minimalQualityCategory].height * ratio
-
-    return rowHeight
+    return imgRow[0].resolutions[this.minimalQualityCategory].height * ratio
   }
 
   private calcOriginalRowWidth(imgRow: any[]): number {
@@ -226,7 +224,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
       const imageElements = this.imageElements.toArray()
 
       if (this.isPaginationActive() || this.isScrolledIntoView(imageElements[index]?.nativeElement)) {
-        image['srcAfterFocus'] = image.resolutions[this.minimalQualityCategory].path
+        image.srcAfterFocus = image.resolutions[this.minimalQualityCategory].path
       }
     })
   }
