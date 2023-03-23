@@ -11,7 +11,7 @@ The project consists of a gallery (+ viewer) and a script for image preparation.
 
 ### Demo
 
-[https://oidamo.de/gallery-demo.html](https://oidamo.de/gallery-demo.html)
+[https://oidamo.de/blog/gallery-demo](https://oidamo.de/blog/gallery-demo)
 
 ### Fundamentals
 Before using the gallery, you have to process all of your images with the **convert** script. 
