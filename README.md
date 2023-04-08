@@ -70,6 +70,7 @@ Additional optional parameter to support multiple galleries. Add it if you want 
     [maxRowsPerPage]="100"
     (viewerChange)="yourNotificationFunction($event)"
     [includeViewer]="true"
+    [lazyLoadGalleryImages]="true"
 ></gallery>
 ```
 
@@ -81,6 +82,7 @@ All parameters are optional.
 * **[maxRowsPerPage]** maximum rows per gallery, this will add navigation arrows once the threshold is reached.
 * **[viewerChange]** event fires once the viewer component gets opened or closed.
 * **[includeViewer]** provides an option to manually place the viewer outside the default DOM structure. Defaults to true.
+* **[lazyLoadGalleryImages]** allows to disable lazy loading of gallery images. All images will be loaded at once when set to false. Defaults to true.
 
 ## Different use cases
 ### Fetching images from an external data source
@@ -98,6 +100,10 @@ If the conversion process fails, make sure you have enough swap space provided.
 If you experience any other issues, please raise an issue on GitHub.
 
 ## Changelog
+
+### 15.2.0
+
+* Adding optional parameter **[lazyLoadGalleryImages]** to turn off lazy loading when set to false and instead load all gallery images at once.
 
 ### 15.1.0
 

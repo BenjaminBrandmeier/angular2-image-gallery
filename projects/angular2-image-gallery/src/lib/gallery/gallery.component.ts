@@ -42,17 +42,18 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   @Input('metadataUri') providedMetadataUri: string = undefined
   @Input('maxRowsPerPage') rowsPerPage: number = 200
   @Input('includeViewer') includeViewer = true
+  @Input('lazyLoadGalleryImages') lazyLoadGalleryImages = true
 
   @Output() viewerChange = new EventEmitter<boolean>()
 
   @ViewChild('galleryContainer', { static: true }) galleryContainer: ElementRef
   @ViewChildren('imageElement') imageElements: QueryList<any>
 
-  @HostListener('window:scroll', ['$event']) triggerCycle(event: any): void {
+  @HostListener('window:scroll', ['$event']) triggerCycle(_: any): void {
     this.loadImagesInsideView()
   }
 
-  @HostListener('window:resize', ['$event']) windowResize(event: any): void {
+  @HostListener('resize', ['$event']) windowResize(_: any): void {
     this.render()
   }
 
@@ -226,7 +227,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     this.images.forEach((image: ImageMetadata, index: number) => {
       const imageElements = this.imageElements.toArray()
 
-      if (this.isPaginationActive() || this.isScrolledIntoView(imageElements[index]?.nativeElement)) {
+      if (this.isPaginationActive() || this.isScrolledIntoView(imageElements[index]?.nativeElement) || !this.lazyLoadGalleryImages) {
         image['srcAfterFocus'] = image.resolutions[this.minimalQualityCategory].path
       }
     })
