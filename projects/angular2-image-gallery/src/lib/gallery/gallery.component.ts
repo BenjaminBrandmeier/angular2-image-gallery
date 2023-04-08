@@ -41,6 +41,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
   @Input('galleryName') providedGalleryName: string = ''
   @Input('metadataUri') providedMetadataUri: string = undefined
   @Input('maxRowsPerPage') rowsPerPage: number = 200
+  @Input('includeViewer') includeViewer = true
 
   @Output() viewerChange = new EventEmitter<boolean>()
 

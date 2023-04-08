@@ -68,13 +68,19 @@ Additional optional parameter to support multiple galleries. Add it if you want 
     [flexImageSize]="7"
     [galleryName]="'yourGalleryName'"
     [maxRowsPerPage]="100"
-    (viewerChange)="yourNotificationFunction($event)">
-</gallery>
+    (viewerChange)="yourNotificationFunction($event)"
+    [includeViewer]="true"
+></gallery>
 ```
 
-All parameters are optional. You may play around on the demo site to find out what parameters suit your needs.
+All parameters are optional.
 
-The viewerChange event fires once the viewer component gets opened or closed.
+* **[flexBorderSize]** used to define the border thickness between the images within the gallery.
+* **[flexImageSize]** used to define the size of the images with the gallery (not the viewer).
+* **[galleryName]** used when having multiple galleries.
+* **[maxRowsPerPage]** maximum rows per gallery, this will add navigation arrows once the threshold is reached.
+* **[viewerChange]** event fires once the viewer component gets opened or closed.
+* **[includeViewer]** provides an option to manually place the viewer outside the default DOM structure. Defaults to true.
 
 ## Different use cases
 ### Fetching images from an external data source
@@ -90,3 +96,23 @@ This is possible, but not the intent of this project. Please [CLICK HERE](https:
 If the conversion process fails, make sure you have enough swap space provided.
 
 If you experience any other issues, please raise an issue on GitHub.
+
+## Changelog
+
+### 15.1.0
+
+* Adding optional parameter [includeViewer] to support use cases where viewer is placed outside the gallery component manually
+
+### 15.0.0
+
+* Angular 15 support
+* Performance improvements
+
+### 14.1.0
+
+* Refactor convert script entirely
+* Provide smoother output for image conversion process
+
+### 14.0.0
+
+* Angular 14 support
