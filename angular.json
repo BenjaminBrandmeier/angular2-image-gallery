@@ -143,6 +143,5 @@
         }
       }
     }
-  },
-  "defaultProject": "angular2-image-gallery-demo"
+  }
 }

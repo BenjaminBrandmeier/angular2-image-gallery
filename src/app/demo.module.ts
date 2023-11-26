@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { Angular2ImageGalleryModule } from 'angular2-image-gallery'
 import { HttpClientModule } from '@angular/common/http'
-import { NgxSliderModule } from '@angular-slider/ngx-slider'
 import { HammerModule } from '@angular/platform-browser'
+import { NgxSliderModule } from 'ngx-slider-v2'
 
 @NgModule({
   declarations: [DemoComponent],
