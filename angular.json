@@ -45,18 +45,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular2-image-gallery-demo:build"
+            "buildTarget": "angular2-image-gallery-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular2-image-gallery-demo:build:production"
+              "buildTarget": "angular2-image-gallery-demo:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular2-image-gallery-demo:build"
+            "buildTarget": "angular2-image-gallery-demo:build"
           }
         },
         "test": {

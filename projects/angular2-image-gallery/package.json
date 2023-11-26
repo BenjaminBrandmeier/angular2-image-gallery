@@ -1,7 +1,7 @@
 {
   "name": "angular2-image-gallery",
-  "version": "16.0.0",
-  "description": "Responsive Angular 16 image gallery",
+  "version": "17.0.0",
+  "description": "Responsive Angular 17 image gallery",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BenjaminBrandmeier/angular2-image-gallery.git"
@@ -22,8 +22,8 @@
   },
   "private": false,
   "peerDependencies": {
-    "@angular/common": "~16.x.x",
-    "@angular/core": "~16.x.x",
+    "@angular/common": "~17.x.x",
+    "@angular/core": "~17.x.x",
     "app-root-path": "~3.1.x",
     "gm": "~1.23.1",
     "hammerjs": "~2.0.x",
