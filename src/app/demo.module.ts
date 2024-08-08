@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { Angular2ImageGalleryModule } from 'angular2-image-gallery'
 import { HttpClientModule } from '@angular/common/http'
 import { HammerModule } from '@angular/platform-browser'
-import { NgxSliderModule } from 'ngx-slider-v2'
+import { NgxSliderModule } from '@angular-slider/ngx-slider'
 
 @NgModule({
   declarations: [DemoComponent],
