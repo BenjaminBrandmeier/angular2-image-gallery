@@ -20,6 +20,7 @@ import { HttpClient } from '@angular/common/http'
 import { ImageMetadata } from '../data/image-metadata'
 
 @Component({
+  standalone: false,
   selector: 'gallery',
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.sass'],

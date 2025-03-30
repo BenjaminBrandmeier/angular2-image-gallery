@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { ImageMetadata } from '../data/image-metadata'
 
 @Component({
+  standalone: false,
   selector: 'viewer',
   templateUrl: './viewer.component.html',
   styleUrls: ['./viewer.component.sass'],
