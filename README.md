@@ -3,17 +3,18 @@
 [![npm version](https://img.shields.io/npm/v/angular2-image-gallery?style=for-the-badge)](https://img.shields.io/npm/v/angular2-image-gallery?style=for-the-badge)
 [![npm downloads](https://img.shields.io/npm/dm/angular2-image-gallery?style=for-the-badge)](https://www.npmjs.com/package/angular2-image-gallery)
 
-----> **compatible with Angular 19 (and older versions)** <----
+----> **compatible with Angular 20 (and older versions)** <----
 
 Responsive image gallery designed for high resolution images.
 
 The project consists of a gallery (+ viewer) and a script for image preparation.
 
-### Demo
+## Demo
 
 [https://oidamo.de/blog/gallery-demo](https://oidamo.de/blog/gallery-demo)
 
 ### Fundamentals
+
 Before Using the gallery, you have to process all of your images with the **convert** script.
 
 The processed images will be stored to your applications assets.
@@ -100,6 +101,10 @@ If the conversion process fails, make sure you have enough swap space provided.
 If you experience any other issues, please raise an issue on GitHub.
 
 ## Changelog
+
+### 20.0.0
+
+* Angular 20 support
 
 ### 19.0.0
 
