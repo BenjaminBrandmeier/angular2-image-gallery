@@ -18,6 +18,7 @@
             },
             "index": "src/index.html",
             "polyfills": [
+              "zone.js",
               "src/polyfills.ts"
             ],
             "tsConfig": "src/tsconfig.app.json",
@@ -67,17 +68,16 @@
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "karmaConfig": "src/karma.conf.js",
+            "karmaConfig": "src/karma.conf.cjs",
             "styles": ["src/styles.css"],
             "scripts": [],
             "assets": ["src/favicon.ico", "src/assets"]
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": ["src/tsconfig.app.json", "src/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
@@ -99,10 +99,9 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": ["e2e/**/*.ts"]
           }
         }
       }
@@ -130,17 +129,13 @@
           "options": {
             "main": "projects/angular2-image-gallery/src/test.ts",
             "tsConfig": "projects/angular2-image-gallery/tsconfig.spec.json",
-            "karmaConfig": "projects/angular2-image-gallery/karma.conf.js"
+            "karmaConfig": "projects/angular2-image-gallery/karma.conf.cjs"
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/angular2-image-gallery/tsconfig.lib.json",
-              "projects/angular2-image-gallery/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": ["projects/angular2-image-gallery/**/*.ts", "projects/angular2-image-gallery/**/*.html"]
           }
         }
       }

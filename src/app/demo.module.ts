@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { NgModule, provideZoneChangeDetection } from '@angular/core'
 import { DemoComponent } from './demo.component'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
@@ -19,7 +19,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider'
     HammerModule,
     NgxSliderModule,
   ],
-  providers: [],
+  providers: [provideZoneChangeDetection({ eventCoalescing: true })],
   bootstrap: [DemoComponent],
   exports: [],
 })

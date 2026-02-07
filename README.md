@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/angular2-image-gallery?style=for-the-badge)](https://img.shields.io/npm/v/angular2-image-gallery?style=for-the-badge)
 [![npm downloads](https://img.shields.io/npm/dm/angular2-image-gallery?style=for-the-badge)](https://www.npmjs.com/package/angular2-image-gallery)
 
-----> **compatible with Angular 20 (and older versions)** <----
+----> **compatible with Angular 21 (and older versions)** <----
 
 Responsive image gallery designed for high resolution images.
 
@@ -101,6 +101,10 @@ If the conversion process fails, make sure you have enough swap space provided.
 If you experience any other issues, please raise an issue on GitHub.
 
 ## Changelog
+
+### 21.0.0
+
+* Angular 21 support
 
 ### 20.0.0
 

@@ -54,7 +54,7 @@ export class GalleryComponent implements OnInit, OnDestroy, OnChanges {
     this.loadImagesInsideView()
   }
 
-  @HostListener('resize', ['$event']) windowResize(_: any): void {
+  @HostListener('window:resize', ['$event']) windowResize(_: any): void {
     this.render()
   }
 

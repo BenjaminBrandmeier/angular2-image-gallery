@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Monorepo containing an Angular 20 responsive image gallery library (`angular2-image-gallery`) and its demo application. The library is published to npm and handles high-resolution image display with multi-resolution support.
+Monorepo containing an Angular 21 responsive image gallery library (`angular2-image-gallery`) and its demo application. The library is published to npm and handles high-resolution image display with multi-resolution support.
 
 ## Commands
 
